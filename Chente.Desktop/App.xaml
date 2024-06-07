@@ -1,0 +1,35 @@
+﻿<Application x:Class="Chente.Desktop.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:viewModels="clr-namespace:Chente.Desktop.ViewModels" 
+             xmlns:views="clr-namespace:Chente.Desktop.Views" 
+             xmlns:controls="clr-namespace:Chente.Desktop.Controls">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Theme/ChenteButtonTheme.xaml"/>
+                <ResourceDictionary Source="Theme/ChenteTextBlockTheme.xaml"/>
+                <ResourceDictionary Source="Theme/ChenteTextBoxTheme.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <DataTemplate DataType="{x:Type viewModels:BorrowersViewModel}">
+                <views:BorrowersView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:LoansViewModel}">
+                <views:LoansView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:InstallmentsViewModel}">
+                <views:InstallmentsView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:BorrowerFormViewModel}">
+                <controls:BorrowerFormControl/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:LoanFormViewModel}">
+                <controls:LoanFormControl/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:LoanListViewModel}">
+                <controls:LoanListControl/>
+            </DataTemplate>
+            <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

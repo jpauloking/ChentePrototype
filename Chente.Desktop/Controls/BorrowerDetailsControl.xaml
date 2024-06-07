@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="Chente.Desktop.Controls.BorrowerDetailsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Chente.Desktop.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <!--Borrower Information-->
+    <StackPanel Visibility="{Binding HasSelectedBorrower,Converter={StaticResource BooleanToVisibilityConverter}}">
+        <StackPanel.Resources>
+            <Style TargetType="TextBlock">
+                <Setter Property="Margin" Value="0,4,0,0"/>
+            </Style>
+        </StackPanel.Resources>
+        <!--Borrower Information-->
+        <TextBlock Text="{Binding BorrowerViewModel.BorrowerNumber}" FontWeight="SemiBold"/>
+        <TextBlock Text="{Binding BorrowerViewModel.DisplayName}" Style="{StaticResource TitleTextStyle}"/>
+        <TextBlock Text="{Binding BorrowerViewModel.EmailAddress}"/>
+        <TextBlock Text="{Binding BorrowerViewModel.PhoneNumber}"/>
+        <!-- ./Borrower Information-->
+        <!--Buttons-->
+        <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+            <StackPanel.Resources>
+                <Style TargetType="Button">
+                    <Setter Property="Margin" Value="0,0,8,0"/>
+                    <Setter Property="Padding" Value="8,0"/>
+                </Style>
+                <Style TargetType="TextBlock">
+                    <Setter Property="Margin" Value="0,0,8,0"/>
+                    <Setter Property="Padding" Value="0"/>
+                </Style>
+            </StackPanel.Resources>
+            <Button Command="{Binding ShowLoansCommand}">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBlock Text="$" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Foreground="Red"/>
+                    <TextBlock Text="Show loans" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+            <Button Command="{Binding AddNewLoanCommand}">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBlock Text="+" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Foreground="Red"/>
+                    <TextBlock Text="Add loan" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+            <Button Command="{Binding DeleteBorrowerCommand}">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBlock Text="x" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Foreground="Red"/>
+                    <TextBlock Text="Delete borrower" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+        <!-- ./Buttons-->
+    </StackPanel>
+    <!-- ./Borrower Information-->
+</UserControl>

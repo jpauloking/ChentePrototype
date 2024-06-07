@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="Chente.Desktop.Controls.BorrowerFormControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Chente.Desktop.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid Margin="32">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.Column="0">
+            <TextBlock Text="Borrower" Style="{StaticResource TitleTextStyle}"/>
+        </StackPanel>
+
+        <StackPanel 
+                Grid.Row="1" Grid.Column="0" Margin="0,0,8,0">
+            <TextBlock Text="First name" Style="{StaticResource LabelTextStyle}"/>
+            <TextBox x:Name="FirstNameTextBox" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Text="{Binding ElementName=FirstNameTextBox, Path=(Validation.Errors)/ErrorContent}" Style="{StaticResource ErrorTextStyle}"/>
+        </StackPanel>
+
+        <StackPanel 
+                Grid.Row="1" Grid.Column="1" Margin="8,0,0,0">
+            <TextBlock Text="Last name" Style="{StaticResource LabelTextStyle}"/>
+            <TextBox Name="LastNameTextBox" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Text="{Binding ElementName=LastNameTextBox, Path=(Validation.Errors)/ErrorContent}" Style="{StaticResource ErrorTextStyle}"/>
+        </StackPanel>
+
+        <StackPanel 
+                Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+            <TextBlock Text="Email address" Style="{StaticResource LabelTextStyle}"/>
+            <TextBox Name="EmailAddressTextBox" Text="{Binding EmailAddress, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Text="{Binding ElementName=EmailAddressTextBox, Path=(Validation.Errors)/ErrorContent}" Style="{StaticResource ErrorTextStyle}"/>
+        </StackPanel>
+
+        <StackPanel 
+                Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
+            <TextBlock Text="Phone number" Style="{StaticResource LabelTextStyle}"/>
+            <TextBox Name="PhoneNumberTextBox" Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Text="{Binding ElementName=PhoneNumberTextBox, Path=(Validation.Errors)/ErrorContent}" Style="{StaticResource ErrorTextStyle}"/>
+        </StackPanel>
+
+        <Button Grid.Row="4" Grid.Column="0" Content="Save" Margin="0,16,8,0" Command="{Binding SaveCommand}" Style="{StaticResource ChenteButtonPrimaryStyle}"/>
+
+        <Button Grid.Row="4" Grid.Column="1" Content="Cancel" Margin="8,16,0,0" Command="{Binding CancelCommand}"/>
+
+    </Grid>
+</UserControl>
