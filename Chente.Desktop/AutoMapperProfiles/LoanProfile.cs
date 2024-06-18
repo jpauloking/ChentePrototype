@@ -2,7 +2,7 @@
 
 namespace Chente.Desktop.AutoMapperProfiles;
 
-class LoanProfile  :Profile
+class LoanProfile : Profile
 {
     public LoanProfile()
     {

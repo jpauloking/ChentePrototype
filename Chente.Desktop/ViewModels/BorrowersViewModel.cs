@@ -19,7 +19,7 @@ internal partial class BorrowersViewModel : ViewModelBase
     //[NotifyPropertyChangedFor(nameof(BorrowerDetailsViewModel))]
     //private BorrowerViewModel? selectedBorrower;
 
-    //public IEnumerable<BorrowerViewModel> Borrowers => mapper.Map<IEnumerable<BorrowerViewModel>>(borrowerStoreService.Borrowers);
+    //public IEnumerable<BorrowerViewModel> Borrowers => mapper.Map<IEnumerable<BorrowerViewModel>>(loanStoreService.Borrowers);
     //public NavigationService NavigationService => navigationService;
     public BorrowerListViewModel BorrowerListViewModel => borrowerListViewModel;
     public BorrowerDetailsViewModel BorrowerDetailsViewModel => borrowerDetailsViewModel;

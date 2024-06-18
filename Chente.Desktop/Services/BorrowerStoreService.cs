@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Chente.DataAccess.Repositories;
+using Chente.Domain.Exceptions;
 using System.Collections.ObjectModel;
 
 namespace Chente.Desktop.Services;
@@ -25,12 +26,21 @@ internal partial class BorrowerStoreService
         }
     }
     public event EventHandler<Domain.Models.Borrower> SelectedBorrowerChanged = default!;
+    public event EventHandler BorrowerAdded = default!;
 
     public BorrowerStoreService(BorrowerRepository borrowerRepository, IMapper mapper)
     {
         this.borrowerRepository = borrowerRepository;
         this.mapper = mapper;
         GetAsync().GetAwaiter();
+    }
+
+    public async Task AddLoanToBorrower(DataAccess.Models.Loan loan)
+    {
+        DataAccess.Models.Borrower selectedBorrower = mapper.Map<DataAccess.Models.Borrower>(SelectedBorrower);
+        selectedBorrower.Id = DataAccess.Services.DatabaseKeyManager.GetPrimaryKeyFrom(SelectedBorrower!.BorrowerNumber);
+        selectedBorrower.Loans.Add(loan);
+        await borrowerRepository.UpdateAsync(selectedBorrower);
     }
 
     private async Task GetAsync()
@@ -51,9 +61,10 @@ internal partial class BorrowerStoreService
     {
         await borrowerRepository.CreateAsync(borrower);
         await GetAsync();
+        BorrowerAdded?.Invoke(this, EventArgs.Empty);
     }
 
-    internal async Task DeleteAsync(int id)
+    public async Task DeleteAsync(int id)
     {
         await borrowerRepository.DeleteAsync(id);
         await GetAsync();

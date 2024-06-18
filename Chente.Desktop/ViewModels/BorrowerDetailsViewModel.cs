@@ -9,17 +9,12 @@ namespace Chente.Desktop.ViewModels;
 
 internal partial class BorrowerDetailsViewModel : ViewModelBase
 {
+    private readonly NavigationService navigationService;
     private readonly ModalNavigationService modalNavigationService;
     private readonly BorrowerStoreService borrowerStoreService;
+    private readonly LoanStoreService loanStoreService;
     private readonly WindowManager windowManager;
     private readonly IMapper mapper;
-
-    //[ObservableProperty]
-    //[NotifyPropertyChangedFor(nameof(HasSelectedBorrower))]
-    //[NotifyCanExecuteChangedFor(nameof(AddNewLoanCommand))]
-    //private BorrowerViewModel? borrowerViewModel;
-
-    //public bool HasSelectedBorrower => BorrowerViewModel is not null;
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(AddNewLoanCommand))]
@@ -27,11 +22,13 @@ internal partial class BorrowerDetailsViewModel : ViewModelBase
 
     public BorrowerViewModel BorrowerViewModel => mapper.Map<BorrowerViewModel>(borrowerStoreService.SelectedBorrower);
 
-    public BorrowerDetailsViewModel(ModalNavigationService modalNavigationService, WindowManager windowManager, BorrowerStoreService borrowerStoreService, IMapper mapper)
+    public BorrowerDetailsViewModel(NavigationService navigationService, ModalNavigationService modalNavigationService, WindowManager windowManager, BorrowerStoreService borrowerStoreService, LoanStoreService loanStoreService, IMapper mapper)
     {
+        this.navigationService = navigationService;
         this.modalNavigationService = modalNavigationService;
         this.windowManager = windowManager;
         this.borrowerStoreService = borrowerStoreService;
+        this.loanStoreService = loanStoreService;
         this.mapper = mapper;
         this.borrowerStoreService.SelectedBorrowerChanged += OnSelectedBorrowerChanged;
     }
@@ -40,9 +37,17 @@ internal partial class BorrowerDetailsViewModel : ViewModelBase
     private void ShowLoans()
     {
         if (HasSelectedBorrower)
-        {   
-            modalNavigationService.NavigateTo<LoanListViewModel>();
-            windowManager.ShowModal<ModalViewModel>();
+        {
+            if (loanStoreService.Loans.Count() > 0)
+            {
+                //modalNavigationService.NavigateTo<LoanListViewModel>();
+                //windowManager.ShowModal<ModalViewModel>();
+                navigationService.NavigateTo<LoansViewModel>();
+            }
+            else
+            {
+                MessageBox.Show("Please add atleast one loan to this borrower and try again.", "System says", MessageBoxButton.OKCancel, MessageBoxImage.Error);
+            }
         }
         else
         {

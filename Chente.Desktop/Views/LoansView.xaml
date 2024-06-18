@@ -5,8 +5,46 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Chente.Desktop.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="450" xmlns:controls="clr-namespace:Chente.Desktop.Controls" d:DesignWidth="800">
     <Grid>
-        <TextBlock Text="Loans" FontSize="32" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <!--Row Defintions-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!-- ./Row Defintions-->
+        <!--Page Title Row-->
+        <Grid Grid.Row="0" Margin="8">
+            <!--Column Definitions-->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <!-- ./Column Definitions-->
+            <!--Page Title-->
+            <TextBlock Grid.Column="0" Text="Loans" FontSize="24"/>
+            <!-- ./Page Title-->
+            <!--Add Button-->
+            <Button 
+                Grid.Column="1" Content="Add loan" Command="{Binding AddNewLoanCommand}" Style="{StaticResource ChenteButtonPrimaryStyle}"/>
+            <!-- ./Add Button-->
+        </Grid>
+        <!-- ./Page Title Row-->
+        <!--Page Content Row-->
+        <Grid Grid.Row="1" Margin="8">
+            <!--Row Defintions-->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!-- ./Row Defintions-->
+            <!--Loans List-->
+            <controls:LoanListControl Grid.Row="0" Margin="0,16" DataContext="{Binding LoanListViewModel}"/>
+            <!-- ./Loans List-->
+            <!--Loans Details-->
+            <controls:LoanDetailsControl Grid.Row="1" Margin="0,16" DataContext="{Binding LoanDetailsViewModel}"/>
+            <!-- ./Loans Details-->
+        </Grid>
+        <!-- ./Page Content Row-->
     </Grid>
 </UserControl>

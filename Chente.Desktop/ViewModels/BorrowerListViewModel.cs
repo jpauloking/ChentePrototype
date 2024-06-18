@@ -23,6 +23,12 @@ internal partial class BorrowerListViewModel : ViewModelBase
         this.borrowerStoreService = borrowerStoreService;
         this.mapper = mapper;
         this.borrowerStoreService.SelectedBorrowerChanged += OnSelectedBorrowerChanged;
+        this.borrowerStoreService.BorrowerAdded += OnBorrowerAdded;
+    }
+
+    private void OnBorrowerAdded(object? sender, EventArgs e)
+    {
+        OnPropertyChanged(nameof(Borrowers));
     }
 
     private void OnSelectedBorrowerChanged(object? sender, Domain.Models.Borrower borrower)

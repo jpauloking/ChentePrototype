@@ -86,17 +86,21 @@ internal partial class LoanFormViewModel : ViewModelBase
         }
         else
         {
+            DataAccess.Models.Borrower selectedBorrower = mapper.Map<DataAccess.Models.Borrower>(SelectedBorrower);
+            selectedBorrower.Id = DataAccess.Services.DatabaseKeyManager.GetPrimaryKeyFrom(SelectedBorrower.BorrowerNumber);
             var loan = new DataAccess.Models.Loan
             {
-                Borrower = mapper.Map<DataAccess.Models.Borrower>(SelectedBorrower),
+                Borrower = selectedBorrower,
                 DateOpened = dateOpened,
                 Principal = principal,
                 InterestRate = interestRate,
                 DurationInDays = durationInDays,
                 AmountPerInstallment = amountPerInstallment
             };
-            await loanStoreService.CreateAsync(loan);
+            await borrowerStoreService.AddLoanToBorrower(loan);
+            //await loanStoreService.CreateAsync(loan);
             MessageBox.Show("Task completed", "System says");
+            windowManager.CloseModal<ModalViewModel>();
         }
     }
 

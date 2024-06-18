@@ -64,7 +64,6 @@ internal partial class BorrowerFormViewModel : ViewModelBase
             await borrowerStoreService.CreateAsync(borrower);
             windowManager.CloseModal<ModalViewModel>();
             MessageBox.Show("Task completed", "System says");
-
         }
     }
 
