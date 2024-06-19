@@ -32,6 +32,10 @@ internal partial class BorrowersViewModel : ViewModelBase
     [RelayCommand]
     private void AddNewBorrower()
     {
+        if (borrowerStoreService.SelectedBorrower is not null)
+        {
+            borrowerStoreService.SelectedBorrower = null;
+        }
         modalNavigationService.NavigateTo<BorrowerFormViewModel>();
         windowManager.ShowModal<ModalViewModel>();
     }

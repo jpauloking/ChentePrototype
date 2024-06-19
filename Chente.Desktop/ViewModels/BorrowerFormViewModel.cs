@@ -3,13 +3,17 @@ using CommunityToolkit.Mvvm.Input;
 using System.ComponentModel.DataAnnotations;
 using System.Windows;
 using Chente.Desktop.Services;
+using AutoMapper;
 
 namespace Chente.Desktop.ViewModels;
 
 internal partial class BorrowerFormViewModel : ViewModelBase
 {
+    private readonly IMapper mapper;
     private readonly WindowManager windowManager;
     private readonly BorrowerStoreService borrowerStoreService;
+
+    public BorrowerViewModel SelectedBorrower => mapper.Map<BorrowerViewModel>(borrowerStoreService.SelectedBorrower);
 
     private string firstName = null!;
 
@@ -60,8 +64,18 @@ internal partial class BorrowerFormViewModel : ViewModelBase
         }
         else
         {
-            var borrower = new DataAccess.Models.Borrower { FirstName = firstName, LastName = lastName, EmailAddress = emailAddress, PhoneNumber = phoneNumber };
-            await borrowerStoreService.CreateAsync(borrower);
+            if (SelectedBorrower is not null)
+            {
+                int borrowerId = DataAccess.Services.DatabaseKeyManager.GetPrimaryKeyFrom(SelectedBorrower.BorrowerNumber);
+                var borrower = new DataAccess.Models.Borrower { Id = borrowerId, FirstName = firstName, LastName = lastName, EmailAddress = emailAddress, PhoneNumber = phoneNumber };
+                await borrowerStoreService.UpdateAsync(borrower);
+            }
+            else
+            {
+                var borrower = new DataAccess.Models.Borrower { FirstName = firstName, LastName = lastName, EmailAddress = emailAddress, PhoneNumber = phoneNumber };
+                await borrowerStoreService.CreateAsync(borrower);
+            }
+
             windowManager.CloseModal<ModalViewModel>();
             MessageBox.Show("Task completed", "System says");
         }
@@ -74,9 +88,30 @@ internal partial class BorrowerFormViewModel : ViewModelBase
         MessageBox.Show("Task cancelled", "System says");
     }
 
-    public BorrowerFormViewModel(WindowManager windowManager, BorrowerStoreService borrowerStoreService)
+    public BorrowerFormViewModel(WindowManager windowManager, BorrowerStoreService borrowerStoreService, IMapper mapper)
     {
         this.windowManager = windowManager;
         this.borrowerStoreService = borrowerStoreService;
+        this.mapper = mapper;
+        this.borrowerStoreService.SelectedBorrowerChanged += OnSelectedBorrowerChanged;
+        if (SelectedBorrower is not null)
+        {
+            FirstName = SelectedBorrower.FirstName;
+            LastName = SelectedBorrower.LastName;
+            EmailAddress = SelectedBorrower.EmailAddress;
+            PhoneNumber = SelectedBorrower.PhoneNumber;
+        }
+    }
+
+    private void OnSelectedBorrowerChanged(object? sender, Domain.Models.Borrower e)
+    {
+        if (SelectedBorrower is not null)
+        {
+            FirstName = SelectedBorrower.FirstName;
+            LastName = SelectedBorrower.LastName;
+            EmailAddress = SelectedBorrower.EmailAddress;
+            PhoneNumber = SelectedBorrower.PhoneNumber;
+            OnPropertyChanged(nameof(SelectedBorrower));
+        }
     }
 }

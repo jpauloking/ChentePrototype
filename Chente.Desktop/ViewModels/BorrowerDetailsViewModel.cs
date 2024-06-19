@@ -72,11 +72,34 @@ internal partial class BorrowerDetailsViewModel : ViewModelBase
     {
         if (HasSelectedBorrower)
         {
-            await borrowerStoreService.DeleteAsync(DataAccess.Services.DatabaseKeyManager.GetPrimaryKeyFrom(borrowerStoreService.SelectedBorrower!.BorrowerNumber));
+            MessageBoxResult userResponse = MessageBox.Show($"Are you sure you want to delete borrower? Borrower Number: {BorrowerViewModel.BorrowerNumber} Name: {BorrowerViewModel.DisplayName} will be deleted permanently. THIS ACTION IS NOT REVERSIBLE", "System caution", MessageBoxButton.OKCancel, MessageBoxImage.Warning, MessageBoxResult.Cancel);
+            if (userResponse == MessageBoxResult.OK)
+            {
+                await borrowerStoreService.DeleteAsync(DataAccess.Services.DatabaseKeyManager.GetPrimaryKeyFrom(borrowerStoreService.SelectedBorrower!.BorrowerNumber));
+            }
+            else
+            {
+                MessageBox.Show("Action cancelled.", "System says", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
         else
         {
             MessageBox.Show("Please select a borrower and try again.", "System says", MessageBoxButton.OKCancel, MessageBoxImage.Error);
+        }
+    }
+
+
+    [RelayCommand]
+    private void EditBorrower()
+    {
+        if (HasSelectedBorrower)
+        {
+            modalNavigationService.NavigateTo<BorrowerFormViewModel>();
+            windowManager.ShowModal<ModalViewModel>();
+        }
+        else
+        {
+            MessageBox.Show("System says", "Please select a borrower to edit and try again.", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 
@@ -86,7 +109,7 @@ internal partial class BorrowerDetailsViewModel : ViewModelBase
     }
 
     private void OnSelectedBorrowerChanged(object? sender, Domain.Models.Borrower borrower)
-   {
+    {
         HasSelectedBorrower = borrowerStoreService.SelectedBorrower is not null;
         OnPropertyChanged(nameof(HasSelectedBorrower));
         OnPropertyChanged(nameof(BorrowerViewModel));

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Chente.DataAccess.Models;
 using Chente.DataAccess.Repositories;
 using System.Collections.ObjectModel;
 
@@ -82,11 +83,19 @@ internal partial class BorrowerStoreService
     {
         await borrowerRepository.CreateAsync(borrower);
         await GetAsync();
+        SelectedBorrower = mapper.Map<Domain.Models.Borrower>(borrower);
     }
 
     public async Task DeleteAsync(int id)
     {
         await borrowerRepository.DeleteAsync(id);
         await GetAsync();
+    }
+
+    internal async Task UpdateAsync(Borrower borrower)
+    {
+        await borrowerRepository.UpdateAsync(borrower);
+        await GetAsync();
+        SelectedBorrower = mapper.Map<Domain.Models.Borrower>(borrower);
     }
 }

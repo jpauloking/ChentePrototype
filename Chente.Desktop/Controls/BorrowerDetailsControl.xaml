@@ -43,6 +43,12 @@
                     <TextBlock Text="Add loan" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Button>
+            <Button Command="{Binding EditBorrowerCommand}">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBlock Text="#" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Foreground="Red"/>
+                    <TextBlock Text="Edit borrower" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Button>
             <Button Command="{Binding DeleteBorrowerCommand}">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                     <TextBlock Text="x" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Foreground="Red"/>
