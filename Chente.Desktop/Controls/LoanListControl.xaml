@@ -6,26 +6,29 @@
              xmlns:local="clr-namespace:Chente.Desktop.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <ListView Grid.Row="0" ItemsSource="{Binding Loans}">
-        <ListView.View>
-            <GridView>
-                <GridView.Columns>
-                    <!--<GridViewColumn Header="Borrower name" DisplayMemberBinding="{Binding Borrower.DiplayName}"/>-->
-                    <GridViewColumn Header="Loan number" DisplayMemberBinding="{Binding LoanNumber}"/>
-                    <GridViewColumn Header="Date opened" DisplayMemberBinding="{Binding DateOpened, StringFormat='MM/dd/yyyy'}"/>
-                    <GridViewColumn Header="Principal" DisplayMemberBinding="{Binding Principal,StringFormat='C'}"/>
-                    <GridViewColumn Header="Interest rate" DisplayMemberBinding="{Binding InterestRate}"/>
-                    <GridViewColumn Header="Duration (in days)" DisplayMemberBinding="{Binding DurationInDays}"/>
-                    <GridViewColumn Header="Amount per installment" DisplayMemberBinding="{Binding AmountPerInstallment,StringFormat='C'}"/>
-                    <!--<GridViewColumn Header="Number of installments" DisplayMemberBinding="{Binding NumberOfInstallments}"/>
+    <Grid>
+        <TextBlock Visibility="{Binding HasNoLoans, Converter={StaticResource BooleanToVisibilityConverter}}" Text="No loans found" Style="{StaticResource TitleTextStyle}" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <ListView Visibility="{Binding HasLoans, Converter={StaticResource BooleanToVisibilityConverter}}" ItemsSource="{Binding Loans}" SelectedItem="{Binding SelectedLoan}">
+            <ListView.View>
+                <GridView>
+                    <GridView.Columns>
+                        <!--<GridViewColumn Header="Borrower name" DisplayMemberBinding="{Binding Borrower.DiplayName}"/>-->
+                        <GridViewColumn Header="Loan number" DisplayMemberBinding="{Binding LoanNumber}"/>
+                        <GridViewColumn Header="Date opened" DisplayMemberBinding="{Binding DateOpened, StringFormat='MM/dd/yyyy'}"/>
+                        <GridViewColumn Header="Principal" DisplayMemberBinding="{Binding Principal,StringFormat='C'}"/>
+                        <GridViewColumn Header="Interest rate" DisplayMemberBinding="{Binding InterestRate}"/>
+                        <GridViewColumn Header="Duration (in days)" DisplayMemberBinding="{Binding DurationInDays}"/>
+                        <GridViewColumn Header="Amount per installment" DisplayMemberBinding="{Binding AmountPerInstallment,StringFormat='C'}"/>
+                        <!--<GridViewColumn Header="Number of installments" DisplayMemberBinding="{Binding NumberOfInstallments}"/>
                     <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding Amount}"/>
                     <GridViewColumn Header="Amount due" DisplayMemberBinding="{Binding AmountDue}"/>
                     <GridViewColumn Header="Is Paid" DisplayMemberBinding="{Binding IsPaid}"/>
                     <GridViewColumn Header="Date paid" DisplayMemberBinding="{Binding DatePaid}"/>
                     <GridViewColumn Header="Is overdue" DisplayMemberBinding="{Binding IsOverDue}"/>
                     <GridViewColumn Header="Number of installments overdue" DisplayMemberBinding="{Binding NumberOfInstallmentsOverDue}"/>-->
-                </GridView.Columns>
-            </GridView>
-        </ListView.View>
-    </ListView>
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
 </UserControl>

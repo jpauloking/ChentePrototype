@@ -8,6 +8,8 @@ internal partial class BorrowerListViewModel : ViewModelBase
     private readonly BorrowerStoreService borrowerStoreService;
     private readonly IMapper mapper;
 
+    public bool HasBorrowers => Borrowers.Any();
+    public bool HasNoBorrowers => !HasBorrowers;
     public IEnumerable<BorrowerViewModel> Borrowers => mapper.Map<IEnumerable<BorrowerViewModel>>(borrowerStoreService.Borrowers);
     public BorrowerViewModel SelectedBorrower
     {
@@ -23,12 +25,14 @@ internal partial class BorrowerListViewModel : ViewModelBase
         this.borrowerStoreService = borrowerStoreService;
         this.mapper = mapper;
         this.borrowerStoreService.SelectedBorrowerChanged += OnSelectedBorrowerChanged;
-        this.borrowerStoreService.BorrowerAdded += OnBorrowerAdded;
+        this.borrowerStoreService.BorrowersCollectionChanged += OnBorrowerAdded;
     }
 
     private void OnBorrowerAdded(object? sender, EventArgs e)
     {
         OnPropertyChanged(nameof(Borrowers));
+        OnPropertyChanged(nameof(HasBorrowers));
+        OnPropertyChanged(nameof(HasNoBorrowers));
     }
 
     private void OnSelectedBorrowerChanged(object? sender, Domain.Models.Borrower borrower)

@@ -40,8 +40,6 @@ internal partial class BorrowerDetailsViewModel : ViewModelBase
         {
             if (loanStoreService.Loans.Count() > 0)
             {
-                //modalNavigationService.NavigateTo<LoanListViewModel>();
-                //windowManager.ShowModal<ModalViewModel>();
                 navigationService.NavigateTo<LoansViewModel>();
             }
             else
@@ -88,9 +86,8 @@ internal partial class BorrowerDetailsViewModel : ViewModelBase
     }
 
     private void OnSelectedBorrowerChanged(object? sender, Domain.Models.Borrower borrower)
-    {
+   {
         HasSelectedBorrower = borrowerStoreService.SelectedBorrower is not null;
-        HasSelectedBorrower = BorrowerViewModel is not null;
         OnPropertyChanged(nameof(HasSelectedBorrower));
         OnPropertyChanged(nameof(BorrowerViewModel));
     }

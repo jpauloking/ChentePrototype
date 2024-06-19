@@ -20,13 +20,30 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <!-- ./Column Definitions-->
             <!--Page Title-->
-            <TextBlock Grid.Column="0" Text="Borrowers" FontSize="24"/>
+            <TextBlock Grid.Column="0" Text="Borrowers" FontSize="24"  VerticalAlignment="Center"/>
             <!-- ./Page Title-->
+            <!--Borrowers Filter-->
+            <StackPanel 
+                Grid.Column="1" Orientation="Horizontal" Margin="0,0,16,0">
+                <TextBlock Text="Search" Margin="8,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBox MinWidth="150" Text="{Binding SearchPhrase, UpdateSourceTrigger=PropertyChanged}" Margin="8,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Text="Borrower" Margin="8,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <ComboBox MinWidth="150" x:Name="BorrowersComboBox" ItemsSource="{Binding BorrowerListViewModel.Borrowers, Mode=OneWay}" SelectedItem="{Binding BorrowerListViewModel.SelectedBorrower}" DisplayMemberPath="DisplayName" VerticalAlignment="Center" Margin="8,0,16,0"/>
+                <Button MinWidth="150" Command="{Binding ClearFilterCommand}">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock Text="x" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Foreground="Red"/>
+                        <TextBlock Text="Clear filter" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+            <!--Borrowers Filter-->
             <!--Add Button-->
-            <Button Grid.Column="1" Content="Add borrower" Command="{Binding AddNewBorrowerCommand}" Style="{StaticResource ChenteButtonPrimaryStyle}"/>
+            <Button 
+                Grid.Column="2" MinWidth="150" Content="Add borrower" Command="{Binding AddNewBorrowerCommand}" Style="{StaticResource ChenteButtonPrimaryStyle}"/>
             <!-- ./Add Button-->
         </Grid>
         <!-- ./Page Title Row-->
@@ -41,19 +58,6 @@
             <!--Borrowers List-->
             <controls:BorrowerListControl 
                 Grid.Row="0" Margin="0,16" DataContext="{Binding BorrowerListViewModel}"/>
-            <!--<ListView 
-                Grid.Row="0" ItemsSource="{Binding Borrowers}" SelectedItem="{Binding SelectedBorrower}">
-                <ListView.View>
-                    <GridView>
-                        <GridView.Columns>
-                            <GridViewColumn Header="First name" DisplayMemberBinding="{Binding FirstName}"/>
-                            <GridViewColumn Header="Last name" DisplayMemberBinding="{Binding LastName}"/>
-                            <GridViewColumn Header="Email address" DisplayMemberBinding="{Binding EmailAddress}"/>
-                            <GridViewColumn Header="Phone number" DisplayMemberBinding="{Binding PhoneNumber}"/>
-                        </GridView.Columns>
-                    </GridView>
-                </ListView.View>
-            </ListView>-->
             <!-- ./Borrowers List-->
             <!--Borrowers Details-->
             <controls:BorrowerDetailsControl 

@@ -11,6 +11,8 @@ internal class LoanStoreService
     private readonly ObservableCollection<Domain.Models.Loan> loans = [];
     private readonly IMapper mapper;
     private Domain.Models.Loan? selectedLoan;
+    private DateTime? startDate = null;
+    private DateTime? endDate = null;
 
     public IEnumerable<Domain.Models.Loan> Loans => loans;
     public Domain.Models.Loan? SelectedLoan
@@ -18,14 +20,30 @@ internal class LoanStoreService
         get => selectedLoan;
         set
         {
-            if (value is not null)
-            {
-                selectedLoan = value;
-                SelectedLoanChanged?.Invoke(this, value);
-            }
+            selectedLoan = value;
+            SelectedLoanChanged?.Invoke(this, value!);
+        }
+    }
+    public DateTime? StartDate
+    {
+        get => startDate;
+        set
+        {
+            startDate = value;
+            GetAsync().GetAwaiter();
+        }
+    }
+    public DateTime? EndDate
+    {
+        get => endDate;
+        set
+        {
+            endDate = value;
+            GetAsync().GetAwaiter();
         }
     }
     public event EventHandler<Domain.Models.Loan> SelectedLoanChanged = default!;
+    public event EventHandler LoansCollectionChanged = default!;
 
     public LoanStoreService(LoanRepository loanRepository, BorrowerStoreService borrowerStoreService, IMapper mapper)
     {
@@ -55,6 +73,14 @@ internal class LoanStoreService
             loansFromDatabase = await loanRepository.GetAsync(selectedBorrower);
         }
         IEnumerable<Domain.Models.Loan> loans = mapper.Map<IEnumerable<Domain.Models.Loan>>(loansFromDatabase);
+        if (StartDate is not null)
+        {
+            loans = loans.Where(l => l.DateOpened >= StartDate);
+        }
+        if (EndDate is not null)
+        {
+            loans = loans.Where(l => l.DateOpened <= StartDate);
+        }
         if (this.loans.Any())
         {
             this.loans.Clear();
@@ -63,6 +89,9 @@ internal class LoanStoreService
         {
             this.loans.Add(loan);
         }
+        LoansCollectionChanged?.Invoke(this, EventArgs.Empty);
+        SelectedLoan = null!;
+        SelectedLoanChanged?.Invoke(this, null!);
     }
 
     public async Task CreateAsync(DataAccess.Models.Loan loan)

@@ -6,18 +6,20 @@
              xmlns:local="clr-namespace:Chente.Desktop.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <ListView 
-    Grid.Row="0" ItemsSource="{Binding Borrowers}" SelectedItem="{Binding SelectedBorrower}">
-        <ListView.View>
-            <GridView>
-                <GridView.Columns>
-                    <GridViewColumn Header="Borrower number" DisplayMemberBinding="{Binding BorrowerNumber}"/>
-                    <GridViewColumn Header="First name" DisplayMemberBinding="{Binding FirstName}"/>
-                    <GridViewColumn Header="Last name" DisplayMemberBinding="{Binding LastName}"/>
-                    <GridViewColumn Header="Email address" DisplayMemberBinding="{Binding EmailAddress}"/>
-                    <GridViewColumn Header="Phone number" DisplayMemberBinding="{Binding PhoneNumber}"/>
-                </GridView.Columns>
-            </GridView>
-        </ListView.View>
-    </ListView>
+    <Grid>
+        <TextBlock Visibility="{Binding HasNoBorrowers, Converter={StaticResource BooleanToVisibilityConverter}}" Text="No borrowers found" Style="{StaticResource TitleTextStyle}" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <ListView Visibility="{Binding HasBorrowers, Converter={StaticResource BooleanToVisibilityConverter}}" ItemsSource="{Binding Borrowers}" SelectedItem="{Binding SelectedBorrower}">
+            <ListView.View>
+                <GridView>
+                    <GridView.Columns>
+                        <GridViewColumn Header="Borrower number" DisplayMemberBinding="{Binding BorrowerNumber}"/>
+                        <GridViewColumn Header="First name" DisplayMemberBinding="{Binding FirstName}"/>
+                        <GridViewColumn Header="Last name" DisplayMemberBinding="{Binding LastName}"/>
+                        <GridViewColumn Header="Email address" DisplayMemberBinding="{Binding EmailAddress}"/>
+                        <GridViewColumn Header="Phone number" DisplayMemberBinding="{Binding PhoneNumber}"/>
+                    </GridView.Columns>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
 </UserControl>

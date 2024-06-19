@@ -19,14 +19,32 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <!-- ./Column Definitions-->
             <!--Page Title-->
-            <TextBlock Grid.Column="0" Text="Loans" FontSize="24"/>
+            <TextBlock Grid.Column="0" Text="{Binding PageTitle}" FontSize="24" VerticalAlignment="Center"/>
             <!-- ./Page Title-->
+            <!--Loans Filter-->
+            <StackPanel 
+                Grid.Column="1" Orientation="Horizontal" Margin="0,0,16,0">
+                <TextBlock Text="From" Margin="8,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <DatePicker DisplayDateStart="{Binding DisplayDateStart,Mode=OneWay}" DisplayDateEnd="{Binding DisplayDate,Mode=OneWay}" DisplayDate="{Binding DisplayDate,Mode=OneWay}" SelectedDate="{Binding StartDate}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Text="To" Margin="8,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <DatePicker DisplayDateStart="{Binding DisplayDate,Mode=OneWay}" DisplayDateEnd="{Binding DisplayDateEnd,Mode=OneWay}" DisplayDate="{Binding DisplayDate,Mode=OneWay}" SelectedDate="{Binding EndDate}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Text="Borrower" Margin="8,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <ComboBox MinWidth="150" x:Name="BorrowersComboBox" ItemsSource="{Binding Borrowers}" SelectedItem="{Binding SelectedBorrower}" DisplayMemberPath="DisplayName" VerticalAlignment="Center" Margin="8,0,16,0"/>
+                <Button MinWidth="150" Command="{Binding ClearFilterCommand}">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock Text="x" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Foreground="Red"/>
+                        <TextBlock Text="Clear filter" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+            <!-- ./Loans Filter-->
             <!--Add Button-->
             <Button 
-                Grid.Column="1" Content="Add loan" Command="{Binding AddNewLoanCommand}" Style="{StaticResource ChenteButtonPrimaryStyle}"/>
+                Grid.Column="2" MinWidth="150" Content="Add loan" Command="{Binding AddNewLoanCommand}" Style="{StaticResource ChenteButtonPrimaryStyle}"/>
             <!-- ./Add Button-->
         </Grid>
         <!-- ./Page Title Row-->

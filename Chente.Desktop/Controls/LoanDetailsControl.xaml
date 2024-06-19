@@ -16,9 +16,9 @@
         </StackPanel.Resources>
         <!--Loan Information-->
         <TextBlock Text="{Binding LoanViewModel.LoanNumber}" FontWeight="SemiBold"/>
-        <TextBlock Text="{Binding LoanViewModel.Principal}" Style="{StaticResource TitleTextStyle}"/>
-        <TextBlock Text="{Binding LoanViewModel.InterestRate}"/>
-        <TextBlock Text="{Binding LoanViewModel.DurationInDays}"/>
+        <TextBlock Text="{Binding LoanViewModel.Principal, StringFormat='C'}" Style="{StaticResource TitleTextStyle}"/>
+        <TextBlock Text="{Binding LoanViewModel.InterestRate,StringFormat='F'}"/>
+        <TextBlock Text="{Binding LoanViewModel.DurationInDays, StringFormat='D'}"/>
         <!-- ./Loan Information-->
         <!--Buttons-->
         <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
@@ -32,13 +32,13 @@
                     <Setter Property="Padding" Value="0"/>
                 </Style>
             </StackPanel.Resources>
-            <Button Command="{Binding ShowLoansCommand}">
+            <Button Command="{Binding ShowInstallmentsCommand}">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                     <TextBlock Text="$" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Foreground="Red"/>
                     <TextBlock Text="Show installments" VerticalAlignment="Center" HorizontalAlignment="Center"/>
                 </StackPanel>
             </Button>
-            <Button Command="{Binding DeleteBorrowerCommand}">
+            <Button Command="{Binding DeleteLoanCommand}">
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                     <TextBlock Text="x" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Foreground="Red"/>
                     <TextBlock Text="Delete loan" VerticalAlignment="Center" HorizontalAlignment="Center"/>
