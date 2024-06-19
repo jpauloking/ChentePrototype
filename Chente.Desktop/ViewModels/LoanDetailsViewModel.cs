@@ -43,7 +43,15 @@ internal partial class LoanDetailsViewModel : ViewModelBase
     {
         if (HasSelectedLoan)
         {
-            await loanStoreService.DeleteAsync(DataAccess.Services.DatabaseKeyManager.GetPrimaryKeyFrom(loanStoreService.SelectedLoan!.LoanNumber));
+            MessageBoxResult userResponse = MessageBox.Show($"Are you sure you want to delete loan? Loan Number: {LoanViewModel.LoanNumber} will be deleted permanently. THIS ACTION IS NOT REVERSIBLE", "System caution", MessageBoxButton.OKCancel, MessageBoxImage.Warning, MessageBoxResult.Cancel);
+            if (userResponse == MessageBoxResult.OK)
+            {
+                await loanStoreService.DeleteAsync(DataAccess.Services.DatabaseKeyManager.GetPrimaryKeyFrom(loanStoreService.SelectedLoan!.LoanNumber));
+            }
+            else
+            {
+                MessageBox.Show("Action cancelled.", "System says", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
         else
         {
