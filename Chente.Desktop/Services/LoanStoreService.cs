@@ -42,6 +42,7 @@ internal class LoanStoreService
             GetAsync().GetAwaiter();
         }
     }
+
     public event EventHandler<Domain.Models.Loan> SelectedLoanChanged = default!;
     public event EventHandler LoansCollectionChanged = default!;
 
@@ -51,26 +52,39 @@ internal class LoanStoreService
         this.borrowerStoreService = borrowerStoreService;
         this.mapper = mapper;
         this.borrowerStoreService.SelectedBorrowerChanged += OnSelectedBorrowerChanged;
+        this.borrowerStoreService.BorrowersCollectionChanged += OnBorrowersCollectionChanged;
         GetAsync().GetAwaiter();
+    }
+
+    private void OnBorrowersCollectionChanged(object? sender, EventArgs e)
+    {
+        //GetAsync().GetAwaiter();
     }
 
     private void OnSelectedBorrowerChanged(object? sender, Domain.Models.Borrower e)
     {
         GetAsync().GetAwaiter();
+        Domain.Models.Borrower selectedBorrower = e;
+        var loan = borrowerStoreService.SelectedBorrower?.Loans.AsEnumerable().FirstOrDefault(l => l.IsPaid == false);
+        SelectedLoan = loan;
+        if (selectedBorrower is not null)
+        {
+            // Filter loans to return only selected borrower's loans.
+        }
     }
 
     private async Task GetAsync()
     {
         IEnumerable<DataAccess.Models.Loan> loansFromDatabase = [];
-        if (borrowerStoreService.SelectedBorrower is null)
+        if (borrowerStoreService.SelectedBorrower is not null)
         {
-            loansFromDatabase = await loanRepository.GetAsync();
+            DataAccess.Models.Borrower selectedBorrower = mapper.Map<DataAccess.Models.Borrower>(borrowerStoreService.SelectedBorrower);
+            selectedBorrower.Id = DataAccess.Services.DatabaseKeyManager.GetPrimaryKeyFrom(borrowerStoreService.SelectedBorrower.BorrowerNumber);
+            loansFromDatabase = await loanRepository.GetAsync(selectedBorrower);
         }
         else
         {
-            DataAccess.Models.Borrower selectedBorrower = mapper.Map<DataAccess.Models.Borrower>(borrowerStoreService.SelectedBorrower);
-            selectedBorrower.Id = DataAccess.Services.DatabaseKeyManager.GetPrimaryKeyFrom(borrowerStoreService.SelectedBorrower!.BorrowerNumber);
-            loansFromDatabase = await loanRepository.GetAsync(selectedBorrower);
+            loansFromDatabase = await loanRepository.GetAsync();
         }
         IEnumerable<Domain.Models.Loan> loans = mapper.Map<IEnumerable<Domain.Models.Loan>>(loansFromDatabase);
         if (StartDate is not null)
@@ -92,20 +106,6 @@ internal class LoanStoreService
         LoansCollectionChanged?.Invoke(this, EventArgs.Empty);
         SelectedLoan = null!;
         SelectedLoanChanged?.Invoke(this, null!);
-    }
-
-    public async Task CreateAsync(DataAccess.Models.Loan loan)
-    {
-        // Todo - Debug error thrown while saving old borrower's loan to the database due to primary key already used, might work for new borrowers though.
-        if (loan.Borrower.Id > 0)
-        {
-            await borrowerStoreService.AddLoanToBorrower(loan);
-        }
-        else
-        {
-            await loanRepository.CreateAsync(loan);
-            await GetAsync();
-        }
     }
 
     public async Task DeleteAsync(int id)

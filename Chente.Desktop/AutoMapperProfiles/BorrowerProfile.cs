@@ -10,6 +10,5 @@ class BorrowerProfile : Profile
         CreateMap<DataAccess.Models.Borrower, Domain.Models.Borrower>();
         CreateMap<Domain.Models.Borrower, ViewModels.BorrowerViewModel>();
         CreateMap<ViewModels.BorrowerViewModel, Domain.Models.Borrower>();
-        CreateMap<ViewModels.BorrowerViewModel, DataAccess.Models.Borrower>();
     }
 }

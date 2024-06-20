@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Chente.DataAccess.Models;
 using Chente.DataAccess.Repositories;
 using System.Collections.ObjectModel;
 
@@ -42,16 +41,56 @@ internal partial class BorrowerStoreService
         GetAsync().GetAwaiter();
     }
 
-    public async Task AddLoanToBorrower(DataAccess.Models.Loan loan)
+    public async Task AddLoanToBorrower(Domain.Models.Loan loan)
     {
-        // Todo - Fix the overflow exception caused by automapper recursive call while mapping the EFCore model and the domain model
-        //DataAccess.Models.Borrower selectedBorrower = mapper.Map<DataAccess.Models.Borrower>(SelectedBorrower);
         int selectedBorrowerId = DataAccess.Services.DatabaseKeyManager.GetPrimaryKeyFrom(SelectedBorrower!.BorrowerNumber);
+        // Get borrower from database because Selected Borrower does not contain list of borrower's loans which is needed to validate outstanding loans business rule
         DataAccess.Models.Borrower? borrowerFromDatabase = await borrowerRepository.GetAsync(selectedBorrowerId);
-        Domain.Models.Borrower borrower = mapper.Map<Domain.Models.Borrower>(borrowerFromDatabase);
-        borrower.AddLoan(mapper.Map<Domain.Models.Loan>(loan));
-        DataAccess.Models.Borrower borrowerToSaveInDatabase = mapper.Map<DataAccess.Models.Borrower>(borrower);
-        await borrowerRepository.UpdateAsync(borrowerToSaveInDatabase);
+        //Cannot use Automapper because of infinite recursion: Domain.Models.Borrower borrower = mapper.Map<Domain.Models.Borrower>(dataAccessBorrower); throws Overflow exception.
+
+        if (borrowerFromDatabase is not null)
+        {
+            Domain.Models.Borrower borrower = MapToDomainBorrower(borrowerFromDatabase);
+
+            try
+            {
+                borrower.AddLoan(mapper.Map<Domain.Models.Loan>(loan));
+                DataAccess.Models.Borrower borrowerToSaveInDatabase = mapper.Map<DataAccess.Models.Borrower>(borrower);
+                borrowerToSaveInDatabase.Id = selectedBorrowerId;
+                await borrowerRepository.UpdateAsync(borrowerToSaveInDatabase);
+                // Todo - Add LoanNumber to borrower's loans before assigning to selected borrower
+                //SelectedBorrower = mapper.Map<Domain.Models.Borrower>(borrowerToSaveInDatabase); Automapper throws overfloe exception
+                SelectedBorrower = MapToDomainBorrower(borrowerToSaveInDatabase);
+            }
+            catch (Domain.Exceptions.HasOutstandingLoanException)
+            {
+                throw;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+    }
+
+    private static Domain.Models.Borrower MapToDomainBorrower(DataAccess.Models.Borrower dataAccessBorrower)
+    {
+        List<Domain.Models.Loan> selectedBorrowerLoans = [];
+
+        foreach (DataAccess.Models.Loan loanFromDatabase in dataAccessBorrower.Loans)
+        {
+            List<Domain.Models.Installment> selectedBorrowerInstallments = [];
+
+            foreach (var installmentFromDatabase in loanFromDatabase.Installments)
+            {
+                selectedBorrowerInstallments.Add(new Domain.Models.Installment(installmentFromDatabase.InstallmentNumber, installmentFromDatabase.DateDue, installmentFromDatabase.Amount, installmentFromDatabase.BeginningBalance, installmentFromDatabase.EndingBalance, installmentFromDatabase.AmountPaid));
+            }
+
+            selectedBorrowerLoans.Add(new Domain.Models.Loan(loanFromDatabase.LoanNumber, loanFromDatabase.DateOpened, loanFromDatabase.Principal, loanFromDatabase.InterestRate, loanFromDatabase.DurationInDays, loanFromDatabase.AmountPerInstallment, selectedBorrowerInstallments));
+        }
+
+        Domain.Models.Borrower borrower = new Domain.Models.Borrower(dataAccessBorrower.BorrowerNumber, dataAccessBorrower.FirstName, dataAccessBorrower.LastName, dataAccessBorrower.EmailAddress, dataAccessBorrower.PhoneNumber, selectedBorrowerLoans);
+        return borrower;
     }
 
     private async Task GetAsync()
@@ -79,11 +118,12 @@ internal partial class BorrowerStoreService
         SelectedBorrowerChanged?.Invoke(this, null!);
     }
 
-    public async Task CreateAsync(DataAccess.Models.Borrower borrower)
+    public async Task CreateAsync(Domain.Models.Borrower borrower)
     {
-        await borrowerRepository.CreateAsync(borrower);
+        DataAccess.Models.Borrower borrowerToSaveInDatabase = mapper.Map<DataAccess.Models.Borrower>(borrower);
+        await borrowerRepository.CreateAsync(borrowerToSaveInDatabase);
         await GetAsync();
-        SelectedBorrower = mapper.Map<Domain.Models.Borrower>(borrower);
+        SelectedBorrower = mapper.Map<Domain.Models.Borrower>(borrowerToSaveInDatabase);
     }
 
     public async Task DeleteAsync(int id)
@@ -92,10 +132,12 @@ internal partial class BorrowerStoreService
         await GetAsync();
     }
 
-    internal async Task UpdateAsync(Borrower borrower)
+    internal async Task UpdateAsync(Domain.Models.Borrower borrower)
     {
-        await borrowerRepository.UpdateAsync(borrower);
+        DataAccess.Models.Borrower borrowerToSaveInDatabase = mapper.Map<DataAccess.Models.Borrower>(borrower);
+        borrowerToSaveInDatabase.Id = DataAccess.Services.DatabaseKeyManager.GetPrimaryKeyFrom(borrower.BorrowerNumber);
+        await borrowerRepository.UpdateAsync(borrowerToSaveInDatabase);
         await GetAsync();
-        SelectedBorrower = mapper.Map<Domain.Models.Borrower>(borrower);
+        SelectedBorrower = mapper.Map<Domain.Models.Borrower>(borrowerToSaveInDatabase);
     }
 }

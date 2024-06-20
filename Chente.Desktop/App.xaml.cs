@@ -26,6 +26,7 @@ public partial class App : Application
         services.AddSingleton<ModalNavigationService>();
         services.AddSingleton<BorrowerStoreService>();
         services.AddSingleton<LoanStoreService>();
+        services.AddSingleton<InstallmentStoreService>();
         services.AddSingleton(sp => ViewModelFactoryCreator(sp));
         services.AddDataAccess();
         services.AddViewModels();

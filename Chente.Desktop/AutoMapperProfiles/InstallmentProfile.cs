@@ -8,5 +8,7 @@ class InstallmentProfile :Profile
     {
         CreateMap<Domain.Models.Installment, DataAccess.Models.Installment>();
         CreateMap<DataAccess.Models.Installment, Domain.Models.Installment>();
+        CreateMap<Domain.Models.Installment, ViewModels.InstallmentViewModel>();
+        CreateMap<ViewModels.InstallmentViewModel, Domain.Models.Installment>();
     }
 }

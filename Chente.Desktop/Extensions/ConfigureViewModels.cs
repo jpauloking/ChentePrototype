@@ -19,6 +19,9 @@ public static class ConfigureViewModels
         services.AddSingleton<LoanListViewModel>();
         services.AddSingleton<LoanDetailsViewModel>();
         services.AddSingleton<InstallmentsViewModel>();
+        services.AddSingleton<InstallmentFormViewModel>();
+        services.AddSingleton<InstallmentListViewModel>();
+        services.AddSingleton<InstallmentDetailsViewModel>();
         return services;
     }
 }

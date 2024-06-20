@@ -4,9 +4,68 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Chente.Desktop.Views"
+             xmlns:controls="clr-namespace:Chente.Desktop.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TextBlock Text="Installments" FontSize="32" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <!--Row Defintions-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!-- ./Row Defintions-->
+        <!--Page Title Row-->
+        <Grid Grid.Row="0" Margin="8">
+            <!--Column Definitions-->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <!-- ./Column Definitions-->
+            <!--Page Title-->
+            <TextBlock Grid.Column="0" Text="{Binding PageTitle}" FontSize="24" VerticalAlignment="Center"/>
+            <!-- ./Page Title-->
+            <!--Installments Filter-->
+            <StackPanel 
+                Grid.Column="1" Orientation="Horizontal" Margin="0,0,16,0">
+                <!--<TextBlock Text="From" Margin="8,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <DatePicker DisplayDateStart="{Binding DisplayDateStart,Mode=OneWay}" DisplayDateEnd="{Binding DisplayDate,Mode=OneWay}" DisplayDate="{Binding DisplayDate,Mode=OneWay}" SelectedDate="{Binding StartDate}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <TextBlock Text="To" Margin="8,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <DatePicker DisplayDateStart="{Binding DisplayDate,Mode=OneWay}" DisplayDateEnd="{Binding DisplayDateEnd,Mode=OneWay}" DisplayDate="{Binding DisplayDate,Mode=OneWay}" SelectedDate="{Binding EndDate}" VerticalAlignment="Center" HorizontalAlignment="Left"/>-->
+                <!--<TextBlock Text="Borrower" Margin="8,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <ComboBox MinWidth="150" x:Name="BorrowersComboBox" ItemsSource="{Binding Borrowers}" SelectedItem="{Binding SelectedBorrower}" DisplayMemberPath="DisplayName" VerticalAlignment="Center" Margin="8,0,16,0"/>-->
+                <TextBlock Text="Loan" Margin="8,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                <ComboBox MinWidth="150" x:Name="LoansComboBox" ItemsSource="{Binding Loans}" SelectedItem="{Binding SelectedLoan}" DisplayMemberPath="LoanNumber" VerticalAlignment="Center" Margin="8,0,16,0"/>
+                <Button MinWidth="150" Command="{Binding ClearFilterCommand}">
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock Text="x" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Foreground="Red"/>
+                        <TextBlock Text="Clear filter" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+            <!-- ./Installments Filter-->
+            <!--Add Button-->
+            <!--<Button 
+            Grid.Column="2" MinWidth="150" Content="Add loan" Command="{Binding AddNewLoanCommand}" Style="{StaticResource ChenteButtonPrimaryStyle}"/>-->
+            <!-- ./Add Button-->
+        </Grid>
+        <!-- ./Page Title Row-->
+        <!--Page Content Row-->
+        <Grid Grid.Row="1" Margin="8">
+            <!--Row Defintions-->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!-- ./Row Defintions-->
+            <!--Installment List-->
+            <controls:InstallmentListControl Grid.Row="0" Margin="0,16" DataContext="{Binding InstallmentListViewModel}"/>
+            <!-- ./Installment List-->
+            <!--Installment Details-->
+            <controls:InstallmentDetailsControl Grid.Row="1" Margin="0,16" DataContext="{Binding InstallmentDetailsViewModel}"/>
+            <!-- ./Installment Details-->
+        </Grid>
+        <!-- ./Page Content Row-->
     </Grid>
 </UserControl>

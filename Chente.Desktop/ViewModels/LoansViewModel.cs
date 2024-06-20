@@ -72,7 +72,7 @@ internal partial class LoansViewModel : ViewModelBase
         }
         else
         {
-            MessageBox.Show("Please select a borrower and try again.", "System says", MessageBoxButton.OKCancel, MessageBoxImage.Error);
+            MessageBox.Show("Please select a borrower and try again.", "System says", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 

@@ -64,15 +64,15 @@ internal partial class BorrowerFormViewModel : ViewModelBase
         }
         else
         {
+            var borrower = new Domain.Models.Borrower(firstName, lastName, emailAddress, phoneNumber);
+
             if (SelectedBorrower is not null)
             {
-                int borrowerId = DataAccess.Services.DatabaseKeyManager.GetPrimaryKeyFrom(SelectedBorrower.BorrowerNumber);
-                var borrower = new DataAccess.Models.Borrower { Id = borrowerId, FirstName = firstName, LastName = lastName, EmailAddress = emailAddress, PhoneNumber = phoneNumber };
+                borrower.BorrowerNumber = SelectedBorrower.BorrowerNumber;
                 await borrowerStoreService.UpdateAsync(borrower);
             }
             else
             {
-                var borrower = new DataAccess.Models.Borrower { FirstName = firstName, LastName = lastName, EmailAddress = emailAddress, PhoneNumber = phoneNumber };
                 await borrowerStoreService.CreateAsync(borrower);
             }
 

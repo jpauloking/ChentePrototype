@@ -11,14 +11,12 @@ namespace Chente.Desktop.ViewModels;
 internal partial class LoanFormViewModel : ViewModelBase
 {
     private static readonly DateTime today = DateTime.Today;
-    private readonly LoanStoreService loanStoreService;
     private readonly WindowManager windowManager;
     private readonly BorrowerStoreService borrowerStoreService;
     private readonly IMapper mapper;
 
-    public LoanFormViewModel(LoanStoreService loanStoreService, BorrowerStoreService borrowerStoreService, WindowManager windowManager, IMapper mapper)
+    public LoanFormViewModel(BorrowerStoreService borrowerStoreService, WindowManager windowManager, IMapper mapper)
     {
-        this.loanStoreService = loanStoreService;
         this.windowManager = windowManager;
         this.borrowerStoreService = borrowerStoreService;
         this.mapper = mapper;
@@ -82,25 +80,26 @@ internal partial class LoanFormViewModel : ViewModelBase
         ValidateAllProperties();
         if (HasErrors)
         {
-            MessageBox.Show("Task failed", "System says");
+            MessageBox.Show("Task failed", "System says", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         else
         {
-            DataAccess.Models.Borrower selectedBorrower = mapper.Map<DataAccess.Models.Borrower>(SelectedBorrower);
-            selectedBorrower.Id = DataAccess.Services.DatabaseKeyManager.GetPrimaryKeyFrom(SelectedBorrower.BorrowerNumber);
-            var loan = new DataAccess.Models.Loan
+            var loan = new Domain.Models.Loan(DateOpened, Principal, InterestRate, DurationInDays, AmountPerInstallment);
+            try
             {
-                Borrower = selectedBorrower,
-                DateOpened = dateOpened,
-                Principal = principal,
-                InterestRate = interestRate,
-                DurationInDays = durationInDays,
-                AmountPerInstallment = amountPerInstallment
-            };
-            await borrowerStoreService.AddLoanToBorrower(loan);
-            //await loanStoreService.CreateAsync(loan);
-            MessageBox.Show("Task completed", "System says");
-            windowManager.CloseModal<ModalViewModel>();
+                await borrowerStoreService.AddLoanToBorrower(loan);
+                DateOpened = DateTime.Today;
+                Principal = default;
+                InterestRate = default;
+                DurationInDays = default;
+                AmountPerInstallment = default;
+                windowManager.CloseModal<ModalViewModel>();
+                MessageBox.Show("Task completed", "System says", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+            catch (Domain.Exceptions.HasOutstandingLoanException)
+            {
+                MessageBox.Show($"Task failed. Please clear outstanding loans of borrower Number: {SelectedBorrower.BorrowerNumber} Name: {SelectedBorrower.DisplayName} before giving another loan.", "System says", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 
