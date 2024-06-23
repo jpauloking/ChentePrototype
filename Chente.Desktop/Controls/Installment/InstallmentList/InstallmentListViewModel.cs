@@ -1,8 +1,9 @@
 ﻿using AutoMapper;
 using Chente.Desktop.Core;
 using Chente.Desktop.Services;
+using Chente.Desktop.ViewModels;
 
-namespace Chente.Desktop.ViewModels;
+namespace Chente.Desktop.Controls.Installment.InstallmentList;
 
 internal partial class InstallmentListViewModel : ViewModelBase
 {

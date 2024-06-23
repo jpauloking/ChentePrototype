@@ -1,7 +1,10 @@
 ﻿using AutoMapper;
 using Chente.Desktop.Core;
 using Chente.Desktop.Services;
-namespace Chente.Desktop.ViewModels;
+using Chente.Desktop.ViewModels;
+using Chente.Desktop.Extensions.ModelExtensions;
+
+namespace Chente.Desktop.Controls.Borrower.BorrowerList;
 
 internal partial class BorrowerListViewModel : ViewModelBase
 {
@@ -13,11 +16,8 @@ internal partial class BorrowerListViewModel : ViewModelBase
     public IEnumerable<BorrowerViewModel> Borrowers => mapper.Map<IEnumerable<BorrowerViewModel>>(borrowerStoreService.Borrowers);
     public BorrowerViewModel SelectedBorrower
     {
-        get => mapper.Map<BorrowerViewModel>(borrowerStoreService.SelectedBorrower);
-        set
-        {
-            borrowerStoreService.SelectedBorrower = mapper.Map<Domain.Models.Borrower>(value);
-        }
+        get => borrowerStoreService.SelectedBorrower!.MapToBorrowerViewModel(mapper);
+        set => borrowerStoreService.SelectedBorrower = value.MapToDomainBorrower(mapper);
     }
 
     public BorrowerListViewModel(BorrowerStoreService borrowerStoreService, IMapper mapper)

@@ -8,19 +8,24 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <!--Borrower Information-->
     <StackPanel Visibility="{Binding HasSelectedBorrower,Converter={StaticResource BooleanToVisibilityConverter}}">
-        <StackPanel.Resources>
-            <Style TargetType="TextBlock">
-                <Setter Property="Margin" Value="0,4,0,0"/>
-            </Style>
-        </StackPanel.Resources>
         <!--Borrower Information-->
-        <TextBlock Text="{Binding BorrowerViewModel.BorrowerNumber}" FontWeight="SemiBold"/>
-        <TextBlock Text="{Binding BorrowerViewModel.DisplayName}" Style="{StaticResource TitleTextStyle}"/>
-        <TextBlock Text="{Binding BorrowerViewModel.EmailAddress}"/>
-        <TextBlock Text="{Binding BorrowerViewModel.PhoneNumber}"/>
+        <StackPanel Orientation="Horizontal">
+            <StackPanel Margin="0,0,16,0">
+                <TextBlock Text="Number" Style="{StaticResource SmallLabelTextStyle}"/>
+                <TextBlock Text="{Binding BorrowerViewModel.BorrowerNumber}"/>
+            </StackPanel>
+            <StackPanel Margin="16,0,0,0">
+                <TextBlock Text="Full name" Style="{StaticResource SmallLabelTextStyle}"/>
+                <TextBlock Text="{Binding BorrowerViewModel.DisplayName}"/>
+                <TextBlock Text="Email address" Style="{StaticResource SmallLabelTextStyle}"/>
+                <TextBlock Text="{Binding BorrowerViewModel.EmailAddress}"/>
+                <TextBlock Text="Phone number" Style="{StaticResource SmallLabelTextStyle}"/>
+                <TextBlock Text="{Binding BorrowerViewModel.PhoneNumber}"/>
+            </StackPanel>
+        </StackPanel>
         <!-- ./Borrower Information-->
         <!--Buttons-->
-        <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+        <StackPanel Orientation="Horizontal" Margin="0,32,0,0">
             <StackPanel.Resources>
                 <Style TargetType="Button">
                     <Setter Property="Margin" Value="0,0,8,0"/>

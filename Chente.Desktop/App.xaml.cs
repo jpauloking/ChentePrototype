@@ -1,7 +1,7 @@
 ﻿using Chente.DataAccess;
-using Chente.Desktop.AutoMapperProfiles;
+using Chente.Desktop.ModelMappers;
 using Chente.Desktop.Core;
-using Chente.Desktop.Extensions;
+using Chente.Desktop.Extensions.Configuration;
 using Chente.Desktop.Services;
 using Chente.Desktop.ViewModels;
 using Microsoft.Extensions.DependencyInjection;

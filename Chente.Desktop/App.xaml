@@ -10,6 +10,7 @@
                 <ResourceDictionary Source="Theme/ChenteButtonTheme.xaml"/>
                 <ResourceDictionary Source="Theme/ChenteTextBlockTheme.xaml"/>
                 <ResourceDictionary Source="Theme/ChenteTextBoxTheme.xaml"/>
+                <ResourceDictionary Source="Theme/ChenteComboBoxTheme.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <DataTemplate DataType="{x:Type viewModels:BorrowersViewModel}">
                 <views:BorrowersView/>
@@ -29,9 +30,6 @@
             <DataTemplate DataType="{x:Type viewModels:InstallmentFormViewModel}">
                 <controls:InstallmentFormControl/>
             </DataTemplate>
-            <!--<DataTemplate DataType="{x:Type viewModels:LoanListViewModel}">
-                <controls:LoanListControl/>
-            </DataTemplate>-->
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         </ResourceDictionary>
     </Application.Resources>

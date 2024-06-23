@@ -28,7 +28,7 @@ internal partial class LoanViewModel : ViewModelBase
     //[ObservableProperty]
     //private bool isPaid;
     //[ObservableProperty]
-    //private DateTime datePaid;
+    //private DateTime? datePaid;
     //[ObservableProperty]
     //private bool isOverDue;
     //[ObservableProperty]

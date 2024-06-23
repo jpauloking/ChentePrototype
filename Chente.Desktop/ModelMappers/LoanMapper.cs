@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace Chente.Desktop.AutoMapperProfiles;
+namespace Chente.Desktop.ModelMappers;
 
 internal class LoanMapper
 {

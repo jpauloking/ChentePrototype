@@ -2,7 +2,7 @@
 using Chente.DataAccess;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Chente.Desktop.Extensions;
+namespace Chente.Desktop.Extensions.Configuration;
 
 internal static class ConfigureDataAccessLayer
 {

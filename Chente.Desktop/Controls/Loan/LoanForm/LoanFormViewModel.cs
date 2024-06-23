@@ -23,8 +23,8 @@ internal partial class LoanFormViewModel : ViewModelBase
         this.borrowerStoreService.SelectedBorrowerChanged += OnSelectedBorrowerChanged;
     }
 
-    public DateTime DisplayDateStart => today.AddDays(-30);
-    public DateTime DisplayDateEnd => today.AddDays(30);
+    public DateTime DisplayDateStart => today.AddDays(-365);
+    public DateTime DisplayDateEnd => today.AddDays(365);
     public BorrowerViewModel SelectedBorrower => mapper.Map<BorrowerViewModel>(borrowerStoreService.SelectedBorrower);
 
     private DateTime dateOpened = today;
@@ -66,7 +66,6 @@ internal partial class LoanFormViewModel : ViewModelBase
 
     private decimal amountPerInstallment;
 
-    [Range(0, Int16.MaxValue)]
     [Precision(16, 4)]
     public decimal AmountPerInstallment
     {

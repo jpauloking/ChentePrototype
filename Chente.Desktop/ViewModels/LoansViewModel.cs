@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Chente.Desktop.Controls.Loan.LoanList;
 using Chente.Desktop.Core;
 using Chente.Desktop.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -20,9 +21,9 @@ internal partial class LoansViewModel : ViewModelBase
     [ObservableProperty]
     private string pageTitle = "All loans";
 
-    public DateTime DisplayDateStart => today.AddDays(-30);
+    public DateTime DisplayDateStart => today.AddDays(-365);
     public DateTime DisplayDate => today;
-    public DateTime DisplayDateEnd => today.AddDays(30);
+    public DateTime DisplayDateEnd => today.AddDays(365);
     public LoanListViewModel LoanListViewModel => loanListViewModel;
     public LoanDetailsViewModel LoanDetailsViewModel => loanDetailsViewModel;
     public IEnumerable<BorrowerViewModel> Borrowers => mapper.Map<IEnumerable<BorrowerViewModel>>(borrowerStoreService.Borrowers);

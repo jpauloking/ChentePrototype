@@ -12,10 +12,14 @@ internal partial class InstallmentFormViewModel : ViewModelBase
     private static readonly DateTime today = DateTime.Today;
     private readonly WindowManager windowManager;
     private readonly InstallmentStoreService installmentStoreService;
+    private readonly LoanStoreService loanStoreService;
 
     private DateTime dateDue = today;
 
+    public DateTime DisplayDateStart => today.AddDays(-365);
+    public DateTime DisplayDateEnd => today.AddDays(365);
     public Domain.Models.Installment? SelectedInstallment => installmentStoreService.SelectedInstallment;
+    public string? SelectedLoan => loanStoreService.SelectedLoan?.LoanNumber;
 
     [DataType(DataType.Date)]
     public DateTime DateDue
@@ -36,7 +40,6 @@ internal partial class InstallmentFormViewModel : ViewModelBase
 
     private decimal beginningBalance;
 
-    [Range(0, Int16.MaxValue)]
     [Precision(16, 4)]
     public decimal BeginningBalance
     {
@@ -46,7 +49,6 @@ internal partial class InstallmentFormViewModel : ViewModelBase
 
     private decimal endingBalance;
 
-    [Range(0, Int16.MaxValue)]
     [Precision(16, 4)]
     public decimal EndingBalance
     {
@@ -56,7 +58,6 @@ internal partial class InstallmentFormViewModel : ViewModelBase
 
     private decimal amountPaid;
 
-    [Range(0, Int16.MaxValue)]
     [Precision(16, 4)]
     public decimal AmountPaid
     {
@@ -73,17 +74,19 @@ internal partial class InstallmentFormViewModel : ViewModelBase
         set => SetProperty(ref datePaid, value, true);
     }
 
-    public InstallmentFormViewModel(WindowManager windowManager, InstallmentStoreService installmentStoreService)
+    public InstallmentFormViewModel(WindowManager windowManager, InstallmentStoreService installmentStoreService, LoanStoreService loanStoreService)
     {
         this.windowManager = windowManager;
         this.installmentStoreService = installmentStoreService;
+        this.loanStoreService = loanStoreService;
         if (SelectedInstallment is not null)
         {
             DateDue = SelectedInstallment.DateDue;
             Amount = Math.Round(SelectedInstallment.Amount);
             BeginningBalance = Math.Round(SelectedInstallment.BeginningBalance);
             EndingBalance = Math.Round(SelectedInstallment.EndingBalance);
-            AmountPaid = SelectedInstallment.AmountPaid == 0 ? Math.Round(SelectedInstallment.Amount) : Math.Round(SelectedInstallment.AmountPaid);
+            AmountPaid = Math.Round(SelectedInstallment.AmountDue); // Amount paid is used to populate the text box with the amount to be paid and is passed to the PayInstallment function in the model.
+            //AmountPaid = SelectedInstallment.AmountPaid == 0 ? Math.Round(SelectedInstallment.Amount) : Math.Round(SelectedInstallment.AmountPaid);
         }
     }
 
@@ -103,7 +106,7 @@ internal partial class InstallmentFormViewModel : ViewModelBase
             try
             {
                 // Todo - Consider case where Amount != PaymentBeingPaid. In which case installment.Amount != paymentAmount
-                await installmentStoreService.PayInstallmentAsync(selectedInstallment, Amount, DatePaid);
+                await installmentStoreService.PayInstallmentAsync(selectedInstallment, AmountPaid, DatePaid);
                 windowManager.CloseModal<ModalViewModel>();
                 MessageBox.Show("Task completed", "System says", MessageBoxButton.OK, MessageBoxImage.Information);
             }

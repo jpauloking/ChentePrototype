@@ -22,5 +22,7 @@ public partial class InstallmentViewModel : ViewModelBase
     [ObservableProperty]
     private DateTime datePaid;
     [ObservableProperty]
+    private decimal amountDue;
+    [ObservableProperty]
     private string loanNumber = null!;
 }

@@ -20,12 +20,12 @@
                         <GridViewColumn Header="Duration (in days)" DisplayMemberBinding="{Binding DurationInDays}"/>
                         <GridViewColumn Header="Amount per installment" DisplayMemberBinding="{Binding AmountPerInstallment,StringFormat='C'}"/>
                         <!--<GridViewColumn Header="Number of installments" DisplayMemberBinding="{Binding NumberOfInstallments}"/>
-                    <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding Amount}"/>
-                    <GridViewColumn Header="Amount due" DisplayMemberBinding="{Binding AmountDue}"/>
-                    <GridViewColumn Header="Is Paid" DisplayMemberBinding="{Binding IsPaid}"/>
-                    <GridViewColumn Header="Date paid" DisplayMemberBinding="{Binding DatePaid}"/>
-                    <GridViewColumn Header="Is overdue" DisplayMemberBinding="{Binding IsOverDue}"/>
-                    <GridViewColumn Header="Number of installments overdue" DisplayMemberBinding="{Binding NumberOfInstallmentsOverDue}"/>-->
+                        <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding Amount}"/>
+                        <GridViewColumn Header="Amount due" DisplayMemberBinding="{Binding AmountDue}"/>
+                        <GridViewColumn Header="Is Paid" DisplayMemberBinding="{Binding IsPaid}"/>
+                        <<GridViewColumn Header="Date paid" DisplayMemberBinding="{Binding DatePaid}"/>
+                        <GridViewColumn Header="Is overdue" DisplayMemberBinding="{Binding IsOverDue}"/>
+                        <GridViewColumn Header="Number of installments overdue" DisplayMemberBinding="{Binding NumberOfInstallmentsOverDue}"/>-->
                     </GridView.Columns>
                 </GridView>
             </ListView.View>

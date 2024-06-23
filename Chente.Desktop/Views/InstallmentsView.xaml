@@ -15,7 +15,7 @@
         </Grid.RowDefinitions>
         <!-- ./Row Defintions-->
         <!--Page Title Row-->
-        <Grid Grid.Row="0" Margin="8">
+        <Grid Grid.Row="0" Margin="0,16,0,0">
             <!--Column Definitions-->
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -36,7 +36,7 @@
                 <!--<TextBlock Text="Borrower" Margin="8,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                 <ComboBox MinWidth="150" x:Name="BorrowersComboBox" ItemsSource="{Binding Borrowers}" SelectedItem="{Binding SelectedBorrower}" DisplayMemberPath="DisplayName" VerticalAlignment="Center" Margin="8,0,16,0"/>-->
                 <TextBlock Text="Loan" Margin="8,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <ComboBox MinWidth="150" x:Name="LoansComboBox" ItemsSource="{Binding Loans}" SelectedItem="{Binding SelectedLoan}" DisplayMemberPath="LoanNumber" VerticalAlignment="Center" Margin="8,0,16,0"/>
+                <ComboBox MinWidth="150" IsSynchronizedWithCurrentItem="True" x:Name="LoansComboBox" ItemsSource="{Binding Loans}" SelectedItem="{Binding SelectedLoan}" DisplayMemberPath="LoanNumber" VerticalAlignment="Center" Margin="8,0,16,0"/>
                 <Button MinWidth="150" Command="{Binding ClearFilterCommand}">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                         <TextBlock Text="x" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Foreground="Red"/>
@@ -52,7 +52,7 @@
         </Grid>
         <!-- ./Page Title Row-->
         <!--Page Content Row-->
-        <Grid Grid.Row="1" Margin="8">
+        <Grid Grid.Row="1">
             <!--Row Defintions-->
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>

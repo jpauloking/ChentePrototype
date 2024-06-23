@@ -2,7 +2,6 @@
 using Chente.DataAccess.Repositories;
 using Chente.DataAccess.Services;
 using Chente.Domain.Exceptions;
-using Chente.Domain.Models;
 using System.Collections.ObjectModel;
 using System.Windows;
 
@@ -14,7 +13,6 @@ internal class InstallmentStoreService
     private readonly ObservableCollection<Domain.Models.Installment> installments = [];
     private readonly InstallmentRepository installmentRepository;
     private readonly LoanStoreService loanStoreService;
-    private readonly BorrowerStoreService borrowerStoreService;
     private Domain.Models.Installment? selectedInstallment;
 
     public IEnumerable<Domain.Models.Installment> Installments => installments;
@@ -31,26 +29,13 @@ internal class InstallmentStoreService
     public event EventHandler SelectedInstallmentChanged = default!;
     public event EventHandler InstallmentsCollectionChanged = default!;
 
-    public InstallmentStoreService(InstallmentRepository installmentRepository, IMapper mapper, LoanStoreService loanStoreService, BorrowerStoreService borrowerStoreService)
+    public InstallmentStoreService(InstallmentRepository installmentRepository, IMapper mapper, LoanStoreService loanStoreService)
     {
         this.mapper = mapper;
         this.installmentRepository = installmentRepository;
         this.loanStoreService = loanStoreService;
-        this.borrowerStoreService = borrowerStoreService;
         this.loanStoreService.SelectedLoanChanged += OnSelectedLoanChanged;
-        this.loanStoreService.LoansCollectionChanged += OnLoansCollectionChanged;
-        this.borrowerStoreService.SelectedBorrowerChanged += OnSelectedBorrowerChanged;
         GetAsync().GetAwaiter();
-    }
-
-    private void OnSelectedBorrowerChanged(object? sender, Borrower e)
-    {
-        GetAsync().GetAwaiter();
-    }
-
-    private void OnLoansCollectionChanged(object? sender, EventArgs e)
-    {
-        //GetAsync().GetAwaiter();
     }
 
     private void OnSelectedLoanChanged(object? sender, Domain.Models.Loan e)
@@ -86,7 +71,7 @@ internal class InstallmentStoreService
         SelectedInstallmentChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    public async Task PayInstallmentAsync(Installment installment, decimal amountOfPayment, DateTime dateOfPayment)
+    public async Task PayInstallmentAsync(Domain.Models.Installment installment, decimal amountOfPayment, DateTime dateOfPayment)
     {
         try
         {

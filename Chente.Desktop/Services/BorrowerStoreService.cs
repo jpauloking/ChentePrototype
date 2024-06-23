@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Chente.DataAccess.Repositories;
 using System.Collections.ObjectModel;
+using Chente.Desktop.Extensions.ModelExtensions;
 
 namespace Chente.Desktop.Services;
 
@@ -50,7 +51,7 @@ internal partial class BorrowerStoreService
 
         if (borrowerFromDatabase is not null)
         {
-            Domain.Models.Borrower borrower = MapToDomainBorrower(borrowerFromDatabase);
+            Domain.Models.Borrower borrower = borrowerFromDatabase.MapToDomainBorrower();
 
             try
             {
@@ -60,7 +61,7 @@ internal partial class BorrowerStoreService
                 await borrowerRepository.UpdateAsync(borrowerToSaveInDatabase);
                 // Todo - Add LoanNumber to borrower's loans before assigning to selected borrower
                 //SelectedBorrower = mapper.Map<Domain.Models.Borrower>(borrowerToSaveInDatabase); Automapper throws overfloe exception
-                SelectedBorrower = MapToDomainBorrower(borrowerToSaveInDatabase);
+                SelectedBorrower = borrowerToSaveInDatabase.MapToDomainBorrower();
             }
             catch (Domain.Exceptions.HasOutstandingLoanException)
             {
@@ -71,26 +72,6 @@ internal partial class BorrowerStoreService
                 throw;
             }
         }
-    }
-
-    private static Domain.Models.Borrower MapToDomainBorrower(DataAccess.Models.Borrower dataAccessBorrower)
-    {
-        List<Domain.Models.Loan> selectedBorrowerLoans = [];
-
-        foreach (DataAccess.Models.Loan loanFromDatabase in dataAccessBorrower.Loans)
-        {
-            List<Domain.Models.Installment> selectedBorrowerInstallments = [];
-
-            foreach (var installmentFromDatabase in loanFromDatabase.Installments)
-            {
-                selectedBorrowerInstallments.Add(new Domain.Models.Installment(installmentFromDatabase.InstallmentNumber, installmentFromDatabase.DateDue, installmentFromDatabase.Amount, installmentFromDatabase.BeginningBalance, installmentFromDatabase.EndingBalance, installmentFromDatabase.AmountPaid));
-            }
-
-            selectedBorrowerLoans.Add(new Domain.Models.Loan(loanFromDatabase.LoanNumber, loanFromDatabase.DateOpened, loanFromDatabase.Principal, loanFromDatabase.InterestRate, loanFromDatabase.DurationInDays, loanFromDatabase.AmountPerInstallment, selectedBorrowerInstallments));
-        }
-
-        Domain.Models.Borrower borrower = new Domain.Models.Borrower(dataAccessBorrower.BorrowerNumber, dataAccessBorrower.FirstName, dataAccessBorrower.LastName, dataAccessBorrower.EmailAddress, dataAccessBorrower.PhoneNumber, selectedBorrowerLoans);
-        return borrower;
     }
 
     private async Task GetAsync()

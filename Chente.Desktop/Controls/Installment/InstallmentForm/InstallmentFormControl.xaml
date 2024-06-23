@@ -29,15 +29,9 @@
             <TextBlock Text="Installment" Style="{StaticResource TitleTextStyle}" VerticalAlignment="Center"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
-            <StackPanel Margin="8,0">
-                <TextBlock Text="Account" Margin="0,4" Style="{StaticResource LabelTextStyle}"/>
-                <TextBox IsReadOnly="True" IsEnabled="False" Text="{Binding SelectedBorrower.DisplayName, Mode=OneWay}"/>
-            </StackPanel>
-            <StackPanel Margin="8,0">
-                <TextBlock Text="Loan" Margin="0,4" Style="{StaticResource LabelTextStyle}"/>
-                <TextBox IsReadOnly="True" IsEnabled="False" Text="{Binding SelectedLoan.LoanNumber, Mode=OneWay}"/>
-            </StackPanel>
+        <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Margin="8,0,0,0">
+            <TextBlock Text="Loan" Margin="0,4" Style="{StaticResource LabelTextStyle}"/>
+            <TextBox IsReadOnly="True" IsEnabled="False" Text="{Binding SelectedLoan, Mode=OneWay}"/>
         </StackPanel>
 
         <StackPanel 
@@ -71,7 +65,7 @@
 
         <StackPanel 
             Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">
-            <TextBlock Text="Amount paid" Style="{StaticResource LabelTextStyle}"/>
+            <TextBlock Text="Amount due" Style="{StaticResource LabelTextStyle}"/>
             <TextBox Name="AmountPaidTextBox" Text="{Binding AmountPaid, UpdateSourceTrigger=PropertyChanged}"/>
             <TextBlock Text="{Binding ElementName=AmountPaidTextBox, Path=(Validation.Errors)/ErrorContent}" Style="{StaticResource ErrorTextStyle}"/>
         </StackPanel>

@@ -1,7 +1,7 @@
 ﻿using Chente.Desktop.Views;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Chente.Desktop.Extensions;
+namespace Chente.Desktop.Extensions.Configuration;
 
 public static class ConfigureViews
 {

@@ -9,20 +9,34 @@
     <!--Loan Information-->
     <StackPanel 
         Visibility="{Binding HasSelectedLoan,Converter={StaticResource BooleanToVisibilityConverter}}">
-        <StackPanel.Resources>
-            <Style TargetType="TextBlock">
-                <Setter Property="Margin" Value="0,4,0,0"/>
-            </Style>
-        </StackPanel.Resources>
         <!--Loan Information-->
-        <TextBlock Text="{Binding LoanViewModel.LoanNumber}" FontWeight="SemiBold"/>
-        <TextBlock Text="{Binding LoanViewModel.DateOpened,StringFormat='MM/dd/yyyy'}"/>
-        <TextBlock Text="{Binding LoanViewModel.Principal, StringFormat='C'}" Style="{StaticResource TitleTextStyle}"/>
-        <TextBlock Text="{Binding LoanViewModel.InterestRate,StringFormat='F'}"/>
-        <TextBlock Text="{Binding LoanViewModel.DurationInDays, StringFormat='D'}"/>
+        <StackPanel Orientation="Horizontal">
+            <StackPanel Margin="0,0,16,0">
+                <TextBlock Text="Number" Style="{StaticResource SmallLabelTextStyle}"/>
+                <TextBlock Text="{Binding LoanViewModel.LoanNumber}"/>
+            </StackPanel>
+            <StackPanel Margin="16,0,0,0">
+                <TextBlock Text="Date opened" Style="{StaticResource SmallLabelTextStyle}"/>
+                <TextBlock Text="{Binding LoanViewModel.DateOpened,StringFormat='MM/dd/yyyy'}"/>
+                <StackPanel Orientation="Horizontal" Margin="0,0,16,0">
+                    <StackPanel Margin="0,0,16,0">
+                        <TextBlock Text="Principal" Style="{StaticResource SmallLabelTextStyle}"/>
+                        <TextBlock Text="{Binding LoanViewModel.Principal, StringFormat='C'}"/>
+                    </StackPanel>
+                    <StackPanel Margin="16,0,0,0">
+                        <TextBlock Text="Amount per installment" Style="{StaticResource SmallLabelTextStyle}"/>
+                        <TextBlock Text="{Binding LoanViewModel.AmountPerInstallment, StringFormat='C'}"/>
+                    </StackPanel>
+                </StackPanel>
+                <TextBlock Text="Interest rate" Style="{StaticResource SmallLabelTextStyle}"/>
+                <TextBlock Text="{Binding LoanViewModel.InterestRate,StringFormat='F'}"/>
+                <TextBlock Text="Durantion (in days)" Style="{StaticResource SmallLabelTextStyle}"/>
+                <TextBlock Text="{Binding LoanViewModel.DurationInDays, StringFormat='D'}"/>
+            </StackPanel>
+        </StackPanel>
         <!-- ./Loan Information-->
         <!--Buttons-->
-        <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+        <StackPanel Orientation="Horizontal" Margin="0,32,0,0">
             <StackPanel.Resources>
                 <Style TargetType="Button">
                     <Setter Property="Margin" Value="0,0,8,0"/>

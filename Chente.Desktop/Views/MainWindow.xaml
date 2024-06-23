@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
         Title="Chente" Height="450" Width="800" FontFamily="Candara" FontSize="16">
     <Grid>
         <!--Row Defintions-->
@@ -18,7 +19,7 @@
             <Border.Resources>
                 <Style TargetType="Button">
                     <Setter Property="Margin" Value="0"/>
-                    <Setter Property="Padding" Value="8,2"/>
+                    <Setter Property="Padding" Value="12,4"/>
                     <Setter Property="Background" Value="DeepSkyBlue"/>
                     <Setter Property="BorderBrush" Value="DeepSkyBlue"/>
                     <Setter Property="BorderThickness" Value="0"/>
@@ -45,7 +46,9 @@
         </Border>
         <!-- ./Navigation Bar-->
         <!--Content-->
-        <ContentControl Grid.Row="1" Content="{Binding NavigationService.CurrentViewModel}"/>
+        <Grid Grid.Row="1" Margin="16,0,16,16">
+            <ContentControl Content="{Binding NavigationService.CurrentViewModel}"/>
+        </Grid>
         <!-- ./Content-->
     </Grid>
 </Window>
