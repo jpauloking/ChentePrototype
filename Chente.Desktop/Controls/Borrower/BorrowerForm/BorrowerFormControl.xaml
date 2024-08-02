@@ -4,58 +4,37 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Chente.Desktop.Controls"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid Margin="32">
+             d:DesignHeight="450" 
+             d:DesignWidth="800">
+    <materialDesign:Card Margin="8,0,0,0" Padding="16" Visibility="{Binding ShowBorrowerForm,Converter={StaticResource BooleanToVisibilityConverter}}">
+        <Grid>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Row="0" Grid.Column="0">
-            <TextBlock Text="Borrower" Style="{StaticResource TitleTextStyle}"/>
-        </StackPanel>
+            <TextBox Grid.Row="0" Grid.Column="0" Margin="0,0,8,8" MinWidth="200" x:Name="FirstNameTextBox" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="First name"/>
 
-        <StackPanel 
-                Grid.Row="1" Grid.Column="0" Margin="0,0,8,0">
-            <TextBlock Text="First name" Style="{StaticResource LabelTextStyle}"/>
-            <TextBox x:Name="FirstNameTextBox" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBlock Text="{Binding ElementName=FirstNameTextBox, Path=(Validation.Errors)/ErrorContent}" Style="{StaticResource ErrorTextStyle}"/>
-        </StackPanel>
+            <TextBox Grid.Row="0" Grid.Column="1" Margin="8,0,0,8" MinWidth="200" Name="LastNameTextBox" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Last name"/>
 
-        <StackPanel 
-                Grid.Row="1" Grid.Column="1" Margin="8,0,0,0">
-            <TextBlock Text="Last name" Style="{StaticResource LabelTextStyle}"/>
-            <TextBox Name="LastNameTextBox" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBlock Text="{Binding ElementName=LastNameTextBox, Path=(Validation.Errors)/ErrorContent}" Style="{StaticResource ErrorTextStyle}"/>
-        </StackPanel>
+            <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,8" MinWidth="200" Name="EmailAddressTextBox" Text="{Binding EmailAddress, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Email address"/>
 
-        <StackPanel 
-                Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
-            <TextBlock Text="Email address" Style="{StaticResource LabelTextStyle}"/>
-            <TextBox Name="EmailAddressTextBox" Text="{Binding EmailAddress, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBlock Text="{Binding ElementName=EmailAddressTextBox, Path=(Validation.Errors)/ErrorContent}" Style="{StaticResource ErrorTextStyle}"/>
-        </StackPanel>
+            <TextBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,8" MinWidth="200" Name="PhoneNumberTextBox" Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Phone number"/>
 
-        <StackPanel 
-                Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2">
-            <TextBlock Text="Phone number" Style="{StaticResource LabelTextStyle}"/>
-            <TextBox Name="PhoneNumberTextBox" Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged}"/>
-            <TextBlock Text="{Binding ElementName=PhoneNumberTextBox, Path=(Validation.Errors)/ErrorContent}" Style="{StaticResource ErrorTextStyle}"/>
-        </StackPanel>
+            <Button Grid.Row="3" Grid.Column="0" Content="Save" Margin="0,8,8,8" Command="{Binding SaveCommand}" Style="{StaticResource MaterialDesignRaisedButton}"/>
 
-        <Button Grid.Row="4" Grid.Column="0" Content="Save" Margin="0,16,8,0" Command="{Binding SaveCommand}" Style="{StaticResource ChenteButtonPrimaryStyle}"/>
+            <Button Grid.Row="3" Grid.Column="1" Content="Cancel" Margin="8,8,0,8" Command="{Binding CancelCommand}" Style="{StaticResource MaterialDesignFlatButton}"/>
 
-        <Button Grid.Row="4" Grid.Column="1" Content="Cancel" Margin="8,16,0,0" Command="{Binding CancelCommand}"/>
-
-    </Grid>
+        </Grid>
+    </materialDesign:Card>
 </UserControl>

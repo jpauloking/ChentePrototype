@@ -24,7 +24,7 @@ internal partial class InstallmentListViewModel : ViewModelBase
     {
         this.installmentStoreService = installmentStoreService;
         this.mapper = mapper;
-        this.installmentStoreService.SelectedInstallmentChanged += OnInstallmentChanged;
+        this.installmentStoreService.SelectedInstallmentChanged += OnSelectedInstallmentChanged;
         this.installmentStoreService.InstallmentsCollectionChanged += OnInstallmentsCollectionChanged;
     }
 
@@ -36,7 +36,7 @@ internal partial class InstallmentListViewModel : ViewModelBase
         OnPropertyChanged(nameof(HasNoInstallments));
     }
 
-    private void OnInstallmentChanged(object? sender, EventArgs e)
+    private void OnSelectedInstallmentChanged(object? sender, EventArgs e)
     {
         OnPropertyChanged(nameof(SelectedInstallment));
     }

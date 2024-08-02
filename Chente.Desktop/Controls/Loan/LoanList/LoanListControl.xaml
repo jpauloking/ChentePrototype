@@ -3,32 +3,40 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:Chente.Desktop.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <TextBlock Visibility="{Binding HasNoLoans, Converter={StaticResource BooleanToVisibilityConverter}}" Text="No loans found" Style="{StaticResource TitleTextStyle}" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <ListView Visibility="{Binding HasLoans, Converter={StaticResource BooleanToVisibilityConverter}}" ItemsSource="{Binding Loans}" SelectedItem="{Binding SelectedLoan}">
-            <ListView.View>
-                <GridView>
-                    <GridView.Columns>
-                        <!--<GridViewColumn Header="Borrower name" DisplayMemberBinding="{Binding Borrower.DiplayName}"/>-->
-                        <GridViewColumn Header="Loan number" DisplayMemberBinding="{Binding LoanNumber}"/>
-                        <GridViewColumn Header="Date opened" DisplayMemberBinding="{Binding DateOpened, StringFormat='MM/dd/yyyy'}"/>
-                        <GridViewColumn Header="Principal" DisplayMemberBinding="{Binding Principal,StringFormat='C'}"/>
-                        <GridViewColumn Header="Interest rate" DisplayMemberBinding="{Binding InterestRate}"/>
-                        <GridViewColumn Header="Duration (in days)" DisplayMemberBinding="{Binding DurationInDays}"/>
-                        <GridViewColumn Header="Amount per installment" DisplayMemberBinding="{Binding AmountPerInstallment,StringFormat='C'}"/>
-                        <!--<GridViewColumn Header="Number of installments" DisplayMemberBinding="{Binding NumberOfInstallments}"/>
+    <materialDesign:Card>
+        <Grid>
+            <materialDesign:ColorZone Mode="Light" CornerRadius="4" materialDesign:ElevationAssist.Elevation="Dp1" Padding="32" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding HasNoLoans, Converter={StaticResource BooleanToVisibilityConverter}}" MinWidth="400">
+                <StackPanel>
+                    <materialDesign:PackIcon Kind="BankOutline" Width="48" Height="48" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock Margin="0,16" Text="No loans found" Style="{StaticResource MaterialDesignBodyLargeTextBlock}" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </materialDesign:ColorZone>
+            <ListView Visibility="{Binding HasLoans, Converter={StaticResource BooleanToVisibilityConverter}}" ItemsSource="{Binding Loans}" SelectedItem="{Binding SelectedLoan}" Style="{StaticResource MaterialDesignListView}">
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <!--<GridViewColumn Header="Borrower name" DisplayMemberBinding="{Binding Borrower.DiplayName}"/>-->
+                            <GridViewColumn Header="Loan number" DisplayMemberBinding="{Binding LoanNumber}"/>
+                            <GridViewColumn Header="Date opened" DisplayMemberBinding="{Binding DateOpened, StringFormat='MM/dd/yyyy'}"/>
+                            <GridViewColumn Header="Principal" DisplayMemberBinding="{Binding Principal,StringFormat='C'}"/>
+                            <GridViewColumn Header="Interest rate" DisplayMemberBinding="{Binding InterestRate}"/>
+                            <GridViewColumn Header="Duration (in days)" DisplayMemberBinding="{Binding DurationInDays}"/>
+                            <GridViewColumn Header="Amount per installment" DisplayMemberBinding="{Binding AmountPerInstallment,StringFormat='C'}"/>
+                            <!--<GridViewColumn Header="Number of installments" DisplayMemberBinding="{Binding NumberOfInstallments}"/>
                         <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding Amount}"/>
                         <GridViewColumn Header="Amount due" DisplayMemberBinding="{Binding AmountDue}"/>
                         <GridViewColumn Header="Is Paid" DisplayMemberBinding="{Binding IsPaid}"/>
                         <<GridViewColumn Header="Date paid" DisplayMemberBinding="{Binding DatePaid}"/>
                         <GridViewColumn Header="Is overdue" DisplayMemberBinding="{Binding IsOverDue}"/>
                         <GridViewColumn Header="Number of installments overdue" DisplayMemberBinding="{Binding NumberOfInstallmentsOverDue}"/>-->
-                    </GridView.Columns>
-                </GridView>
-            </ListView.View>
-        </ListView>
-    </Grid>
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+    </materialDesign:Card>
 </UserControl>

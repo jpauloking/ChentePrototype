@@ -4,55 +4,38 @@ using System.ComponentModel.DataAnnotations;
 using System.Windows;
 using Chente.Desktop.Services;
 using AutoMapper;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Chente.Desktop.ViewModels;
 
 internal partial class BorrowerFormViewModel : ViewModelBase
 {
     private readonly IMapper mapper;
-    private readonly WindowManager windowManager;
     private readonly BorrowerStoreService borrowerStoreService;
 
     public BorrowerViewModel SelectedBorrower => mapper.Map<BorrowerViewModel>(borrowerStoreService.SelectedBorrower);
 
+    [ObservableProperty]
+    private bool showBorrowerForm;
+
+    [Required]
+    [MaxLength(50)]
+    [ObservableProperty]
     private string firstName = null!;
 
     [Required]
     [MaxLength(50)]
-    public string FirstName
-    {
-        get => firstName;
-        set { SetProperty(ref firstName, value, true); }
-    }
-
+    [ObservableProperty]
     private string lastName = null!;
-
-    [Required]
-    [MaxLength(50)]
-    public string LastName
-    {
-        get => lastName;
-        set { SetProperty(ref lastName, value, true); }
-    }
-
-    public string emailAddress = null!;
 
     [EmailAddress]
     [Required]
-    public string EmailAddress
-    {
-        get => emailAddress;
-        set { SetProperty(ref emailAddress, value, true); }
-    }
-
-    public string? phoneNumber;
+    [ObservableProperty]
+    public string emailAddress = null!;
 
     [Phone]
-    public string? PhoneNumber
-    {
-        get => phoneNumber;
-        set { SetProperty(ref phoneNumber, value, true); }
-    }
+    [ObservableProperty]
+    public string? phoneNumber;
 
     [RelayCommand]
     private async Task Save()
@@ -64,7 +47,7 @@ internal partial class BorrowerFormViewModel : ViewModelBase
         }
         else
         {
-            var borrower = new Domain.Models.Borrower(firstName, lastName, emailAddress, phoneNumber);
+            var borrower = new Domain.Models.Borrower(FirstName, LastName, EmailAddress, PhoneNumber);
 
             if (SelectedBorrower is not null)
             {
@@ -76,21 +59,18 @@ internal partial class BorrowerFormViewModel : ViewModelBase
                 await borrowerStoreService.CreateAsync(borrower);
             }
 
-            windowManager.CloseModal<ModalViewModel>();
-            MessageBox.Show("Task completed", "System says");
+            ShowBorrowerForm = !ShowBorrowerForm;
         }
     }
 
     [RelayCommand]
     private void Cancel()
     {
-        windowManager.CloseModal<ModalViewModel>();
-        MessageBox.Show("Task cancelled", "System says");
+        ShowBorrowerForm = false;
     }
 
-    public BorrowerFormViewModel(WindowManager windowManager, BorrowerStoreService borrowerStoreService, IMapper mapper)
+    public BorrowerFormViewModel(BorrowerStoreService borrowerStoreService, IMapper mapper)
     {
-        this.windowManager = windowManager;
         this.borrowerStoreService = borrowerStoreService;
         this.mapper = mapper;
         this.borrowerStoreService.SelectedBorrowerChanged += OnSelectedBorrowerChanged;
@@ -111,6 +91,13 @@ internal partial class BorrowerFormViewModel : ViewModelBase
             LastName = SelectedBorrower.LastName;
             EmailAddress = SelectedBorrower.EmailAddress;
             PhoneNumber = SelectedBorrower.PhoneNumber;
+        }
+        else
+        {
+            FirstName = string.Empty;
+            LastName = string.Empty;
+            EmailAddress = string.Empty;
+            PhoneNumber = string.Empty;
             OnPropertyChanged(nameof(SelectedBorrower));
         }
     }

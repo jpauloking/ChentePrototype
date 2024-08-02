@@ -39,19 +39,11 @@ internal partial class LoanDetailsViewModel : ViewModelBase
     }
 
     [RelayCommand]
-    private async Task DeleteLoan()
+    private void AdjustInstallments()
     {
         if (HasSelectedLoan)
         {
-            MessageBoxResult userResponse = MessageBox.Show($"Are you sure you want to delete loan? Loan Number: {LoanViewModel.LoanNumber} will be deleted permanently. THIS ACTION IS NOT REVERSIBLE", "System caution", MessageBoxButton.OKCancel, MessageBoxImage.Warning, MessageBoxResult.Cancel);
-            if (userResponse == MessageBoxResult.OK)
-            {
-                await loanStoreService.DeleteAsync(DataAccess.Services.DatabaseKeyManager.GetPrimaryKeyFrom(loanStoreService.SelectedLoan!.LoanNumber));
-            }
-            else
-            {
-                MessageBox.Show("Action cancelled.", "System says", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
+            MessageBox.Show("This action requires premium subscription. Please upgrade your subscription and try again.", "System says", MessageBoxButton.OK, MessageBoxImage.Information);
         }
         else
         {

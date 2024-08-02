@@ -5,6 +5,7 @@ using System.Windows;
 using Chente.Desktop.Core;
 using Chente.Desktop.Services;
 using AutoMapper;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace Chente.Desktop.ViewModels;
 
@@ -14,6 +15,8 @@ internal partial class LoanFormViewModel : ViewModelBase
     private readonly WindowManager windowManager;
     private readonly BorrowerStoreService borrowerStoreService;
     private readonly IMapper mapper;
+    [ObservableProperty]
+    private bool showLoanForm;
 
     public LoanFormViewModel(BorrowerStoreService borrowerStoreService, WindowManager windowManager, IMapper mapper)
     {
@@ -27,51 +30,26 @@ internal partial class LoanFormViewModel : ViewModelBase
     public DateTime DisplayDateEnd => today.AddDays(365);
     public BorrowerViewModel SelectedBorrower => mapper.Map<BorrowerViewModel>(borrowerStoreService.SelectedBorrower);
 
-    private DateTime dateOpened = today;
-
     [DataType(DataType.Date)]
-    public DateTime DateOpened
-    {
-        get => dateOpened;
-        set => SetProperty(ref dateOpened, value, true);
-    }
-
-    private decimal principal;
+    [ObservableProperty]
+    private DateTime dateOpened = today;
 
     [DataType(DataType.Currency)]
     [Precision(16, 4)]
-    public decimal Principal
-    {
-        get => principal;
-        set => SetProperty(ref principal, value, true);
-    }
+    [ObservableProperty]
+    private decimal principal;
 
+    [Range(0, Int16.MaxValue)]
+    [ObservableProperty]
     private double interestRate;
 
     [Range(0, Int16.MaxValue)]
-    public double InterestRate
-    {
-        get => interestRate;
-        set => SetProperty(ref interestRate, value, true);
-    }
-
+    [ObservableProperty]
     private int durationInDays;
 
-    [Range(0, Int16.MaxValue)]
-    public int DurationInDays
-    {
-        get => durationInDays;
-        set => SetProperty(ref durationInDays, value, true);
-    }
-
-    private decimal amountPerInstallment;
-
     [Precision(16, 4)]
-    public decimal AmountPerInstallment
-    {
-        get => amountPerInstallment;
-        set => SetProperty(ref amountPerInstallment, value, true);
-    }
+    [ObservableProperty]
+    private decimal amountPerInstallment;
 
     [RelayCommand]
     private async Task Save()
@@ -105,7 +83,7 @@ internal partial class LoanFormViewModel : ViewModelBase
     [RelayCommand]
     private void Cancel()
     {
-        windowManager.CloseModal<ModalViewModel>();
+        ShowLoanForm = false;
     }
 
     private void OnSelectedBorrowerChanged(object? sender, Domain.Models.Borrower borrower)
