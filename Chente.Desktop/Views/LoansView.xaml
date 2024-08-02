@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:Chente.Desktop.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" xmlns:controls="clr-namespace:Chente.Desktop.Controls" d:DesignWidth="800">
@@ -14,7 +15,7 @@
         </Grid.RowDefinitions>
         <!-- ./Row Defintions-->
         <!--Page Title Row-->
-        <Grid Grid.Row="0" Margin="0,16,0,0">
+        <Grid Grid.Row="0">
             <!--Column Definitions-->
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -23,45 +24,48 @@
             </Grid.ColumnDefinitions>
             <!-- ./Column Definitions-->
             <!--Page Title-->
-            <TextBlock Grid.Column="0" Text="{Binding PageTitle}" FontSize="24" VerticalAlignment="Center"/>
+            <!--<TextBlock Grid.Column="0" Text="{Binding PageTitle}" Style="{StaticResource MaterialDesignTitleLargeTextBlock}" VerticalAlignment="Center"/>-->
             <!-- ./Page Title-->
             <!--Loans Filter-->
             <StackPanel 
                 Grid.Column="1" Orientation="Horizontal" Margin="0,0,16,0">
-                <TextBlock Text="From" Margin="8,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <DatePicker DisplayDateStart="{Binding DisplayDateStart,Mode=OneWay}" DisplayDateEnd="{Binding DisplayDate,Mode=OneWay}" DisplayDate="{Binding DisplayDate,Mode=OneWay}" SelectedDate="{Binding StartDate}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock Text="To" Margin="8,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <DatePicker DisplayDateStart="{Binding DisplayDateStart,Mode=OneWay}" DisplayDateEnd="{Binding DisplayDateEnd,Mode=OneWay}" DisplayDate="{Binding DisplayDate,Mode=OneWay}" SelectedDate="{Binding EndDate}" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock Text="Borrower" Margin="8,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <ComboBox MinWidth="150" x:Name="BorrowersComboBox" ItemsSource="{Binding Borrowers}" SelectedItem="{Binding SelectedBorrower}" DisplayMemberPath="DisplayName" VerticalAlignment="Center" Margin="8,0,16,0"/>
-                <Button MinWidth="150" Command="{Binding ClearFilterCommand}">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <TextBlock Text="x" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Foreground="Red"/>
-                        <TextBlock Text="Clear filter" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    </StackPanel>
-                </Button>
+                <DatePicker DisplayDateStart="{Binding DisplayDateStart,Mode=OneWay}" DisplayDateEnd="{Binding DisplayDate,Mode=OneWay}" DisplayDate="{Binding DisplayDate,Mode=OneWay}" SelectedDate="{Binding StartDate}" MinWidth="200" Margin="4,0" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{StaticResource MaterialDesignFilledDatePicker}" materialDesign:HintAssist.Hint="Start date"/>
+                <DatePicker DisplayDateStart="{Binding DisplayDateStart,Mode=OneWay}" DisplayDateEnd="{Binding DisplayDateEnd,Mode=OneWay}" DisplayDate="{Binding DisplayDate,Mode=OneWay}" SelectedDate="{Binding EndDate}" MinWidth="200" Margin="4,0" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{StaticResource MaterialDesignFilledDatePicker}" materialDesign:HintAssist.Hint="End date"/>
+                <TextBox MinWidth="200" Margin="4,0" Text="{Binding SearchPhrase, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignFilledTextBox}" materialDesign:HintAssist.Hint="Search phrase"/>
+                <ComboBox x:Name="BorrowersComboBox" ItemsSource="{Binding Borrowers}" SelectedItem="{Binding SelectedBorrower}" DisplayMemberPath="DisplayName" VerticalAlignment="Center"  MinWidth="200" Margin="4,0" Style="{StaticResource MaterialDesignFilledComboBox}" materialDesign:HintAssist.Hint="Borrower"/>
+                <Button Content="Clear selection" ToolTip="Clear current selection" Command="{Binding ClearFilterCommand}" Style="{StaticResource MaterialDesignFlatButton}" Margin="4,0"/>
             </StackPanel>
             <!-- ./Loans Filter-->
             <!--Add Button-->
-            <Button 
-                Grid.Column="2" MinWidth="150" Content="Add loan" Command="{Binding AddNewLoanCommand}" Style="{StaticResource ChenteButtonPrimaryStyle}"/>
+            <StackPanel Orientation="Horizontal"  Grid.Column="2">
+                <Button Content="{materialDesign:PackIcon Kind=BankAdd,Size=24}" ToolTip="Add new loan" Command="{Binding AddLoanCommand}" Margin="8,0" Style="{StaticResource MaterialDesignRaisedButton}"/>
+                <!--<Button Content="{materialDesign:PackIcon Kind=BankOutline,Size=24}" ToolTip="Edit selected loan" Command="{Binding AddLoanCommand}" Margin="8,0" Style="{StaticResource MaterialDesignRaisedButton}"/>-->
+                <Button Content="{materialDesign:PackIcon Kind=BankMinus,Size=24}" ToolTip="Delete selected loan" Command="{Binding DeleteLoanCommand}" Margin="8,0" Style="{StaticResource MaterialDesignRaisedButton}"/>
+            </StackPanel>
             <!-- ./Add Button-->
         </Grid>
         <!-- ./Page Title Row-->
         <!--Page Content Row-->
-        <Grid Grid.Row="1">
-            <!--Row Defintions-->
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <!-- ./Row Defintions-->
+        <Grid Grid.Row="1" Margin="0,16,0,0">
+            <!--Columns Defintions-->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <!-- ./Columns Defintions-->
             <!--Loans List-->
-            <controls:LoanListControl Grid.Row="0" Margin="0,16" DataContext="{Binding LoanListViewModel}"/>
+            <controls:LoanListControl Grid.Column="0" DataContext="{Binding LoanListViewModel}"/>
             <!-- ./Loans List-->
-            <!--Loans Details-->
-            <controls:LoanDetailsControl Grid.Row="1" Margin="0,16" DataContext="{Binding LoanDetailsViewModel}"/>
-            <!-- ./Loans Details-->
+            <ScrollViewer Grid.Column="1"  Style="{StaticResource MaterialDesignScrollViewer}" Padding="8">
+                <Grid>
+                    <!--Loans Details-->
+                    <controls:LoanDetailsControl DataContext="{Binding LoanDetailsViewModel}"/>
+                    <!-- ./Loans Details-->
+                    <!--Loan Form-->
+                    <controls:LoanFormControl DataContext="{Binding LoanFormViewModel}"/>
+                    <!-- ./Loan Form-->
+                </Grid>
+            </ScrollViewer>
         </Grid>
         <!-- ./Page Content Row-->
     </Grid>

@@ -1,17 +1,19 @@
 ﻿<Application x:Class="Chente.Desktop.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:viewModels="clr-namespace:Chente.Desktop.ViewModels" 
              xmlns:views="clr-namespace:Chente.Desktop.Views" 
              xmlns:controls="clr-namespace:Chente.Desktop.Controls">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Theme/ChenteButtonTheme.xaml"/>
-                <ResourceDictionary Source="Theme/ChenteTextBlockTheme.xaml"/>
-                <ResourceDictionary Source="Theme/ChenteTextBoxTheme.xaml"/>
-                <ResourceDictionary Source="Theme/ChenteComboBoxTheme.xaml"/>
+                <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="DeepPurple" SecondaryColor="Lime" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <DataTemplate DataType="{x:Type viewModels:DashboardViewModel}">
+                <views:DashboardView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type viewModels:BorrowersViewModel}">
                 <views:BorrowersView/>
             </DataTemplate>

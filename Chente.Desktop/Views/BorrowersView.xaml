@@ -3,10 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Chente.Desktop.Views" xmlns:controls="clr-namespace:Chente.Desktop.Controls"
+             xmlns:controls="clr-namespace:Chente.Desktop.Controls"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:Chente.Desktop.Views" 
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-
     <Grid>
         <!--Row Defintions-->
         <Grid.RowDefinitions>
@@ -15,7 +16,7 @@
         </Grid.RowDefinitions>
         <!-- ./Row Defintions-->
         <!--Page Title Row-->
-        <Grid Grid.Row="0" Margin="0,16,0,0">
+        <Grid Grid.Row="0">
             <!--Column Definitions-->
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -24,45 +25,45 @@
             </Grid.ColumnDefinitions>
             <!-- ./Column Definitions-->
             <!--Page Title-->
-            <TextBlock Grid.Column="0" Text="Borrowers" FontSize="24"  VerticalAlignment="Center"/>
+            <!--<TextBlock Grid.Column="0" Text="Borrowers" Style="{StaticResource MaterialDesignTitleLargeTextBlock}" VerticalAlignment="Center"/>-->
             <!-- ./Page Title-->
             <!--Borrowers Filter-->
-            <StackPanel 
-                Grid.Column="1" Orientation="Horizontal" Margin="0,0,16,0">
-                <TextBlock Text="Search" Margin="8,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBox MinWidth="150" Text="{Binding SearchPhrase, UpdateSourceTrigger=PropertyChanged}" Margin="8,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <TextBlock Text="Borrower" Margin="8,0" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <ComboBox MinWidth="150" IsSynchronizedWithCurrentItem="True" ItemsSource="{Binding Borrowers}" SelectedItem="{Binding SelectedBorrower}" DisplayMemberPath="DisplayName" VerticalAlignment="Center" Margin="8,0,16,0"/>
-                <Button MinWidth="150" Command="{Binding ClearFilterCommand}">
-                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                        <TextBlock Text="x" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Foreground="Red"/>
-                        <TextBlock Text="Clear filter" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                    </StackPanel>
-                </Button>
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <TextBox MinWidth="200" Margin="4,0" Text="{Binding SearchPhrase, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignFilledTextBox}" materialDesign:HintAssist.Hint="Search phrase"/>
+                <ComboBox MinWidth="200" Margin="4,0" IsSynchronizedWithCurrentItem="True" ItemsSource="{Binding Borrowers}" SelectedItem="{Binding SelectedBorrower}" DisplayMemberPath="DisplayName" Style="{StaticResource MaterialDesignFilledComboBox}" materialDesign:HintAssist.Hint="Borrower"/>
+                <Button Margin="4,0" Content="Clear selection" ToolTip="Clear current selection" Command="{Binding ClearFilterCommand}" Style="{StaticResource MaterialDesignFlatButton}"/>
             </StackPanel>
-            <!--Borrowers Filter-->
+            <!-- ./Borrowers Filter-->
             <!--Add Button-->
-            <Button 
-                Grid.Column="2" MinWidth="150" Content="Add borrower" Command="{Binding AddNewBorrowerCommand}" Style="{StaticResource ChenteButtonPrimaryStyle}"/>
+            <StackPanel Orientation="Horizontal"  Grid.Column="2">
+                <Button Margin="8,0" Content="{materialDesign:PackIcon Kind=AccountAddOutline,Size=24}" ToolTip="Add new borrower" Command="{Binding AddBorrowerCommand}" Style="{StaticResource MaterialDesignRaisedButton}"/>
+                <Button Margin="8,0" Content="{materialDesign:PackIcon Kind=AccountEditOutline,Size=24}" ToolTip="Edit selected borrower" Command="{Binding EditBorrowerCommand}" Style="{StaticResource MaterialDesignRaisedButton}"/>
+                <Button Margin="8,0" Content="{materialDesign:PackIcon Kind=AccountMinusOutline,Size=24}" ToolTip="Delete selected borrower" Command="{Binding DeleteBorrowerCommand}" Style="{StaticResource MaterialDesignRaisedButton}"/>
+            </StackPanel>
             <!-- ./Add Button-->
         </Grid>
         <!-- ./Page Title Row-->
         <!--Page Content Row-->
-        <Grid Grid.Row="1">
-            <!--Row Defintions-->
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <!-- ./Row Defintions-->
-            <!--Borrowers List-->
-            <controls:BorrowerListControl 
-                Grid.Row="0" Margin="0,16" DataContext="{Binding BorrowerListViewModel}"/>
-            <!-- ./Borrowers List-->
-            <!--Borrowers Details-->
-            <controls:BorrowerDetailsControl 
-                Grid.Row="1" Margin="0,16" DataContext="{Binding BorrowerDetailsViewModel}"/>
-            <!-- ./Borrowers Details-->
+        <Grid Grid.Row="1" Margin="0,16,0,0">
+            <!--Columns Defintions-->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <!-- ./Columns Defintions-->
+            <!--Borrower List-->
+            <controls:BorrowerListControl Grid.Column="0" DataContext="{Binding BorrowerListViewModel}"/>
+            <!-- ./Borrower List-->
+            <ScrollViewer Grid.Column="1"  Style="{StaticResource MaterialDesignScrollViewer}" Padding="8">
+                <Grid>
+                    <!--Borrower Details-->
+                    <controls:BorrowerDetailsControl DataContext="{Binding BorrowerDetailsViewModel}"/>
+                    <!-- ./Borrower Details-->
+                    <!--Borrower Form-->
+                    <controls:BorrowerFormControl DataContext="{Binding BorrowerFormViewModel}"/>
+                    <!-- ./Borrower Form-->
+                </Grid>
+            </ScrollViewer>
         </Grid>
         <!-- ./Page Content Row-->
     </Grid>

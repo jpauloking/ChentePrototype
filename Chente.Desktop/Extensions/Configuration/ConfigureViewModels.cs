@@ -11,6 +11,7 @@ public static class ConfigureViewModels
     public static IServiceCollection AddViewModels(this IServiceCollection services)
     {
         services.AddSingleton<MainViewModel>();
+        services.AddSingleton<DashboardViewModel>();
         services.AddSingleton<ModalViewModel>();
         services.AddSingleton<BorrowersViewModel>();
         services.AddTransient<BorrowerFormViewModel>();

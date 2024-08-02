@@ -14,6 +14,7 @@ internal partial class MainViewModel : ViewModelBase
     {
         this.navigationService = navigationService;
         this.navigationService.CurrentViewModelChanged += HandleCurrentViewModelChanged;
+        NavigateToInitialView();
     }
 
     [RelayCommand]
@@ -34,8 +35,22 @@ internal partial class MainViewModel : ViewModelBase
         navigationService.NavigateTo<InstallmentsViewModel>();
     }
 
+    [RelayCommand]
+    private void NavigateToDashboard()
+    {
+        navigationService.NavigateTo<DashboardViewModel>();
+    }
+
     private void HandleCurrentViewModelChanged(object? sender, EventArgs e)
     {
         OnPropertyChanged();
+    }
+
+    private void NavigateToInitialView()
+    {
+        if (navigationService.CurrentViewModel is null)
+        {
+            NavigateToDashboard();
+        }
     }
 }

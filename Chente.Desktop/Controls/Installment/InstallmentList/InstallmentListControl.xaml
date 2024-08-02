@@ -4,25 +4,33 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Chente.Desktop.Controls"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <TextBlock Visibility="{Binding HasNoInstallments, Converter={StaticResource BooleanToVisibilityConverter}}" Text="No installments found" Style="{StaticResource TitleTextStyle}" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <ListView Visibility="{Binding HasInstallments, Converter={StaticResource BooleanToVisibilityConverter}}" ItemsSource="{Binding Installments}" SelectedItem="{Binding SelectedInstallment}">
-            <ListView.View>
-                <GridView>
-                    <GridView.Columns>
-                        <GridViewColumn Header="Installment number" DisplayMemberBinding="{Binding InstallmentNumber}"/>
-                        <GridViewColumn Header="Date due" DisplayMemberBinding="{Binding DateDue, StringFormat='MM/dd/yyyy'}"/>
-                        <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding Amount, StringFormat='C'}"/>
-                        <GridViewColumn Header="Beg. Bal" DisplayMemberBinding="{Binding BeginningBalance, StringFormat='C'}"/>
-                        <GridViewColumn Header="End Bal" DisplayMemberBinding="{Binding EndingBalance, StringFormat='C'}"/>
-                        <GridViewColumn Header="Amount paid" DisplayMemberBinding="{Binding AmountPaid, StringFormat='C'}"/>
-                        <!--<GridViewColumn Header="Date paid" DisplayMemberBinding="{Binding DatePaid, StringFormat='MM/dd/yyyy'}"/>
+    <materialDesign:Card>
+        <Grid>
+            <materialDesign:ColorZone Mode="Light" CornerRadius="4" materialDesign:ElevationAssist.Elevation="Dp1" Padding="32" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding HasNoInstallments, Converter={StaticResource BooleanToVisibilityConverter}}" MinWidth="400">
+                <StackPanel>
+                    <materialDesign:PackIcon Kind="Payment" Width="48" Height="48" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock Margin="0,16" Text="No installments found" Style="{StaticResource MaterialDesignBodyLargeTextBlock}" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </materialDesign:ColorZone>
+            <ListView Visibility="{Binding HasInstallments, Converter={StaticResource BooleanToVisibilityConverter}}" ItemsSource="{Binding Installments}" SelectedItem="{Binding SelectedInstallment}" Style="{StaticResource MaterialDesignListView}">
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn Header="Installment number" DisplayMemberBinding="{Binding InstallmentNumber}"/>
+                            <GridViewColumn Header="Date due" DisplayMemberBinding="{Binding DateDue, StringFormat='MM/dd/yyyy'}"/>
+                            <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding Amount, StringFormat='C'}"/>
+                            <GridViewColumn Header="Beg. Bal" DisplayMemberBinding="{Binding BeginningBalance, StringFormat='C'}"/>
+                            <GridViewColumn Header="End Bal" DisplayMemberBinding="{Binding EndingBalance, StringFormat='C'}"/>
+                            <GridViewColumn Header="Amount paid" DisplayMemberBinding="{Binding AmountPaid, StringFormat='C'}"/>
+                            <!--<GridViewColumn Header="Date paid" DisplayMemberBinding="{Binding DatePaid, StringFormat='MM/dd/yyyy'}"/>
                         <GridViewColumn Header="Loan Number" DisplayMemberBinding="{Binding LoanNumber}"/>-->
-                    </GridView.Columns>
-                </GridView>
-            </ListView.View>
-        </ListView>
-    </Grid>
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+    </materialDesign:Card>
 </UserControl>

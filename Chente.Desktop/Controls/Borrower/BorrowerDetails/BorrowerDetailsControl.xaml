@@ -3,65 +3,63 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:Chente.Desktop.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
     <!--Borrower Information-->
-    <StackPanel Visibility="{Binding HasSelectedBorrower,Converter={StaticResource BooleanToVisibilityConverter}}">
-        <!--Borrower Information-->
-        <StackPanel Orientation="Horizontal">
-            <StackPanel Margin="0,0,16,0">
-                <TextBlock Text="Number" Style="{StaticResource SmallLabelTextStyle}"/>
-                <TextBlock Text="{Binding BorrowerViewModel.BorrowerNumber}"/>
-            </StackPanel>
-            <StackPanel Margin="16,0,0,0">
-                <TextBlock Text="Full name" Style="{StaticResource SmallLabelTextStyle}"/>
-                <TextBlock Text="{Binding BorrowerViewModel.DisplayName}"/>
-                <TextBlock Text="Email address" Style="{StaticResource SmallLabelTextStyle}"/>
-                <TextBlock Text="{Binding BorrowerViewModel.EmailAddress}"/>
-                <TextBlock Text="Phone number" Style="{StaticResource SmallLabelTextStyle}"/>
-                <TextBlock Text="{Binding BorrowerViewModel.PhoneNumber}"/>
-            </StackPanel>
+    <materialDesign:Card Margin="8,0,0,0" Padding="16" Visibility="{Binding HasSelectedBorrower,Converter={StaticResource BooleanToVisibilityConverter}}">
+        <StackPanel>
+            <!--Borrower Information-->
+            <materialDesign:ColorZone Mode="Light" CornerRadius="4" Margin="4" Padding="16">
+                <StackPanel MinWidth="400">
+                    <StackPanel Orientation="Horizontal" Margin="0,8">
+                        <materialDesign:PackIcon Kind="IdentificationCardOutline" Width="24" Height="24" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBlock Text="{Binding BorrowerViewModel.BorrowerNumber}" Margin="8,0,0,0" Style="{StaticResource MaterialDesignBodyLargeTextBlock}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <Separator Style="{StaticResource MaterialDesignDarkSeparator}"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,8">
+                        <materialDesign:PackIcon Kind="AccountOutline" Width="24" Height="24" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBlock Text="{Binding BorrowerViewModel.DisplayName}" Margin="8,0,0,0" Style="{StaticResource MaterialDesignBodyLargeTextBlock}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <Separator Style="{StaticResource MaterialDesignDarkSeparator}"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,8">
+                        <materialDesign:PackIcon Kind="MailOutline" Width="24" Height="24" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBlock Text="{Binding BorrowerViewModel.EmailAddress}" Margin="8,0,0,0" Style="{StaticResource MaterialDesignBodyLargeTextBlock}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <Separator Style="{StaticResource MaterialDesignDarkSeparator}"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,8">
+                        <materialDesign:PackIcon Kind="PhoneOutline" Width="24" Height="24" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBlock Text="{Binding BorrowerViewModel.PhoneNumber}" Margin="8,0,0,0" Style="{StaticResource MaterialDesignBodyLargeTextBlock}" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </StackPanel>
+            </materialDesign:ColorZone>
+            <!-- ./Borrower Information-->
+            <!--Buttons-->
+            <materialDesign:ColorZone Mode="Light" CornerRadius="4" Margin="4,8" Padding="8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0" Command="{Binding ShowLoansCommand}" Style="{StaticResource MaterialDesignRaisedButton}" MinWidth="200" Margin="0,0,8,0">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <materialDesign:PackIcon Kind="ViewListOutline" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBlock Text="Show loans" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Grid.Column="1" Command="{Binding AddNewLoanCommand}" Style="{StaticResource MaterialDesignFlatButton}" MinWidth="200" Margin="8,0,0,0">
+                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <materialDesign:PackIcon Kind="BankAdd" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBlock Text="Add loan" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </materialDesign:ColorZone>
+            <!-- ./Buttons-->
         </StackPanel>
-        <!-- ./Borrower Information-->
-        <!--Buttons-->
-        <StackPanel Orientation="Horizontal" Margin="0,32,0,0">
-            <StackPanel.Resources>
-                <Style TargetType="Button">
-                    <Setter Property="Margin" Value="0,0,8,0"/>
-                    <Setter Property="Padding" Value="8,0"/>
-                </Style>
-                <Style TargetType="TextBlock">
-                    <Setter Property="Margin" Value="0,0,8,0"/>
-                    <Setter Property="Padding" Value="0"/>
-                </Style>
-            </StackPanel.Resources>
-            <Button Command="{Binding ShowLoansCommand}">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <TextBlock Text="$" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Foreground="Red"/>
-                    <TextBlock Text="Show loans" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                </StackPanel>
-            </Button>
-            <Button Command="{Binding AddNewLoanCommand}">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <TextBlock Text="+" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Foreground="Red"/>
-                    <TextBlock Text="Add loan" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                </StackPanel>
-            </Button>
-            <Button Command="{Binding EditBorrowerCommand}">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <TextBlock Text="#" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Foreground="Red"/>
-                    <TextBlock Text="Edit borrower" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                </StackPanel>
-            </Button>
-            <Button Command="{Binding DeleteBorrowerCommand}">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <TextBlock Text="x" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" Foreground="Red"/>
-                    <TextBlock Text="Delete borrower" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                </StackPanel>
-            </Button>
-        </StackPanel>
-        <!-- ./Buttons-->
-    </StackPanel>
+    </materialDesign:Card>
     <!-- ./Borrower Information-->
+
 </UserControl>

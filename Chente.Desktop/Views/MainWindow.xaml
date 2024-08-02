@@ -3,10 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        WindowState="Maximized"
-        Title="Chente" Height="450" Width="800" FontFamily="Candara" FontSize="16">
+        WindowState="Normal"
+        ResizeMode="CanResizeWithGrip"
+        Title="Chente" 
+        Height="550" 
+        Width="900" 
+        FontFamily="Segoe UI"
+        Style="{StaticResource MaterialDesignWindow}">
     <Grid>
         <!--Row Defintions-->
         <Grid.RowDefinitions>
@@ -15,40 +21,33 @@
         </Grid.RowDefinitions>
         <!-- ./Row Defintions-->
         <!--Navigation Bar-->
-        <Border Padding="8,0" Background="DeepSkyBlue">
-            <Border.Resources>
-                <Style TargetType="Button">
-                    <Setter Property="Margin" Value="0"/>
-                    <Setter Property="Padding" Value="12,4"/>
-                    <Setter Property="Background" Value="DeepSkyBlue"/>
-                    <Setter Property="BorderBrush" Value="DeepSkyBlue"/>
-                    <Setter Property="BorderThickness" Value="0"/>
-                </Style>
-            </Border.Resources>
+        <materialDesign:Card Margin="16" Padding="16,8">
             <Grid>
-                <!--Column Definitions-->
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <!-- ./Column Definitions-->
-                <!--Title-->
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="Chente" Margin="0,8"/>
-                <!-- ./Title-->
-                <!--Buttons-->
-                <Button Grid.Row="0" Grid.Column="1" Content="Borrowers" Command="{Binding NavigateToBorrowersCommand}"/>
-                <Button Grid.Row="0" Grid.Column="2" Content="Loans" Command="{Binding NavigateToLoansCommand}"/>
-                <Button Grid.Row="0" Grid.Column="3"  Content="Installments" Command="{Binding NavigateToInstallmentsCommand}"/>
-                <!-- ./Buttons-->
+                <Menu Grid.Column="0">
+                    <Menu.Items>
+                        <MenuItem Header="Dashboard" Icon="{materialDesign:PackIcon Kind=ViewDashboardOutline}" Command="{Binding NavigateToDashboardCommand}" Style="{StaticResource MaterialDesignMenuItem}" MinWidth="150"/>
+                        <MenuItem Header="Installments" Icon="{materialDesign:PackIcon Kind=Payment}" Command="{Binding NavigateToInstallmentsCommand}" Style="{StaticResource MaterialDesignMenuItem}" MinWidth="150"/>
+                        <MenuItem Header="Loans" Icon="{materialDesign:PackIcon Kind=BankOutline}" Command="{Binding NavigateToLoansCommand}" Style="{StaticResource MaterialDesignMenuItem}" MinWidth="150"/>
+                        <MenuItem Header="Borrowers" Icon="{materialDesign:PackIcon Kind=AccountGroupOutline}" Command="{Binding NavigateToBorrowersCommand}" Style="{StaticResource MaterialDesignMenuItem}" MinWidth="150"/>
+                    </Menu.Items>
+                </Menu>
+                <Menu Grid.Column="1">
+                    <Menu.Items>
+                        <MenuItem Header="Account" Icon="{materialDesign:PackIcon Kind=AccountOutline}" MinWidth="150"/>
+                        <MenuItem Header="Logout" Icon="{materialDesign:PackIcon Kind=Logout}" MinWidth="150"/>
+                    </Menu.Items>
+                </Menu>
             </Grid>
-        </Border>
+        </materialDesign:Card>
         <!-- ./Navigation Bar-->
         <!--Content-->
-        <Grid Grid.Row="1" Margin="16,0,16,16">
+        <materialDesign:Card Grid.Row="1" Padding="16" Margin="16,0,16,16">
             <ContentControl Content="{Binding NavigationService.CurrentViewModel}"/>
-        </Grid>
+        </materialDesign:Card>
         <!-- ./Content-->
     </Grid>
 </Window>

@@ -3,23 +3,32 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:Chente.Desktop.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <TextBlock Visibility="{Binding HasNoBorrowers, Converter={StaticResource BooleanToVisibilityConverter}}" Text="No borrowers found" Style="{StaticResource TitleTextStyle}" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <ListView Visibility="{Binding HasBorrowers, Converter={StaticResource BooleanToVisibilityConverter}}" ItemsSource="{Binding Borrowers}" SelectedItem="{Binding SelectedBorrower}">
-            <ListView.View>
-                <GridView>
-                    <GridView.Columns>
-                        <GridViewColumn Header="Borrower number" DisplayMemberBinding="{Binding BorrowerNumber}"/>
-                        <GridViewColumn Header="First name" DisplayMemberBinding="{Binding FirstName}"/>
-                        <GridViewColumn Header="Last name" DisplayMemberBinding="{Binding LastName}"/>
-                        <GridViewColumn Header="Email address" DisplayMemberBinding="{Binding EmailAddress}"/>
-                        <GridViewColumn Header="Phone number" DisplayMemberBinding="{Binding PhoneNumber}"/>
-                    </GridView.Columns>
-                </GridView>
-            </ListView.View>
-        </ListView>
-    </Grid>
+             d:DesignHeight="450" 
+             d:DesignWidth="800">
+    <materialDesign:Card>
+        <Grid>
+            <materialDesign:ColorZone Mode="Light" CornerRadius="4" materialDesign:ElevationAssist.Elevation="Dp1" Padding="32" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding HasNoBorrowers, Converter={StaticResource BooleanToVisibilityConverter}}" MinWidth="400">
+                <StackPanel>
+                    <materialDesign:PackIcon Kind="AccountGroupOutline" Width="48" Height="48" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                    <TextBlock Margin="0,16" Text="No borrowers found" Style="{StaticResource MaterialDesignBodyLargeTextBlock}" TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                </StackPanel>
+            </materialDesign:ColorZone>
+            <ListView Visibility="{Binding HasBorrowers, Converter={StaticResource BooleanToVisibilityConverter}}" ItemsSource="{Binding Borrowers}" SelectedItem="{Binding SelectedBorrower}" Style="{StaticResource MaterialDesignListView}">
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn Header="Borrower number" DisplayMemberBinding="{Binding BorrowerNumber}"/>
+                            <GridViewColumn Header="First name" DisplayMemberBinding="{Binding FirstName}"/>
+                            <GridViewColumn Header="Last name" DisplayMemberBinding="{Binding LastName}"/>
+                            <GridViewColumn Header="Email address" DisplayMemberBinding="{Binding EmailAddress}"/>
+                            <GridViewColumn Header="Phone number" DisplayMemberBinding="{Binding PhoneNumber,StringFormat='G'}"/>
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Grid>
+    </materialDesign:Card>
 </UserControl>

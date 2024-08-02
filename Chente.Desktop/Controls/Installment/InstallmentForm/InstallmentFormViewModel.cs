@@ -1,5 +1,6 @@
 ﻿using Chente.Desktop.Core;
 using Chente.Desktop.Services;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
@@ -10,11 +11,10 @@ namespace Chente.Desktop.ViewModels;
 internal partial class InstallmentFormViewModel : ViewModelBase
 {
     private static readonly DateTime today = DateTime.Today;
-    private readonly WindowManager windowManager;
     private readonly InstallmentStoreService installmentStoreService;
     private readonly LoanStoreService loanStoreService;
-
-    private DateTime dateDue = today;
+    [ObservableProperty]
+    private bool showInstallmentForm;
 
     public DateTime DisplayDateStart => today.AddDays(-365);
     public DateTime DisplayDateEnd => today.AddDays(365);
@@ -22,71 +22,84 @@ internal partial class InstallmentFormViewModel : ViewModelBase
     public string? SelectedLoan => loanStoreService.SelectedLoan?.LoanNumber;
 
     [DataType(DataType.Date)]
-    public DateTime DateDue
-    {
-        get => dateDue;
-        set => SetProperty(ref dateDue, value, true);
-    }
-
-    private decimal amount;
+    [ObservableProperty]
+    private DateTime dateDue = today;
 
     [DataType(DataType.Currency)]
     [Precision(16, 4)]
-    public decimal Amount
-    {
-        get => amount;
-        set => SetProperty(ref amount, value, true);
-    }
+    [ObservableProperty]
+    private decimal amount;
 
+    [Precision(16, 4)]
+    [ObservableProperty]
     private decimal beginningBalance;
 
     [Precision(16, 4)]
-    public decimal BeginningBalance
-    {
-        get => beginningBalance;
-        set => SetProperty(ref beginningBalance, value, true);
-    }
-
+    [ObservableProperty]
     private decimal endingBalance;
 
     [Precision(16, 4)]
-    public decimal EndingBalance
-    {
-        get => endingBalance;
-        set => SetProperty(ref endingBalance, value, true);
-    }
+    [ObservableProperty]
+    private decimal amountDue;
 
+    [Precision(16, 4)]
+    [ObservableProperty]
     private decimal amountPaid;
 
     [Precision(16, 4)]
-    public decimal AmountPaid
-    {
-        get => amountPaid;
-        set => SetProperty(ref amountPaid, value, true);
-    }
-
-    private DateTime datePaid = today;
+    [ObservableProperty]
+    private decimal amountToPay;
 
     [DataType(DataType.Date)]
-    public DateTime DatePaid
-    {
-        get => datePaid;
-        set => SetProperty(ref datePaid, value, true);
-    }
+    [ObservableProperty]
+    private DateTime datePaid = today;
 
-    public InstallmentFormViewModel(WindowManager windowManager, InstallmentStoreService installmentStoreService, LoanStoreService loanStoreService)
+    public InstallmentFormViewModel(InstallmentStoreService installmentStoreService, LoanStoreService loanStoreService)
     {
-        this.windowManager = windowManager;
         this.installmentStoreService = installmentStoreService;
         this.loanStoreService = loanStoreService;
+        this.installmentStoreService.SelectedInstallmentChanged += OnSelectedInstallmentChanged;
+        this.loanStoreService.SelectedLoanChanged += OnSelectedLoanChanged;
         if (SelectedInstallment is not null)
         {
             DateDue = SelectedInstallment.DateDue;
             Amount = Math.Round(SelectedInstallment.Amount);
             BeginningBalance = Math.Round(SelectedInstallment.BeginningBalance);
             EndingBalance = Math.Round(SelectedInstallment.EndingBalance);
-            AmountPaid = Math.Round(SelectedInstallment.AmountDue); // Amount paid is used to populate the text box with the amount to be paid and is passed to the PayInstallment function in the model.
-            //AmountPaid = SelectedInstallment.AmountPaid == 0 ? Math.Round(SelectedInstallment.Amount) : Math.Round(SelectedInstallment.AmountPaid);
+            AmountPaid = Math.Round(SelectedInstallment.AmountPaid);
+            // Amount due is used to populate the text box with the amount to be paid and is passed to the PayInstallment function in the model.
+            AmountDue = Math.Round(SelectedInstallment.AmountDue);
+            AmountToPay = AmountDue;
+        }
+    }
+
+    private void OnSelectedLoanChanged(object? sender, Domain.Models.Loan e)
+    {
+        if (SelectedInstallment is not null)
+        {
+            DateDue = SelectedInstallment.DateDue;
+            Amount = Math.Round(SelectedInstallment.Amount);
+            BeginningBalance = Math.Round(SelectedInstallment.BeginningBalance);
+            EndingBalance = Math.Round(SelectedInstallment.EndingBalance);
+            AmountPaid = Math.Round(SelectedInstallment.AmountPaid);
+            AmountDue = Math.Round(SelectedInstallment.AmountDue);
+            AmountToPay = AmountDue;
+            DatePaid = SelectedInstallment.DatePaid;
+        }
+    }
+
+    private void OnSelectedInstallmentChanged(object? sender, EventArgs e)
+    {
+        if (SelectedInstallment is not null)
+        {
+            DateDue = SelectedInstallment.DateDue;
+            Amount = Math.Round(SelectedInstallment.Amount);
+            BeginningBalance = Math.Round(SelectedInstallment.BeginningBalance);
+            EndingBalance = Math.Round(SelectedInstallment.EndingBalance);
+            AmountPaid = Math.Round(SelectedInstallment.AmountPaid);
+            AmountDue = Math.Round(SelectedInstallment.AmountDue);
+            AmountToPay = AmountDue;
+            DatePaid = SelectedInstallment.DatePaid;
         }
     }
 
@@ -107,8 +120,8 @@ internal partial class InstallmentFormViewModel : ViewModelBase
             {
                 // Todo - Consider case where Amount != PaymentBeingPaid. In which case installment.Amount != paymentAmount
                 await installmentStoreService.PayInstallmentAsync(selectedInstallment, AmountPaid, DatePaid);
-                windowManager.CloseModal<ModalViewModel>();
                 MessageBox.Show("Task completed", "System says", MessageBoxButton.OK, MessageBoxImage.Information);
+                ShowInstallmentForm = false;
             }
             catch (Domain.Exceptions.InvalidPaymentException)
             {
@@ -120,7 +133,7 @@ internal partial class InstallmentFormViewModel : ViewModelBase
     [RelayCommand]
     private void Cancel()
     {
-        windowManager.CloseModal<ModalViewModel>();
+        ShowInstallmentForm = false;
     }
 
 }
