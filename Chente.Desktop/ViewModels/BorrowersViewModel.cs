@@ -11,16 +11,18 @@ namespace Chente.Desktop.ViewModels;
 
 internal partial class BorrowersViewModel : ViewModelBase
 {
+    private readonly IMapper mapper;
     private readonly BorrowerStoreService borrowerStoreService;
     private readonly BorrowerListViewModel borrowerListViewModel;
     private readonly BorrowerDetailsViewModel borrowerDetailsViewModel;
     private readonly BorrowerFormViewModel borrowerFormViewModel;
-    private readonly IMapper mapper;
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(AddBorrowerCommand))]
     [NotifyCanExecuteChangedFor(nameof(EditBorrowerCommand))]
     [NotifyCanExecuteChangedFor(nameof(DeleteBorrowerCommand))]
     private bool hasSelectedBorrower = false;
+    [ObservableProperty]
+    private int selectedIndex;
 
     public BorrowerListViewModel BorrowerListViewModel => borrowerListViewModel;
     public BorrowerDetailsViewModel BorrowerDetailsViewModel => borrowerDetailsViewModel;
@@ -32,26 +34,26 @@ internal partial class BorrowersViewModel : ViewModelBase
         get => borrowerStoreService.SearchPhrase;
         set => borrowerStoreService.SearchPhrase = value;
     }
-
     public BorrowerViewModel? SelectedBorrower
     {
-        get => borrowerStoreService.SelectedBorrower!.MapToBorrowerViewModel(mapper);
-        set => borrowerStoreService.SelectedBorrower = value!.MapToDomainBorrower(mapper);
+        get => borrowerStoreService.SelectedBorrower?.MapToBorrowerViewModel(mapper)!;
+        set => borrowerStoreService.SelectedBorrower = value?.MapToDomainBorrower(mapper);
     }
 
-    public BorrowersViewModel(BorrowerDetailsViewModel borrowerDetailsViewModel, BorrowerListViewModel borrowerListViewModel, BorrowerStoreService borrowerStoreService, IMapper mapper, BorrowerFormViewModel borrowerFormViewModel)
+    public BorrowersViewModel(IMapper mapper, BorrowerStoreService borrowerStoreService, BorrowerListViewModel borrowerListViewModel, BorrowerDetailsViewModel borrowerDetailsViewModel, BorrowerFormViewModel borrowerFormViewModel)
     {
-        this.borrowerStoreService = borrowerStoreService;
-        this.borrowerDetailsViewModel = borrowerDetailsViewModel;
-        this.borrowerListViewModel = borrowerListViewModel;
         this.mapper = mapper;
-        this.borrowerStoreService.SelectedBorrowerChanged += OnSelectedBorrowerChanged;
+        this.borrowerStoreService = borrowerStoreService;
+        this.borrowerListViewModel = borrowerListViewModel;
+        this.borrowerDetailsViewModel = borrowerDetailsViewModel;
         this.borrowerFormViewModel = borrowerFormViewModel;
+        this.borrowerStoreService.SelectedBorrowerChanged += OnSelectedBorrowerChanged;
     }
 
     private void OnSelectedBorrowerChanged(object? sender, Domain.Models.Borrower e)
     {
         OnPropertyChanged(nameof(SelectedBorrower));
+        SelectedIndex = Borrowers.ToList().IndexOf(SelectedBorrower!);
         HasSelectedBorrower = SelectedBorrower is not null;
     }
 
@@ -100,7 +102,7 @@ internal partial class BorrowersViewModel : ViewModelBase
     {
         SearchPhrase = string.Empty;
         OnPropertyChanged(nameof(SearchPhrase));
-        OnPropertyChanged(nameof(SelectedBorrower));
+        SelectedBorrower = null;
         BorrowerFormViewModel.ShowBorrowerForm = false;
     }
 

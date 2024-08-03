@@ -11,8 +11,11 @@ internal class LoanStoreService
     private readonly ObservableCollection<Domain.Models.Loan> loans = [];
     private readonly IMapper mapper;
     private Domain.Models.Loan? selectedLoan;
+    private string? searchPhrase = null!;
     private DateTime? startDate = null;
     private DateTime? endDate = null;
+    private bool includePaid = false; // Todo - Change to false when loading related data bug is fixed
+    private bool onlyOverdue = false;
 
     public IEnumerable<Domain.Models.Loan> Loans => loans;
     public Domain.Models.Loan? SelectedLoan
@@ -22,6 +25,15 @@ internal class LoanStoreService
         {
             selectedLoan = value;
             SelectedLoanChanged?.Invoke(this, value!);
+        }
+    }
+    public string? SearchPhrase
+    {
+        get => searchPhrase;
+        set
+        {
+            searchPhrase = value;
+            GetAsync().GetAwaiter();
         }
     }
     public DateTime? StartDate
@@ -39,6 +51,24 @@ internal class LoanStoreService
         set
         {
             endDate = value;
+            GetAsync().GetAwaiter();
+        }
+    }
+    public bool IncludePaid
+    {
+        get => includePaid;
+        set
+        {
+            includePaid = value;
+            GetAsync().GetAwaiter();
+        }
+    }
+    public bool OnlyOverdue
+    {
+        get => onlyOverdue;
+        set
+        {
+            onlyOverdue = value;
             GetAsync().GetAwaiter();
         }
     }
@@ -87,13 +117,26 @@ internal class LoanStoreService
             loansFromDatabase = await loanRepository.GetAsync();
         }
         IEnumerable<Domain.Models.Loan> loans = mapper.Map<IEnumerable<Domain.Models.Loan>>(loansFromDatabase);
+        if (!string.IsNullOrEmpty(SearchPhrase))
+        {
+            loans = loans.Where(l => l.LoanNumber.Contains(SearchPhrase, StringComparison.InvariantCultureIgnoreCase));
+        }
         if (StartDate is not null)
         {
             loans = loans.Where(l => l.DateOpened >= StartDate);
         }
         if (EndDate is not null)
         {
-            loans = loans.Where(l => l.DateOpened <= StartDate);
+            loans = loans.Where(l => l.DateOpened <= EndDate);
+        }
+        // Todo - Uncomment this when load related data bug is fixed
+        //if (!IncludePaid)
+        //{
+        // loans = loans.Where(l => !l.IsPaid);
+        //}
+        if (OnlyOverdue)
+        {
+            loans = loans.Where(l => l.IsOverDue);
         }
         if (this.loans.Any())
         {

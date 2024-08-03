@@ -24,6 +24,7 @@
                             <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding Amount, StringFormat='C'}"/>
                             <GridViewColumn Header="Beg. Bal" DisplayMemberBinding="{Binding BeginningBalance, StringFormat='C'}"/>
                             <GridViewColumn Header="End Bal" DisplayMemberBinding="{Binding EndingBalance, StringFormat='C'}"/>
+                            <GridViewColumn Header="Amount due" DisplayMemberBinding="{Binding AmountDue, StringFormat='C'}"/>
                             <GridViewColumn Header="Amount paid" DisplayMemberBinding="{Binding AmountPaid, StringFormat='C'}"/>
                             <!--<GridViewColumn Header="Date paid" DisplayMemberBinding="{Binding DatePaid, StringFormat='MM/dd/yyyy'}"/>
                         <GridViewColumn Header="Loan Number" DisplayMemberBinding="{Binding LoanNumber}"/>-->

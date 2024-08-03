@@ -122,7 +122,7 @@ internal partial class InstallmentFormViewModel : ViewModelBase
             try
             {
                 // Todo - Consider case where Amount != PaymentBeingPaid. In which case installment.Amount != paymentAmount
-                await installmentStoreService.PayInstallmentAsync(selectedInstallment, AmountPaid, DatePaid);
+                await installmentStoreService.PayInstallmentAsync(selectedInstallment, AmountToPay, DatePaid);
                 MessageBox.Show("Task completed", "System says", MessageBoxButton.OK, MessageBoxImage.Information);
                 ShowInstallmentForm = false;
             }

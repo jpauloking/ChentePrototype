@@ -34,7 +34,7 @@
             <StackPanel Orientation="Horizontal" Grid.Column="1">
                 <Button Margin="8,0" Content="{materialDesign:PackIcon Kind=AccountAddOutline,Size=24}" ToolTip="Add new borrower" Command="{Binding AddBorrowerCommand}" Style="{StaticResource MaterialDesignRaisedButton}"/>
                 <Button Margin="8,0" Content="{materialDesign:PackIcon Kind=AccountEditOutline,Size=24}" ToolTip="Edit selected borrower" Command="{Binding EditBorrowerCommand}" Style="{StaticResource MaterialDesignRaisedButton}"/>
-                <Button Margin="8,0" Content="{materialDesign:PackIcon Kind=AccountMinusOutline,Size=24}" ToolTip="Delete selected borrower" Command="{Binding DeleteBorrowerCommand}" Style="{StaticResource MaterialDesignRaisedButton}"/>
+                <Button Margin="8,0,0,0" Content="{materialDesign:PackIcon Kind=AccountMinusOutline,Size=24}" ToolTip="Delete selected borrower" Command="{Binding DeleteBorrowerCommand}" Style="{StaticResource MaterialDesignRaisedButton}"/>
             </StackPanel>
             <!-- ./Add Button-->
         </Grid>

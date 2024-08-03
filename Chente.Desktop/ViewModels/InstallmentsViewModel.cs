@@ -31,7 +31,11 @@ internal partial class InstallmentsViewModel : ViewModelBase
     public InstallmentFormViewModel InstallmentFormViewModel => installmentFormViewModel;
     public IEnumerable<LoanViewModel> Loans => mapper.Map<IEnumerable<LoanViewModel>>(loanStoreService.Loans);
 
-    public string? SearchPhrase { get; set; }
+    public string? SearchPhrase
+    {
+        get => installmentStoreService.SearchPhrase;
+        set => installmentStoreService.SearchPhrase = value;
+    }
 
     public LoanViewModel SelectedLoan
     {
@@ -41,14 +45,26 @@ internal partial class InstallmentsViewModel : ViewModelBase
 
     public DateTime? StartDate
     {
-        get => loanStoreService.StartDate;
-        set => loanStoreService.StartDate = value;
+        get => installmentStoreService.StartDate;
+        set => installmentStoreService.StartDate = value;
     }
 
     public DateTime? EndDate
     {
-        get => loanStoreService.EndDate;
-        set => loanStoreService.EndDate = value;
+        get => installmentStoreService.EndDate;
+        set => installmentStoreService.EndDate = value;
+    }
+
+    public bool IncludePaid
+    {
+        get => installmentStoreService.IncludePaid;
+        set => installmentStoreService.IncludePaid = value;
+    }
+
+    public bool OnlyOverdue
+    {
+        get => installmentStoreService.OnlyOverdue;
+        set => installmentStoreService.OnlyOverdue = value;
     }
 
     public InstallmentsViewModel(InstallmentListViewModel installmentListViewModel, InstallmentDetailsViewModel installmentDetailsViewModel, IMapper mapper, LoanStoreService loanStoreService, InstallmentStoreService installmentStoreService, InstallmentFormViewModel installmentFormViewModel)
@@ -77,7 +93,17 @@ internal partial class InstallmentsViewModel : ViewModelBase
     [RelayCommand]
     private void ClearFilter()
     {
+        SearchPhrase = null!;
+        StartDate = null!;
+        EndDate = null!;
+        IncludePaid = false;
+        OnlyOverdue = false;
         SelectedLoan = null!;
+        OnPropertyChanged(nameof(SearchPhrase));
+        OnPropertyChanged(nameof(StartDate));
+        OnPropertyChanged(nameof(EndDate));
+        OnPropertyChanged(nameof(IncludePaid));
+        OnPropertyChanged(nameof(OnlyOverdue));
         OnPropertyChanged(nameof(SelectedLoan));
         installmentFormViewModel.ShowInstallmentForm = false;
     }
