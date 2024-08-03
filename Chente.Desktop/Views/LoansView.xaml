@@ -25,7 +25,9 @@
             <!--Loans Filter-->
             <WrapPanel 
                 Grid.Column="0" Orientation="Horizontal" Margin="0,0,16,0">
-                <DatePicker DisplayDateStart="{Binding DisplayDateStart,Mode=OneWay}" DisplayDateEnd="{Binding DisplayDate,Mode=OneWay}" DisplayDate="{Binding DisplayDate,Mode=OneWay}" SelectedDate="{Binding StartDate}" MinWidth="200" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{StaticResource MaterialDesignFilledDatePicker}" materialDesign:HintAssist.Hint="Start date"/>
+                <CheckBox IsChecked="{Binding IncludePaid, UpdateSourceTrigger=PropertyChanged}" Content="Include paid" Margin="0,0,4,0"/>
+                <CheckBox IsChecked="{Binding OnlyOverdue, UpdateSourceTrigger=PropertyChanged}" Content="Only overdue" Margin="4,0,4,0"/>
+                <DatePicker DisplayDateStart="{Binding DisplayDateStart,Mode=OneWay}" DisplayDateEnd="{Binding DisplayDateEnd,Mode=OneWay}" DisplayDate="{Binding DisplayDate,Mode=OneWay}" SelectedDate="{Binding StartDate}" MinWidth="200" Margin="4,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{StaticResource MaterialDesignFilledDatePicker}" materialDesign:HintAssist.Hint="Start date"/>
                 <DatePicker DisplayDateStart="{Binding DisplayDateStart,Mode=OneWay}" DisplayDateEnd="{Binding DisplayDateEnd,Mode=OneWay}" DisplayDate="{Binding DisplayDate,Mode=OneWay}" SelectedDate="{Binding EndDate}" MinWidth="200" Margin="4,0" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{StaticResource MaterialDesignFilledDatePicker}" materialDesign:HintAssist.Hint="End date"/>
                 <TextBox MinWidth="200" Margin="4,0" Text="{Binding SearchPhrase, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignFilledTextBox}" materialDesign:HintAssist.Hint="Search phrase"/>
                 <ComboBox x:Name="BorrowersComboBox" ItemsSource="{Binding Borrowers}" SelectedItem="{Binding SelectedBorrower}" DisplayMemberPath="DisplayName" VerticalAlignment="Center"  MinWidth="200" Margin="4,0" Style="{StaticResource MaterialDesignFilledComboBox}" materialDesign:HintAssist.Hint="Borrower"/>
@@ -35,8 +37,7 @@
             <!--Add Button-->
             <StackPanel Orientation="Horizontal"  Grid.Column="1">
                 <Button Content="{materialDesign:PackIcon Kind=BankAdd,Size=24}" ToolTip="Add new loan" Command="{Binding AddLoanCommand}" Margin="8,0" Style="{StaticResource MaterialDesignRaisedButton}"/>
-                <!--<Button Content="{materialDesign:PackIcon Kind=BankOutline,Size=24}" ToolTip="Edit selected loan" Command="{Binding AddLoanCommand}" Margin="8,0" Style="{StaticResource MaterialDesignRaisedButton}"/>-->
-                <Button Content="{materialDesign:PackIcon Kind=BankMinus,Size=24}" ToolTip="Delete selected loan" Command="{Binding DeleteLoanCommand}" Margin="8,0" Style="{StaticResource MaterialDesignRaisedButton}"/>
+                <Button Content="{materialDesign:PackIcon Kind=BankMinus,Size=24}" ToolTip="Delete selected loan" Command="{Binding DeleteLoanCommand}" Margin="8,0,0,0" Style="{StaticResource MaterialDesignRaisedButton}"/>
             </StackPanel>
             <!-- ./Add Button-->
         </Grid>

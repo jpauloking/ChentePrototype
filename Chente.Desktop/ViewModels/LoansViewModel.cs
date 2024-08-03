@@ -34,8 +34,8 @@ internal partial class LoansViewModel : ViewModelBase
 
     public string? SearchPhrase
     {
-        get => borrowerStoreService.SearchPhrase;
-        set => borrowerStoreService.SearchPhrase = value;
+        get => loanStoreService.SearchPhrase;
+        set => loanStoreService.SearchPhrase = value;
     }
 
     public BorrowerViewModel SelectedBorrower
@@ -54,6 +54,18 @@ internal partial class LoansViewModel : ViewModelBase
     {
         get => loanStoreService.EndDate;
         set => loanStoreService.EndDate = value;
+    }
+
+    public bool IncludePaid
+    {
+        get => loanStoreService.IncludePaid;
+        set => loanStoreService.IncludePaid = value;
+    }
+
+    public bool OnlyOverdue
+    {
+        get => loanStoreService.OnlyOverdue;
+        set => loanStoreService.OnlyOverdue = value;
     }
 
     public LoansViewModel(IMapper mapper, BorrowerStoreService borrowerStoreService, LoanDetailsViewModel loanDetailsViewModel, LoanListViewModel loanListViewModel, LoanStoreService loanStoreService, LoanFormViewModel loanFormViewModel)
@@ -124,9 +136,13 @@ internal partial class LoansViewModel : ViewModelBase
     {
         StartDate = null!;
         EndDate = null!;
+        IncludePaid = false; // Todo - Change to false after load related data bug if fixed.
+        OnlyOverdue = false;
         SelectedBorrower = null!;
         OnPropertyChanged(nameof(StartDate));
         OnPropertyChanged(nameof(EndDate));
+        OnPropertyChanged(nameof(IncludePaid));
+        OnPropertyChanged(nameof(OnlyOverdue));
         OnPropertyChanged(nameof(SelectedBorrower));
         LoanFormViewModel.ShowLoanForm = false;
     }

@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using Chente.DataAccess.Repositories;
-using Chente.DataAccess.Services;
 using Chente.Domain.Exceptions;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -14,6 +13,11 @@ internal class InstallmentStoreService
     private readonly InstallmentRepository installmentRepository;
     private readonly LoanStoreService loanStoreService;
     private Domain.Models.Installment? selectedInstallment;
+    private string? searchPhrase = null!;
+    private DateTime? startDate = null;
+    private DateTime? endDate = null;
+    private bool includePaid = false;
+    private bool onlyOverdue = false;
 
     public IEnumerable<Domain.Models.Installment> Installments => installments;
     public Domain.Models.Installment? SelectedInstallment
@@ -23,6 +27,51 @@ internal class InstallmentStoreService
         {
             selectedInstallment = value;
             SelectedInstallmentChanged?.Invoke(this, EventArgs.Empty);
+        }
+    }
+    public string? SearchPhrase
+    {
+        get => searchPhrase;
+        set
+        {
+            searchPhrase = value;
+            GetAsync().GetAwaiter();
+        }
+    }
+    public DateTime? StartDate
+    {
+        get => startDate;
+        set
+        {
+            startDate = value;
+            GetAsync().GetAwaiter();
+        }
+    }
+    public DateTime? EndDate
+    {
+        get => endDate;
+        set
+        {
+            endDate = value;
+            GetAsync().GetAwaiter();
+        }
+    }
+    public bool IncludePaid
+    {
+        get => includePaid;
+        set
+        {
+            includePaid = value;
+            GetAsync().GetAwaiter();
+        }
+    }
+    public bool OnlyOverdue
+    {
+        get => onlyOverdue;
+        set
+        {
+            onlyOverdue = value;
+            GetAsync().GetAwaiter();
         }
     }
 
@@ -58,6 +107,26 @@ internal class InstallmentStoreService
             installmentsFromDatabase = await installmentRepository.GetAsync();
         }
         IEnumerable<Domain.Models.Installment> installments = mapper.Map<IEnumerable<Domain.Models.Installment>>(installmentsFromDatabase);
+        if (!string.IsNullOrEmpty(SearchPhrase))
+        {
+            installments = installments.Where(i => i.InstallmentNumber.Contains(SearchPhrase, StringComparison.InvariantCultureIgnoreCase));
+        }
+        if (StartDate is not null)
+        {
+            installments = installments.Where(i => i.DateDue >= StartDate);
+        }
+        if (EndDate is not null)
+        {
+            installments = installments.Where(i => i.DateDue <= EndDate);
+        }
+        if (!IncludePaid)
+        {
+            installments = installments.Where(i => !i.IsPaid);
+        }
+        if (OnlyOverdue)
+        {
+            installments = installments.Where(i => i.IsOverDue);
+        }
         if (this.installments.Any())
         {
             this.installments.Clear();
@@ -78,7 +147,7 @@ internal class InstallmentStoreService
             decimal balanceOverAmountDue = installment.Pay(amountOfPayment, dateOfPayment);
             await installmentRepository.UpdateAsync(new DataAccess.Models.Installment
             {
-                Id = DatabaseKeyManager.GetPrimaryKeyFrom(installment.InstallmentNumber),
+                Id = DataAccess.Services.DatabaseKeyManager.GetPrimaryKeyFrom(installment.InstallmentNumber),
                 DateDue = installment.DateDue,
                 Amount = installment.Amount,
                 AmountPaid = installment.AmountPaid,
