@@ -8,33 +8,35 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" 
              d:DesignWidth="800">
-    <materialDesign:Card Margin="8,0,0,0" Padding="16" Visibility="{Binding ShowBorrowerForm,Converter={StaticResource BooleanToVisibilityConverter}}">
-        <Grid>
+    <materialDesign:Card Margin="16,0,0,0" Visibility="{Binding ShowBorrowerForm,Converter={StaticResource BooleanToVisibilityConverter}}">
+        <ScrollViewer Style="{StaticResource MaterialDesignScrollViewer}" Padding="16">
+            <Grid>
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-            <TextBox Grid.Row="0" Grid.Column="0" Margin="0,0,8,8" MinWidth="200" x:Name="FirstNameTextBox" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="First name"/>
+                <TextBox Grid.Row="0" Grid.Column="0" Margin="0,0,8,8" MinWidth="200" x:Name="FirstNameTextBox" Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="First name"/>
 
-            <TextBox Grid.Row="0" Grid.Column="1" Margin="8,0,0,8" MinWidth="200" Name="LastNameTextBox" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Last name"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Margin="8,0,0,8" MinWidth="200" Name="LastNameTextBox" Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Last name"/>
 
-            <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,8" MinWidth="200" Name="EmailAddressTextBox" Text="{Binding EmailAddress, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Email address"/>
+                <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,8" MinWidth="200" Name="EmailAddressTextBox" Text="{Binding EmailAddress, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Email address"/>
 
-            <TextBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,8" MinWidth="200" Name="PhoneNumberTextBox" Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Phone number"/>
+                <TextBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,8" MinWidth="200" Name="PhoneNumberTextBox" Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Phone number"/>
 
-            <Button Grid.Row="3" Grid.Column="0" Content="Save" Margin="0,8,8,8" Command="{Binding SaveCommand}" Style="{StaticResource MaterialDesignRaisedButton}"/>
+                <Button Grid.Row="3" Grid.Column="0" Content="Save" Margin="0,8,8,8" Command="{Binding SaveCommand}" Style="{StaticResource MaterialDesignRaisedButton}"/>
 
-            <Button Grid.Row="3" Grid.Column="1" Content="Cancel" Margin="8,8,0,8" Command="{Binding CancelCommand}" Style="{StaticResource MaterialDesignFlatButton}"/>
+                <Button Grid.Row="3" Grid.Column="1" Content="Cancel" Margin="8,8,0,8" Command="{Binding CancelCommand}" Style="{StaticResource MaterialDesignFlatButton}"/>
 
-        </Grid>
+            </Grid>
+        </ScrollViewer>
     </materialDesign:Card>
 </UserControl>

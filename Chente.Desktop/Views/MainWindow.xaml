@@ -6,7 +6,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        WindowState="Normal"
+        WindowState="Maximized"
         ResizeMode="CanResizeWithGrip"
         Title="Chente" 
         Height="550" 
@@ -14,40 +14,49 @@
         FontFamily="Segoe UI"
         Style="{StaticResource MaterialDesignWindow}">
     <Grid>
-        <!--Row Defintions-->
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <!-- ./Row Defintions-->
-        <!--Navigation Bar-->
-        <materialDesign:Card Margin="16" Padding="16,8">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Menu Grid.Column="0">
-                    <Menu.Items>
-                        <MenuItem Header="Dashboard" Icon="{materialDesign:PackIcon Kind=ViewDashboardOutline}" Command="{Binding NavigateToDashboardCommand}" Style="{StaticResource MaterialDesignMenuItem}" MinWidth="150"/>
-                        <MenuItem Header="Installments" Icon="{materialDesign:PackIcon Kind=Payment}" Command="{Binding NavigateToInstallmentsCommand}" Style="{StaticResource MaterialDesignMenuItem}" MinWidth="150"/>
-                        <MenuItem Header="Loans" Icon="{materialDesign:PackIcon Kind=BankOutline}" Command="{Binding NavigateToLoansCommand}" Style="{StaticResource MaterialDesignMenuItem}" MinWidth="150"/>
-                        <MenuItem Header="Borrowers" Icon="{materialDesign:PackIcon Kind=AccountGroupOutline}" Command="{Binding NavigateToBorrowersCommand}" Style="{StaticResource MaterialDesignMenuItem}" MinWidth="150"/>
-                    </Menu.Items>
-                </Menu>
-                <Menu Grid.Column="1">
-                    <Menu.Items>
-                        <MenuItem Header="Account" Icon="{materialDesign:PackIcon Kind=AccountOutline}" MinWidth="150"/>
-                        <MenuItem Header="Logout" Icon="{materialDesign:PackIcon Kind=Logout}" MinWidth="150"/>
-                    </Menu.Items>
-                </Menu>
-            </Grid>
-        </materialDesign:Card>
-        <!-- ./Navigation Bar-->
-        <!--Content-->
-        <materialDesign:Card Grid.Row="1" Padding="16" Margin="16,0,16,16">
-            <ContentControl Content="{Binding NavigationService.CurrentViewModel}"/>
-        </materialDesign:Card>
-        <!-- ./Content-->
+        <ContentControl Content="{Binding NavigationService.CurrentViewModel}" Visibility="{Binding NotShowNavigationBar,Converter={StaticResource BooleanToVisibilityConverter}}"/>
+        <Grid Visibility="{Binding ShowNavigationBar,Converter={StaticResource BooleanToVisibilityConverter}}">
+            <!--Row Defintions-->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!-- ./Row Defintions-->
+            <!--Navigation Bar-->
+            <materialDesign:Card Margin="16" Padding="16,8">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Menu Grid.Column="0" VerticalAlignment="Center">
+                        <Menu.Items>
+                            <MenuItem Header="Dashboard" Icon="{materialDesign:PackIcon Kind=ViewDashboardOutline}" Command="{Binding NavigateToDashboardCommand}" Style="{StaticResource MaterialDesignMenuItem}" MinWidth="150"/>
+                            <MenuItem Header="Installments" Icon="{materialDesign:PackIcon Kind=Payment}" Command="{Binding NavigateToInstallmentsCommand}" Style="{StaticResource MaterialDesignMenuItem}" MinWidth="150"/>
+                            <MenuItem Header="Loans" Icon="{materialDesign:PackIcon Kind=BankOutline}" Command="{Binding NavigateToLoansCommand}" Style="{StaticResource MaterialDesignMenuItem}" MinWidth="150"/>
+                            <MenuItem Header="Borrowers" Icon="{materialDesign:PackIcon Kind=AccountGroupOutline}" Command="{Binding NavigateToBorrowersCommand}" Style="{StaticResource MaterialDesignMenuItem}" MinWidth="150"/>
+                        </Menu.Items>
+                    </Menu>
+                    <materialDesign:ColorZone Grid.Column="1" MinWidth="150" Mode="Light" VerticalAlignment="Center" Margin="16,0" Padding="16,8" CornerRadius="4" materialDesign:ElevationAssist.Elevation="Dp1">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="AccountOutline" Width="24" Height="24" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Username}" Style="{StaticResource MaterialDesignButtonTextBlock}" VerticalAlignment="Center" Margin="8,0"/>
+                        </StackPanel>
+                    </materialDesign:ColorZone>
+                    <Menu Grid.Column="2" VerticalAlignment="Center">
+                        <Menu.Items>
+                            <MenuItem Header="Shutdown" Icon="{materialDesign:PackIcon Kind=Power}" Command="{Binding ShutdownCommand}" Style="{StaticResource MaterialDesignMenuItem}" MinWidth="150"/>
+                        </Menu.Items>
+                    </Menu>
+                </Grid>
+            </materialDesign:Card>
+            <!-- ./Navigation Bar-->
+            <!--Content-->
+            <materialDesign:Card Grid.Row="1" Padding="16" Margin="16,0,16,16">
+                <ContentControl Content="{Binding NavigationService.CurrentViewModel}"/>
+            </materialDesign:Card>
+            <!-- ./Content-->
+        </Grid>
     </Grid>
 </Window>

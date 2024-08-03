@@ -6,6 +6,7 @@ using Chente.Desktop.Services;
 using Chente.Desktop.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
+using Chente.Desktop.Views;
 
 namespace Chente.Desktop;
 /// <summary>
@@ -15,19 +16,16 @@ public partial class App : Application
 {
     private readonly IServiceProvider serviceProvider;
     private readonly IServiceCollection services = new ServiceCollection();
+    // Todo - Use ApplicationHost to add logging, appsettings.json, Depedency injection, hosting
 
     public App()
     {
         services.AddAutoMapper(typeof(BorrowerProfile), typeof(LoanProfile), typeof(InstallmentProfile));
-        services.AddSingleton<ViewModelLocator>();
-        services.AddSingleton<WindowMapper>();
-        services.AddSingleton<WindowManager>();
         services.AddSingleton<NavigationService>();
-        services.AddSingleton<ModalNavigationService>();
         services.AddSingleton<BorrowerStoreService>();
         services.AddSingleton<LoanStoreService>();
         services.AddSingleton<InstallmentStoreService>();
-        services.AddSingleton(sp => ViewModelFactoryCreator(sp));
+        services.AddSingleton(sp => ViewModelCreator(sp));
         services.AddDataAccess();
         services.AddViewModels();
         services.AddViews();
@@ -41,7 +39,7 @@ public partial class App : Application
         base.OnStartup(e);
     }
 
-    private static Func<Type, ViewModelBase> ViewModelFactoryCreator(IServiceProvider sp)
+    private static Func<Type, ViewModelBase> ViewModelCreator(IServiceProvider sp)
     {
         return viewModelType => (ViewModelBase)sp.GetRequiredService(viewModelType);
     }
@@ -49,8 +47,9 @@ public partial class App : Application
     private void ShowMainWindow()
     {
         MainViewModel mainViewModel = serviceProvider.GetRequiredService<MainViewModel>();
-        WindowManager windowManager = serviceProvider.GetRequiredService<WindowManager>();
-        windowManager.ShowWindow(mainViewModel);
+        Window mainWindow = serviceProvider.GetRequiredService<MainWindow>();
+        mainWindow.DataContext = mainViewModel;
+        mainWindow.Show();
     }
 
     private void CreateDatabaseIfNotExist()

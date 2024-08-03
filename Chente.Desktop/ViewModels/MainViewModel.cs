@@ -1,19 +1,28 @@
 ﻿using Chente.Desktop.Core;
 using Chente.Desktop.Services;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Windows;
 
 namespace Chente.Desktop.ViewModels;
 
 internal partial class MainViewModel : ViewModelBase
 {
     private readonly NavigationService navigationService;
+    [ObservableProperty]
+    private string username = ChenteIdentityProvider.Username;
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(NotShowNavigationBar))]
+    private bool showNavigationBar;
+
+    public bool NotShowNavigationBar => !ShowNavigationBar;
 
     public NavigationService NavigationService => navigationService;
 
     public MainViewModel(NavigationService navigationService)
     {
         this.navigationService = navigationService;
-        this.navigationService.CurrentViewModelChanged += HandleCurrentViewModelChanged;
+        this.navigationService.CurrentViewModelChanged += OnCurrentViewModelChanged;
         NavigateToInitialView();
     }
 
@@ -41,16 +50,32 @@ internal partial class MainViewModel : ViewModelBase
         navigationService.NavigateTo<DashboardViewModel>();
     }
 
-    private void HandleCurrentViewModelChanged(object? sender, EventArgs e)
+    [RelayCommand]
+    private void Shutdown()
     {
-        OnPropertyChanged();
+        MessageBoxResult messageBoxResult = MessageBox.Show("Are you sure you want to shutdown. Unsaved changes will be lost.", "System says", MessageBoxButton.YesNo, MessageBoxImage.Warning, MessageBoxResult.Yes);
+        if (messageBoxResult == MessageBoxResult.Yes)
+        {
+            App.Current.Shutdown();
+        }
+    }
+
+    private void NavigateToLogin()
+    {
+        navigationService.NavigateTo<LoginViewModel>();
     }
 
     private void NavigateToInitialView()
     {
         if (navigationService.CurrentViewModel is null)
         {
-            NavigateToDashboard();
+            NavigateToLogin();
         }
+    }
+
+    private void OnCurrentViewModelChanged(object? sender, EventArgs e)
+    {
+        bool isLoginView = navigationService?.CurrentViewModel?.GetType() == typeof(LoginViewModel);
+        ShowNavigationBar = !isLoginView;
     }
 }
