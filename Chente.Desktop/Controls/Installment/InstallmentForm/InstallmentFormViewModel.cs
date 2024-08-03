@@ -86,6 +86,8 @@ internal partial class InstallmentFormViewModel : ViewModelBase
             AmountToPay = AmountDue;
             DatePaid = SelectedInstallment.DatePaid;
         }
+        OnPropertyChanged(nameof(SelectedLoan));
+        OnPropertyChanged(nameof(SelectedInstallment));
     }
 
     private void OnSelectedInstallmentChanged(object? sender, EventArgs e)
@@ -101,6 +103,7 @@ internal partial class InstallmentFormViewModel : ViewModelBase
             AmountToPay = AmountDue;
             DatePaid = SelectedInstallment.DatePaid;
         }
+        OnPropertyChanged(nameof(SelectedInstallment));
     }
 
     [RelayCommand]

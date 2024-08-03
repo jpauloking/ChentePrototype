@@ -7,39 +7,43 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <materialDesign:Card Margin="8,0,0,0" Padding="16" Visibility="{Binding ShowLoanForm,Converter={StaticResource BooleanToVisibilityConverter}}">
-        <Grid>
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+    <materialDesign:Card Margin="16,0,0,0" Visibility="{Binding ShowLoanForm,Converter={StaticResource BooleanToVisibilityConverter}}">
+        <ScrollViewer Style="{StaticResource MaterialDesignScrollViewer}" Padding="16">
+            <Grid>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-            <TextBox Grid.Row="0" Grid.Column="1" Margin="0,8" MinWidth="200" IsReadOnly="True" IsEnabled="False" Text="{Binding SelectedBorrower.DisplayName, Mode=OneWay}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Borrower name"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-            <DatePicker Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,8" x:Name="DateOpenedDatePicker" SelectedDate="{Binding DateOpened, UpdateSourceTrigger=PropertyChanged}" DisplayDateStart="{Binding DisplayDateStart, Mode=OneTime}" DisplayDateEnd="{Binding DisplayDateEnd, Mode=OneTime}" Style="{StaticResource MaterialDesignOutlinedDatePicker}" materialDesign:HintAssist.Hint="Date opened"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Margin="0,8" MinWidth="200" IsReadOnly="True" IsEnabled="False" Text="{Binding SelectedBorrower.DisplayName, Mode=OneWay}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Borrower name"/>
 
-            <TextBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,8" Name="PrincipalTextBox" Text="{Binding Principal, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Principal"/>
+                <DatePicker Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,8" x:Name="DateOpenedDatePicker" SelectedDate="{Binding DateOpened, UpdateSourceTrigger=PropertyChanged}" DisplayDateStart="{Binding DisplayDateStart, Mode=OneTime}" DisplayDateEnd="{Binding DisplayDateEnd, Mode=OneTime}" Style="{StaticResource MaterialDesignOutlinedDatePicker}" materialDesign:HintAssist.Hint="Date opened"/>
 
-            <TextBox Grid.Row="3" Grid.Column="0" Margin="0,8,8,8" MinWidth="200" Name="InterestRateTextBox" Text="{Binding InterestRate, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Interest rate"/>
+                <TextBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,8" Name="PrincipalTextBox" Text="{Binding Principal, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Principal"/>
 
-            <TextBox Grid.Row="3" Grid.Column="1" Margin="8,8,0,8" MinWidth="200" Name="DurationInDaysTextBox" Text="{Binding DurationInDays, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Duration"/>
+                <TextBox Grid.Row="3" Grid.Column="0" Margin="0,8,8,8" MinWidth="200" Name="InterestRateTextBox" Text="{Binding InterestRate, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Interest rate"/>
 
-            <TextBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,8" Name="AmountPerInstallmentTextBox" Text="{Binding AmountPerInstallment, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Amount per installment"/>
+                <TextBox Grid.Row="3" Grid.Column="1" Margin="8,8,0,8" MinWidth="200" Name="DurationInDaysTextBox" Text="{Binding DurationInDays, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Duration"/>
 
-            <Button Grid.Row="5" Grid.Column="0" Content="Save" Margin="0,8,8,8" Command="{Binding SaveCommand}" Style="{StaticResource MaterialDesignRaisedButton}"/>
+                <TextBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,8" Name="AmountPerInstallmentTextBox" Text="{Binding AmountPerInstallment, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Amount per installment"/>
 
-            <Button Grid.Row="5" Grid.Column="1" Content="Cancel" Margin="8,8,0,8" Command="{Binding CancelCommand}" Style="{StaticResource MaterialDesignFlatButton}"/>
+                <Button Grid.Row="5" Grid.Column="0" Content="Save" Margin="0,8,8,8" Command="{Binding SaveCommand}" Style="{StaticResource MaterialDesignRaisedButton}"/>
 
-        </Grid>
+                <Button Grid.Row="5" Grid.Column="1" Content="Cancel" Margin="8,8,0,8" Command="{Binding CancelCommand}" Style="{StaticResource MaterialDesignFlatButton}"/>
+
+            </Grid>
+        </ScrollViewer>
     </materialDesign:Card>
+
 </UserControl>

@@ -18,11 +18,9 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
-            <!--<TextBlock Grid.Column="0" Text="Dashboard" VerticalAlignment="Center" Style="{StaticResource MaterialDesignTitleLargeTextBlock}"/>-->
-
             <!--Dashboard Filter-->
-            <StackPanel Grid.Column="1" Orientation="Horizontal">
-                <TextBox MinWidth="200" Margin="4,0" Style="{StaticResource MaterialDesignFilledTextBox}" materialDesign:HintAssist.Hint="Search phrase"/>
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <TextBox MinWidth="200" Margin="0,0,4,0" Style="{StaticResource MaterialDesignFilledTextBox}" materialDesign:HintAssist.Hint="Search phrase"/>
                 <ComboBox MinWidth="200" Margin="4,0" Style="{StaticResource MaterialDesignFilledComboBox}" materialDesign:HintAssist.Hint="Select an item"/>
                 <Button Margin="4,0" Content="Clear selection" ToolTip="Clear current selection" Style="{StaticResource MaterialDesignFlatButton}"/>
             </StackPanel>
@@ -49,11 +47,11 @@
                         <materialDesign:ColorZone Mode="PrimaryLight" Padding="8" CornerRadius="8" Margin="0,0,16,0" VerticalAlignment="Center">
                             <materialDesign:PackIcon Kind="AccountGroupOutline" Width="32" Height="32"/>
                         </materialDesign:ColorZone>
-                        <TextBlock Text="Borrowers" VerticalAlignment="Center" Style="{StaticResource MaterialDesignHeadlineMediumTextBlock}"/>
+                        <TextBlock Text="Borrowers" VerticalAlignment="Center" Style="{StaticResource MaterialDesignTitleLargeTextBlock}"/>
                     </StackPanel>
                     <Separator Style="{StaticResource MaterialDesignSeparator}" Margin="0,16"/>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Number of borrowers" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                        <TextBlock Text="Number of borrowers" Style="{StaticResource MaterialDesignTitleSmallTextBlock}"/>
                     </StackPanel>
                 </StackPanel>
             </materialDesign:Card>
@@ -64,11 +62,11 @@
                         <materialDesign:ColorZone Mode="SecondaryLight" Padding="8" CornerRadius="8" Margin="0,0,16,0" VerticalAlignment="Center">
                             <materialDesign:PackIcon Kind="BankOutline" Width="32" Height="32"/>
                         </materialDesign:ColorZone>
-                        <TextBlock Text="Loans" VerticalAlignment="Center" Style="{StaticResource MaterialDesignHeadlineMediumTextBlock}"/>
+                        <TextBlock Text="Loans" VerticalAlignment="Center" Style="{StaticResource MaterialDesignTitleLargeTextBlock}"/>
                     </StackPanel>
                     <Separator Style="{StaticResource MaterialDesignSeparator}" Margin="0,16"/>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Number of loans" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                        <TextBlock Text="Number of loans" Style="{StaticResource MaterialDesignTitleSmallTextBlock}"/>
                     </StackPanel>
                 </StackPanel>
             </materialDesign:Card>
@@ -79,11 +77,11 @@
                         <materialDesign:ColorZone Mode="SecondaryMid" Padding="8" CornerRadius="8" Margin="0,0,16,0" VerticalAlignment="Center">
                             <materialDesign:PackIcon Kind="Payment" Width="32" Height="32"/>
                         </materialDesign:ColorZone>
-                        <TextBlock Text="Installments" VerticalAlignment="Center" Style="{StaticResource MaterialDesignHeadlineMediumTextBlock}"/>
+                        <TextBlock Text="Installments" VerticalAlignment="Center" Style="{StaticResource MaterialDesignTitleLargeTextBlock}"/>
                     </StackPanel>
                     <Separator Style="{StaticResource MaterialDesignSeparator}" Margin="0,16"/>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Number of installments" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                        <TextBlock Text="Number of installments" Style="{StaticResource MaterialDesignTitleSmallTextBlock}"/>
                     </StackPanel>
                 </StackPanel>
             </materialDesign:Card>

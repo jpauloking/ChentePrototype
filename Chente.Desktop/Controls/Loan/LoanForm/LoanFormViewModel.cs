@@ -12,15 +12,13 @@ namespace Chente.Desktop.ViewModels;
 internal partial class LoanFormViewModel : ViewModelBase
 {
     private static readonly DateTime today = DateTime.Today;
-    private readonly WindowManager windowManager;
     private readonly BorrowerStoreService borrowerStoreService;
     private readonly IMapper mapper;
     [ObservableProperty]
     private bool showLoanForm;
 
-    public LoanFormViewModel(BorrowerStoreService borrowerStoreService, WindowManager windowManager, IMapper mapper)
+    public LoanFormViewModel(BorrowerStoreService borrowerStoreService, IMapper mapper)
     {
-        this.windowManager = windowManager;
         this.borrowerStoreService = borrowerStoreService;
         this.mapper = mapper;
         this.borrowerStoreService.SelectedBorrowerChanged += OnSelectedBorrowerChanged;
@@ -70,7 +68,6 @@ internal partial class LoanFormViewModel : ViewModelBase
                 InterestRate = default;
                 DurationInDays = default;
                 AmountPerInstallment = default;
-                windowManager.CloseModal<ModalViewModel>();
                 MessageBox.Show("Task completed", "System says", MessageBoxButton.OK, MessageBoxImage.Information);
             }
             catch (Domain.Exceptions.HasOutstandingLoanException)

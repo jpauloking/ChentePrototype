@@ -65,7 +65,7 @@ internal partial class InstallmentsViewModel : ViewModelBase
 
     private void OnSelectedInstallmentChanged(object? sender, EventArgs e)
     {
-        
+        HasSelectedInstallment = installmentStoreService.SelectedInstallment is not null;
     }
 
     private void OnSelectedLoanChanged(object? sender, Domain.Models.Loan e)

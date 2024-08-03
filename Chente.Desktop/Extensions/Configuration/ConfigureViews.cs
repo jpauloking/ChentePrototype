@@ -12,7 +12,6 @@ public static class ConfigureViews
         //    DataContext = sp.GetRequiredService<MainViewModel>()
         //});
         services.AddSingleton<MainWindow>();
-        services.AddSingleton<ModalWindow>();
         services.AddSingleton<BorrowersView>();
         services.AddSingleton<LoansView>();
         services.AddSingleton<InstallmentsView>();

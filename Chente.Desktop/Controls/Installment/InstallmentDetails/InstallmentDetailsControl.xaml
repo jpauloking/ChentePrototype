@@ -10,50 +10,51 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <!--Installment Details-->
-    <materialDesign:Card Margin="8,0,0,0" Padding="16" Visibility="{Binding HasSelectedInstallment,Converter={StaticResource BooleanToVisibilityConverter}}">
-        <StackPanel>
-            <!--Installment Information-->
-            <materialDesign:ColorZone Mode="Light" CornerRadius="4" Margin="4" Padding="16">
-                <StackPanel MinWidth="400">
-                    <StackPanel Orientation="Horizontal" Margin="0,8">
-                        <materialDesign:PackIcon Kind="IdentificationCardOutline" Width="24" Height="24" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                        <TextBlock Text="{Binding InstallmentViewModel.InstallmentNumber}" Margin="8,0,0,0" Style="{StaticResource MaterialDesignBodyLargeTextBlock}" VerticalAlignment="Center"/>
+    <materialDesign:Card Margin="16,0,0,0" Visibility="{Binding HasSelectedInstallment,Converter={StaticResource BooleanToVisibilityConverter}}">
+        <ScrollViewer Style="{StaticResource MaterialDesignScrollViewer}" Padding="16">
+            <StackPanel>
+                <!--Installment Information-->
+                <materialDesign:ColorZone Mode="Light" CornerRadius="4" Margin="4" Padding="16">
+                    <StackPanel MinWidth="400">
+                        <StackPanel Orientation="Horizontal" Margin="0,8">
+                            <materialDesign:PackIcon Kind="IdentificationCardOutline" Width="24" Height="24" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBlock Text="{Binding InstallmentViewModel.InstallmentNumber}" Margin="8,0,0,0" Style="{StaticResource MaterialDesignBodyLargeTextBlock}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <Separator Style="{StaticResource MaterialDesignDarkSeparator}"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,8">
+                            <materialDesign:PackIcon Kind="CalendarOutline" Width="24" Height="24" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBlock Text="{Binding InstallmentViewModel.DateDue,StringFormat='MM/dd/yyyy'}" Margin="8,0,0,0" Style="{StaticResource MaterialDesignBodyLargeTextBlock}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <Separator Style="{StaticResource MaterialDesignDarkSeparator}"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,8">
+                            <materialDesign:PackIcon Kind="Money" Width="24" Height="24" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBlock Text="{Binding InstallmentViewModel.Amount, StringFormat='C'}" Margin="8,0,0,0" Style="{StaticResource MaterialDesignBodyLargeTextBlock}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <Separator Style="{StaticResource MaterialDesignDarkSeparator}"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,8">
+                            <materialDesign:PackIcon Kind="AttachMoney" Width="24" Height="24" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBlock Text="{Binding InstallmentViewModel.AmountDue, StringFormat='C'}" Margin="8,0,0,0" Style="{StaticResource MaterialDesignBodyLargeTextBlock}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <Separator Style="{StaticResource MaterialDesignDarkSeparator}"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,8">
+                            <materialDesign:PackIcon Kind="MoneyOff" Width="24" Height="24" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBlock Text="{Binding InstallmentViewModel.AmountPaid, StringFormat='C'}" Margin="8,0,0,0" Style="{StaticResource MaterialDesignBodyLargeTextBlock}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <Separator Style="{StaticResource MaterialDesignDarkSeparator}"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,8">
+                            <materialDesign:PackIcon Kind="WalletOutline" Width="24" Height="24" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBlock Text="{Binding InstallmentViewModel.BeginningBalance, StringFormat='C'}" Margin="8,0,0,0" Style="{StaticResource MaterialDesignBodyLargeTextBlock}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <Separator Style="{StaticResource MaterialDesignDarkSeparator}"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,8">
+                            <materialDesign:PackIcon Kind="Payment" Width="24" Height="24" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBlock Text="{Binding InstallmentViewModel.EndingBalance, StringFormat='C'}" Margin="8,0,0,0" Style="{StaticResource MaterialDesignBodyLargeTextBlock}" VerticalAlignment="Center"/>
+                        </StackPanel>
                     </StackPanel>
-                    <Separator Style="{StaticResource MaterialDesignDarkSeparator}"/>
-                    <StackPanel Orientation="Horizontal" Margin="0,8">
-                        <materialDesign:PackIcon Kind="CalendarOutline" Width="24" Height="24" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                        <TextBlock Text="{Binding InstallmentViewModel.DateDue,StringFormat='MM/dd/yyyy'}" Margin="8,0,0,0" Style="{StaticResource MaterialDesignBodyLargeTextBlock}" VerticalAlignment="Center"/>
-                    </StackPanel>
-                    <Separator Style="{StaticResource MaterialDesignDarkSeparator}"/>
-                    <StackPanel Orientation="Horizontal" Margin="0,8">
-                        <materialDesign:PackIcon Kind="Money" Width="24" Height="24" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                        <TextBlock Text="{Binding InstallmentViewModel.Amount, StringFormat='C'}" Margin="8,0,0,0" Style="{StaticResource MaterialDesignBodyLargeTextBlock}" VerticalAlignment="Center"/>
-                    </StackPanel>
-                    <Separator Style="{StaticResource MaterialDesignDarkSeparator}"/>
-                    <StackPanel Orientation="Horizontal" Margin="0,8">
-                        <materialDesign:PackIcon Kind="AttachMoney" Width="24" Height="24" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                        <TextBlock Text="{Binding InstallmentViewModel.AmountDue, StringFormat='C'}" Margin="8,0,0,0" Style="{StaticResource MaterialDesignBodyLargeTextBlock}" VerticalAlignment="Center"/>
-                    </StackPanel>
-                    <Separator Style="{StaticResource MaterialDesignDarkSeparator}"/>
-                    <StackPanel Orientation="Horizontal" Margin="0,8">
-                        <materialDesign:PackIcon Kind="MoneyOff" Width="24" Height="24" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                        <TextBlock Text="{Binding InstallmentViewModel.AmountPaid, StringFormat='C'}" Margin="8,0,0,0" Style="{StaticResource MaterialDesignBodyLargeTextBlock}" VerticalAlignment="Center"/>
-                    </StackPanel>
-                    <Separator Style="{StaticResource MaterialDesignDarkSeparator}"/>
-                    <StackPanel Orientation="Horizontal" Margin="0,8">
-                        <materialDesign:PackIcon Kind="WalletOutline" Width="24" Height="24" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                        <TextBlock Text="{Binding InstallmentViewModel.BeginningBalance, StringFormat='C'}" Margin="8,0,0,0" Style="{StaticResource MaterialDesignBodyLargeTextBlock}" VerticalAlignment="Center"/>
-                    </StackPanel>
-                    <Separator Style="{StaticResource MaterialDesignDarkSeparator}"/>
-                    <StackPanel Orientation="Horizontal" Margin="0,8">
-                        <materialDesign:PackIcon Kind="Payment" Width="24" Height="24" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                        <TextBlock Text="{Binding InstallmentViewModel.EndingBalance, StringFormat='C'}" Margin="8,0,0,0" Style="{StaticResource MaterialDesignBodyLargeTextBlock}" VerticalAlignment="Center"/>
-                    </StackPanel>
-                </StackPanel>
-            </materialDesign:ColorZone>
-            <!-- ./Installment Information-->
-            <!--Buttons-->
-            <!--<materialDesign:ColorZone Mode="Light" CornerRadius="4" Margin="4,8" Padding="8">
+                </materialDesign:ColorZone>
+                <!-- ./Installment Information-->
+                <!--Buttons-->
+                <!--<materialDesign:ColorZone Mode="Light" CornerRadius="4" Margin="4,8" Padding="8">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
@@ -66,8 +67,10 @@
                     </Button>
                 </Grid>
             </materialDesign:ColorZone>-->
-            <!-- ./Buttons-->
-        </StackPanel>
+                <!-- ./Buttons-->
+            </StackPanel>
+        </ScrollViewer>
     </materialDesign:Card>
     <!-- ./Installment Details-->
+
 </UserControl>

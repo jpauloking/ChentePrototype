@@ -21,21 +21,17 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <!-- ./Column Definitions-->
-            <!--Page Title-->
-            <!--<TextBlock Grid.Column="0" Text="Borrowers" Style="{StaticResource MaterialDesignTitleLargeTextBlock}" VerticalAlignment="Center"/>-->
-            <!-- ./Page Title-->
             <!--Borrowers Filter-->
-            <StackPanel Grid.Column="1" Orientation="Horizontal">
-                <TextBox MinWidth="200" Margin="4,0" Text="{Binding SearchPhrase, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignFilledTextBox}" materialDesign:HintAssist.Hint="Search phrase"/>
+            <WrapPanel Grid.Column="0" Orientation="Horizontal">
+                <TextBox MinWidth="200" Margin="0,0,4,0" Text="{Binding SearchPhrase, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignFilledTextBox}" materialDesign:HintAssist.Hint="Search phrase"/>
                 <ComboBox MinWidth="200" Margin="4,0" IsSynchronizedWithCurrentItem="True" ItemsSource="{Binding Borrowers}" SelectedItem="{Binding SelectedBorrower}" DisplayMemberPath="DisplayName" Style="{StaticResource MaterialDesignFilledComboBox}" materialDesign:HintAssist.Hint="Borrower"/>
                 <Button Margin="4,0" Content="Clear selection" ToolTip="Clear current selection" Command="{Binding ClearFilterCommand}" Style="{StaticResource MaterialDesignFlatButton}"/>
-            </StackPanel>
+            </WrapPanel>
             <!-- ./Borrowers Filter-->
             <!--Add Button-->
-            <StackPanel Orientation="Horizontal"  Grid.Column="2">
+            <StackPanel Orientation="Horizontal" Grid.Column="1">
                 <Button Margin="8,0" Content="{materialDesign:PackIcon Kind=AccountAddOutline,Size=24}" ToolTip="Add new borrower" Command="{Binding AddBorrowerCommand}" Style="{StaticResource MaterialDesignRaisedButton}"/>
                 <Button Margin="8,0" Content="{materialDesign:PackIcon Kind=AccountEditOutline,Size=24}" ToolTip="Edit selected borrower" Command="{Binding EditBorrowerCommand}" Style="{StaticResource MaterialDesignRaisedButton}"/>
                 <Button Margin="8,0" Content="{materialDesign:PackIcon Kind=AccountMinusOutline,Size=24}" ToolTip="Delete selected borrower" Command="{Binding DeleteBorrowerCommand}" Style="{StaticResource MaterialDesignRaisedButton}"/>
@@ -54,16 +50,14 @@
             <!--Borrower List-->
             <controls:BorrowerListControl Grid.Column="0" DataContext="{Binding BorrowerListViewModel}"/>
             <!-- ./Borrower List-->
-            <ScrollViewer Grid.Column="1"  Style="{StaticResource MaterialDesignScrollViewer}" Padding="8">
-                <Grid>
-                    <!--Borrower Details-->
-                    <controls:BorrowerDetailsControl DataContext="{Binding BorrowerDetailsViewModel}"/>
-                    <!-- ./Borrower Details-->
-                    <!--Borrower Form-->
-                    <controls:BorrowerFormControl DataContext="{Binding BorrowerFormViewModel}"/>
-                    <!-- ./Borrower Form-->
-                </Grid>
-            </ScrollViewer>
+            <Grid Grid.Column="1">
+                <!--Borrower Details-->
+                <controls:BorrowerDetailsControl DataContext="{Binding BorrowerDetailsViewModel}"/>
+                <!-- ./Borrower Details-->
+                <!--Borrower Form-->
+                <controls:BorrowerFormControl DataContext="{Binding BorrowerFormViewModel}"/>
+                <!-- ./Borrower Form-->
+            </Grid>
         </Grid>
         <!-- ./Page Content Row-->
     </Grid>

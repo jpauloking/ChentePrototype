@@ -16,7 +16,7 @@ internal class InstallmentService
         decimal runningBalance = GetAmountDue();
         int daysBetweenInstallments = GetDaysBetweenInstallments();
         int numberOfInstallmentsCreated = 0;
-        int daysSinceDateOpened = 0;
+        int daysSinceDateOpened = daysBetweenInstallments; // The first installment is paid on the dateOfFirstInstallment = DateOpened + daysBetweenInstallments.
         List<Installment> installments = CreateInstallmentsForLoan(runningBalance, daysBetweenInstallments, numberOfInstallmentsCreated, daysSinceDateOpened);
         return installments;
     }

@@ -10,10 +10,8 @@ namespace Chente.Desktop.ViewModels;
 internal partial class BorrowerDetailsViewModel : ViewModelBase
 {
     private readonly NavigationService navigationService;
-    private readonly ModalNavigationService modalNavigationService;
     private readonly BorrowerStoreService borrowerStoreService;
     private readonly LoanStoreService loanStoreService;
-    private readonly WindowManager windowManager;
     private readonly IMapper mapper;
 
     [ObservableProperty]
@@ -21,11 +19,9 @@ internal partial class BorrowerDetailsViewModel : ViewModelBase
 
     public BorrowerViewModel BorrowerViewModel => mapper.Map<BorrowerViewModel>(borrowerStoreService.SelectedBorrower);
 
-    public BorrowerDetailsViewModel(NavigationService navigationService, ModalNavigationService modalNavigationService, WindowManager windowManager, BorrowerStoreService borrowerStoreService, LoanStoreService loanStoreService, IMapper mapper)
+    public BorrowerDetailsViewModel(NavigationService navigationService, BorrowerStoreService borrowerStoreService, LoanStoreService loanStoreService, IMapper mapper)
     {
         this.navigationService = navigationService;
-        this.modalNavigationService = modalNavigationService;
-        this.windowManager = windowManager;
         this.borrowerStoreService = borrowerStoreService;
         this.loanStoreService = loanStoreService;
         this.mapper = mapper;
@@ -57,8 +53,12 @@ internal partial class BorrowerDetailsViewModel : ViewModelBase
     {
         if (HasSelectedBorrower)
         {
-            modalNavigationService.NavigateTo<LoanFormViewModel>();
-            windowManager.ShowModal<ModalViewModel>();
+            navigationService.NavigateTo<LoansViewModel>();
+            LoansViewModel? loansViewModel = (navigationService.CurrentViewModel as LoansViewModel);
+            if (loansViewModel is not null)
+            {
+                loansViewModel.LoanFormViewModel.ShowLoanForm = true;
+            }
         }
         else
         {

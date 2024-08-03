@@ -10,18 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace Chente.Desktop.Views
+namespace Chente.Desktop.Views;
+/// <summary>
+/// Interaction logic for LoginView.xaml
+/// </summary>
+public partial class LoginView : UserControl
 {
-    /// <summary>
-    /// Interaction logic for ModalWindow.xaml
-    /// </summary>
-    public partial class ModalWindow : Window
+    public LoginView()
     {
-        public ModalWindow()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

@@ -9,49 +9,51 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <materialDesign:Card Margin="8,0,0,0" Padding="16" Visibility="{Binding ShowInstallmentForm,Converter={StaticResource BooleanToVisibilityConverter}}">
-        <Grid>
+    <materialDesign:Card Margin="16,0,0,0" Visibility="{Binding ShowInstallmentForm,Converter={StaticResource BooleanToVisibilityConverter}}">
+        <ScrollViewer   Style="{StaticResource MaterialDesignScrollViewer}" Padding="16">
+            <Grid>
 
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-            <TextBox Grid.Row="0" Grid.Column="0" Margin="0,0,8,8" MinWidth="200" IsReadOnly="True" IsEnabled="False" Text="{Binding SelectedInstallment.InstallmentNumber, Mode=OneWay}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Selected installment"/>
+                <TextBox Grid.Row="0" Grid.Column="0" Margin="0,0,8,8" MinWidth="200" IsReadOnly="True" Text="{Binding SelectedInstallment.InstallmentNumber, Mode=OneWay}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Selected installment"/>
 
-            <TextBox Grid.Row="0" Grid.Column="1" Margin="8,0,0,8" MinWidth="200" IsReadOnly="True" IsEnabled="False" Text="{Binding SelectedLoan, Mode=OneWay}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Selected loan"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Margin="8,0,0,8" MinWidth="200" IsReadOnly="True" Text="{Binding SelectedLoan, Mode=OneWay}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Selected loan"/>
 
-            <DatePicker Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,8" x:Name="DateDueDatePicker" SelectedDate="{Binding DateDue, UpdateSourceTrigger=PropertyChanged}" DisplayDateStart="{Binding DisplayDateStart, Mode=OneTime}" DisplayDateEnd="{Binding DisplayDateEnd, Mode=OneTime}" Style="{StaticResource MaterialDesignOutlinedDatePicker}" materialDesign:HintAssist.Hint="Date due"/>
+                <DatePicker Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,8" IsEnabled="True"  SelectedDate="{Binding DateDue, UpdateSourceTrigger=PropertyChanged}" DisplayDateStart="{Binding DisplayDateStart, Mode=OneTime}" DisplayDateEnd="{Binding DisplayDateEnd, Mode=OneTime}" Style="{StaticResource MaterialDesignOutlinedDatePicker}" materialDesign:HintAssist.Hint="Date due"/>
 
-            <TextBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,8" Name="AmountTextBox" Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Amount"/>
+                <TextBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,8"  IsReadOnly="True" Text="{Binding Amount, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Amount"/>
 
-            <TextBox Grid.Row="3" Grid.Column="0" Margin="0,8,8,8" MinWidth="200" Name="BeginningBalanceTextBox" Text="{Binding BeginningBalance, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Beginning balance"/>
+                <TextBox Grid.Row="3" Grid.Column="0" Margin="0,8,8,8" MinWidth="200" IsReadOnly="True"  Text="{Binding BeginningBalance, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Beginning balance"/>
 
-            <TextBox Grid.Row="3" Grid.Column="1" Margin="8,8,0,8" MinWidth="200" Name="EndingBalanceTextBox" Text="{Binding EndingBalance, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Ending balance"/>
+                <TextBox Grid.Row="3" Grid.Column="1" Margin="8,8,0,8" MinWidth="200" IsReadOnly="True" Text="{Binding EndingBalance, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Ending balance"/>
 
-            <TextBox Grid.Row="4" Grid.Column="0" Margin="0,8,8,8" Text="{Binding AmountPaid, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Amount paid"/>
+                <TextBox Grid.Row="4" Grid.Column="0" Margin="0,8,8,8" IsReadOnly="True" Text="{Binding AmountPaid, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Amount paid"/>
 
-            <TextBox Grid.Row="4" Grid.Column="1" Margin="8,8,0,8" Text="{Binding AmountDue, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Amount due"/>
+                <TextBox Grid.Row="4" Grid.Column="1" Margin="8,8,0,8" IsReadOnly="True" Text="{Binding AmountDue, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Amount due"/>
 
-            <TextBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,8" Text="{Binding AmountToPay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Payment amount"/>
+                <TextBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,8" Text="{Binding AmountToPay, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Payment amount"/>
 
-            <DatePicker Grid.Row="6" Grid.Column="0" Margin="0,8" Grid.ColumnSpan="2" x:Name="DatePaidDatePicker" SelectedDate="{Binding DateDue, UpdateSourceTrigger=PropertyChanged}" DisplayDateStart="{Binding DisplayDateStart, Mode=OneTime}" DisplayDateEnd="{Binding DisplayDateEnd, Mode=OneTime}" Style="{StaticResource MaterialDesignOutlinedDatePicker}" materialDesign:HintAssist.Hint="Date paid"/>
+                <DatePicker Grid.Row="6" Grid.Column="0" Margin="0,8" Grid.ColumnSpan="2" x:Name="DatePaidDatePicker" SelectedDate="{Binding DateDue, UpdateSourceTrigger=PropertyChanged}" DisplayDateStart="{Binding DisplayDateStart, Mode=OneTime}" DisplayDateEnd="{Binding DisplayDateEnd, Mode=OneTime}" Style="{StaticResource MaterialDesignOutlinedDatePicker}" materialDesign:HintAssist.Hint="Date paid"/>
 
-            <Button Grid.Row="7" Grid.Column="0" Content="Confirm payment" Margin="0,8,8,8" Command="{Binding SaveCommand}" Style="{StaticResource MaterialDesignRaisedButton}"/>
+                <Button Grid.Row="7" Grid.Column="0" Content="Confirm payment" Margin="0,8,8,8" Command="{Binding SaveCommand}" Style="{StaticResource MaterialDesignRaisedButton}"/>
 
-            <Button Grid.Row="7" Grid.Column="1" Content="Cancel" Margin="8,8,0,8" Command="{Binding CancelCommand}" Style="{StaticResource MaterialDesignFlatButton}"/>
+                <Button Grid.Row="7" Grid.Column="1" Content="Cancel" Margin="8,8,0,8" Command="{Binding CancelCommand}" Style="{StaticResource MaterialDesignFlatButton}"/>
 
-        </Grid>
+            </Grid>
+        </ScrollViewer>
     </materialDesign:Card>
 </UserControl>

@@ -21,24 +21,20 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <!-- ./Column Definitions-->
-            <!--Page Title-->
-            <!--<TextBlock Grid.Column="0" Text="{Binding PageTitle}" Style="{StaticResource MaterialDesignTitleLargeTextBlock}" VerticalAlignment="Center"/>-->
-            <!-- ./Page Title-->
             <!--Installments Filter-->
-            <StackPanel 
-                Grid.Column="1" Orientation="Horizontal" Margin="0,0,16,0">
-                <DatePicker DisplayDateStart="{Binding DisplayDateStart,Mode=OneWay}" DisplayDateEnd="{Binding DisplayDate,Mode=OneWay}" DisplayDate="{Binding DisplayDate,Mode=OneWay}" SelectedDate="{Binding StartDate}" MinWidth="200" Margin="4,0" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{StaticResource MaterialDesignFilledDatePicker}" materialDesign:HintAssist.Hint="Start date"/>
+            <WrapPanel 
+                Grid.Column="0" Orientation="Horizontal" Margin="0,0,16,0">
+                <DatePicker DisplayDateStart="{Binding DisplayDateStart,Mode=OneWay}" DisplayDateEnd="{Binding DisplayDate,Mode=OneWay}" DisplayDate="{Binding DisplayDate,Mode=OneWay}" SelectedDate="{Binding StartDate}" MinWidth="200" Margin="0,0,4,0" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{StaticResource MaterialDesignFilledDatePicker}" materialDesign:HintAssist.Hint="Start date"/>
                 <DatePicker DisplayDateStart="{Binding DisplayDateStart,Mode=OneWay}" DisplayDateEnd="{Binding DisplayDateEnd,Mode=OneWay}" DisplayDate="{Binding DisplayDate,Mode=OneWay}" SelectedDate="{Binding EndDate}" MinWidth="200" Margin="4,0" VerticalAlignment="Center" HorizontalAlignment="Left" Style="{StaticResource MaterialDesignFilledDatePicker}" materialDesign:HintAssist.Hint="End date"/>
                 <TextBox MinWidth="200" Margin="4,0" Text="{Binding SearchPhrase, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignFilledTextBox}" materialDesign:HintAssist.Hint="Search phrase"/>
                 <ComboBox IsSynchronizedWithCurrentItem="True" x:Name="LoansComboBox" ItemsSource="{Binding Loans}" SelectedItem="{Binding SelectedLoan}" DisplayMemberPath="LoanNumber" Style="{StaticResource MaterialDesignFilledComboBox}" materialDesign:HintAssist.Hint="Loan" MinWidth="200" Margin="4,0" />
                 <Button Margin="4,0,0,0" Content="Clear selection" ToolTip="Clear current selection"  Command="{Binding ClearFilterCommand}" Style="{StaticResource MaterialDesignFlatButton}"/>
-            </StackPanel>
+            </WrapPanel>
             <!-- ./Installments Filter-->
             <!--Add Button-->
-            <StackPanel Orientation="Horizontal"  Grid.Column="2">
+            <StackPanel Orientation="Horizontal"  Grid.Column="1">
                 <Button Content="{materialDesign:PackIcon Kind=Payment,Size=24}" ToolTip="Pay selected installment" Command="{Binding PayInstallmentCommand}" Margin="8,0" Style="{StaticResource MaterialDesignRaisedButton}"/>
             </StackPanel>
             <!-- ./Add Button-->
@@ -55,17 +51,14 @@
             <!--Installment List-->
             <controls:InstallmentListControl Grid.Column="0" DataContext="{Binding InstallmentListViewModel}"/>
             <!-- ./Installment List-->
-
-            <ScrollViewer Grid.Column="1"  Style="{StaticResource MaterialDesignScrollViewer}" Padding="8">
-                <Grid>
-                    <!--Installment Details-->
-                    <controls:InstallmentDetailsControl DataContext="{Binding InstallmentDetailsViewModel}"/>
-                    <!-- ./Installment Details-->
-                    <!--Installment Form-->
-                    <controls:InstallmentFormControl DataContext="{Binding InstallmentFormViewModel}"/>
-                    <!-- ./Installment Form-->
-                </Grid>
-            </ScrollViewer>
+            <Grid Grid.Column="1">
+                <!--Installment Details-->
+                <controls:InstallmentDetailsControl DataContext="{Binding InstallmentDetailsViewModel}"/>
+                <!-- ./Installment Details-->
+                <!--Installment Form-->
+                <controls:InstallmentFormControl DataContext="{Binding InstallmentFormViewModel}"/>
+                <!-- ./Installment Form-->
+            </Grid>
         </Grid>
         <!-- ./Page Content Row-->
     </Grid>
