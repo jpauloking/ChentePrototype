@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace Chente.Desktop.ModelMappers;
+namespace Chente.Desktop.Profiles;
 
 class BorrowerProfile : Profile
 {

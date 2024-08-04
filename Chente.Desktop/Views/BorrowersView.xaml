@@ -26,7 +26,7 @@
             <!--Borrowers Filter-->
             <WrapPanel Grid.Column="0" Orientation="Horizontal">
                 <TextBox MinWidth="200" Margin="0,0,4,0" Text="{Binding SearchPhrase, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignFilledTextBox}" materialDesign:HintAssist.Hint="Search phrase"/>
-                <ComboBox MinWidth="200" Margin="4,0" IsSynchronizedWithCurrentItem="True" ItemsSource="{Binding Borrowers}" SelectedItem="{Binding SelectedBorrower}" DisplayMemberPath="DisplayName" Style="{StaticResource MaterialDesignFilledComboBox}" materialDesign:HintAssist.Hint="Borrower"/>
+                <ComboBox MinWidth="200" Margin="4,0" IsSynchronizedWithCurrentItem="True" ItemsSource="{Binding Borrowers}" SelectedItem="{Binding SelectedBorrower}" DisplayMemberPath="DisplayName" Style="{StaticResource MaterialDesignFilledComboBox}" materialDesign:HintAssist.Hint="Borrower" IsEditable="True" materialDesign:ComboBoxAssist.ShowSelectedItem="True"/>
                 <Button Margin="4,0" Content="Clear selection" ToolTip="Clear current selection" Command="{Binding ClearFilterCommand}" Style="{StaticResource MaterialDesignFlatButton}"/>
             </WrapPanel>
             <!-- ./Borrowers Filter-->

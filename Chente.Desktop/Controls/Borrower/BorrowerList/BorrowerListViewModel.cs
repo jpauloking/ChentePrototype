@@ -2,7 +2,6 @@
 using Chente.Desktop.Core;
 using Chente.Desktop.Services;
 using Chente.Desktop.ViewModels;
-using Chente.Desktop.Extensions.ModelExtensions;
 
 namespace Chente.Desktop.Controls.Borrower.BorrowerList;
 
@@ -16,8 +15,8 @@ internal partial class BorrowerListViewModel : ViewModelBase
     public IEnumerable<BorrowerViewModel> Borrowers => mapper.Map<IEnumerable<BorrowerViewModel>>(borrowerStoreService.Borrowers);
     public BorrowerViewModel SelectedBorrower
     {
-        get => borrowerStoreService.SelectedBorrower!.MapToBorrowerViewModel(mapper);
-        set => borrowerStoreService.SelectedBorrower = value.MapToDomainBorrower(mapper);
+        get => mapper.Map<BorrowerViewModel>(borrowerStoreService.SelectedBorrower);
+        set => borrowerStoreService.SelectedBorrower = mapper.Map<Domain.Models.Borrower>(value);
     }
 
     public BorrowerListViewModel(BorrowerStoreService borrowerStoreService, IMapper mapper)

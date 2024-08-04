@@ -17,5 +17,6 @@ public class Borrower
     public string EmailAddress { get; set; } = null!;
     [Phone]
     public string? PhoneNumber { get; set; }
-    public ICollection<Loan> Loans { get; set; } = [];
+    // Removed to prevent StackOverflowException when uaing AutoMapper
+    // public ICollection<Loan> Loans { get; set; } = [];
 }

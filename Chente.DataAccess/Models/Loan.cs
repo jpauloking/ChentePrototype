@@ -22,6 +22,7 @@ public class Loan
     [Range(0, Int16.MaxValue)]
     [Precision(16,4)]
     public decimal AmountPerInstallment { get; set; }
+    public int BorrowerId { get; set; }
     public Borrower Borrower { get; set; } = default!;
     public ICollection<Installment> Installments { get; set; } = [];
 }

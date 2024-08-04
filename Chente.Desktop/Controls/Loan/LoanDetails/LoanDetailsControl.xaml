@@ -14,14 +14,14 @@
                 <!--Loan Information-->
                 <materialDesign:ColorZone Mode="Light" CornerRadius="4" Margin="4" Padding="16">
                     <StackPanel MinWidth="400">
-                        <!--<StackPanel Orientation="Horizontal" Margin="0,8">
-                        <materialDesign:PackIcon Kind="AccountOutline" Width="24" Height="24" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                        <TextBlock Text="{Binding LoanViewModel.Borrower.DisplayName}" Margin="8,0,0,0" Style="{StaticResource MaterialDesignBodyLargeTextBlock}" VerticalAlignment="Center"/>
-                    </StackPanel>
-                    <Separator Style="{StaticResource MaterialDesignDarkSeparator}"/>-->
                         <StackPanel Orientation="Horizontal" Margin="0,8">
                             <materialDesign:PackIcon Kind="IdentificationCardOutline" Width="24" Height="24" VerticalAlignment="Center" Margin="0,0,8,0"/>
                             <TextBlock Text="{Binding LoanViewModel.LoanNumber}" Margin="8,0,0,0" Style="{StaticResource MaterialDesignBodyLargeTextBlock}" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <Separator Style="{StaticResource MaterialDesignDarkSeparator}"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,8">
+                            <materialDesign:PackIcon Kind="AccountOutline" Width="24" Height="24" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBlock Text="{Binding LoanViewModel.Borrower.DisplayName}" Margin="8,0,0,0" Style="{StaticResource MaterialDesignBodyLargeTextBlock}" VerticalAlignment="Center"/> 
                         </StackPanel>
                         <Separator Style="{StaticResource MaterialDesignDarkSeparator}"/>
                         <StackPanel Orientation="Horizontal" Margin="0,8">
