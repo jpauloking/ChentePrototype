@@ -136,7 +136,7 @@ internal partial class LoansViewModel : ViewModelBase
     {
         StartDate = null!;
         EndDate = null!;
-        IncludePaid = false; // Todo - Change to false after load related data bug if fixed.
+        IncludePaid = false;
         OnlyOverdue = false;
         SelectedBorrower = null!;
         OnPropertyChanged(nameof(StartDate));
@@ -144,6 +144,7 @@ internal partial class LoansViewModel : ViewModelBase
         OnPropertyChanged(nameof(IncludePaid));
         OnPropertyChanged(nameof(OnlyOverdue));
         OnPropertyChanged(nameof(SelectedBorrower));
+        OnPropertyChanged(nameof(Borrowers));
         LoanFormViewModel.ShowLoanForm = false;
     }
 

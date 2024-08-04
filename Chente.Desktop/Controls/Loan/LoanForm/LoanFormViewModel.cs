@@ -13,13 +13,15 @@ internal partial class LoanFormViewModel : ViewModelBase
 {
     private static readonly DateTime today = DateTime.Today;
     private readonly BorrowerStoreService borrowerStoreService;
+    private readonly LoanStoreService loanStoreService;
     private readonly IMapper mapper;
     [ObservableProperty]
     private bool showLoanForm;
 
-    public LoanFormViewModel(BorrowerStoreService borrowerStoreService, IMapper mapper)
+    public LoanFormViewModel(BorrowerStoreService borrowerStoreService, LoanStoreService loanStoreService, IMapper mapper)
     {
         this.borrowerStoreService = borrowerStoreService;
+        this.loanStoreService = loanStoreService;
         this.mapper = mapper;
         this.borrowerStoreService.SelectedBorrowerChanged += OnSelectedBorrowerChanged;
     }
@@ -53,27 +55,31 @@ internal partial class LoanFormViewModel : ViewModelBase
     private async Task Save()
     {
         ValidateAllProperties();
-        if (HasErrors)
-        {
-            MessageBox.Show("Task failed", "System says", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-        else
+        if (!HasErrors)
         {
             var loan = new Domain.Models.Loan(DateOpened, Principal, InterestRate, DurationInDays, AmountPerInstallment);
             try
             {
-                await borrowerStoreService.AddLoanToBorrower(loan);
+                await loanStoreService.AddLoan(loan);
                 DateOpened = DateTime.Today;
                 Principal = default;
                 InterestRate = default;
                 DurationInDays = default;
                 AmountPerInstallment = default;
-                MessageBox.Show("Task completed", "System says", MessageBoxButton.OK, MessageBoxImage.Information);
+                ShowLoanForm = false;
             }
             catch (Domain.Exceptions.HasOutstandingLoanException)
             {
                 MessageBox.Show($"Task failed. Please clear outstanding loans of borrower Number: {SelectedBorrower.BorrowerNumber} Name: {SelectedBorrower.DisplayName} before giving another loan.", "System says", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            catch (Exception e)
+            {
+                MessageBox.Show($"Task failed. Something went wrong while CHENTE LOAN PAYMENTS was trying to save loan.", "System says", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        else
+        {
+            MessageBox.Show("Task failed", "System says", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 

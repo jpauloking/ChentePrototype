@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Chente.Desktop.Controls.Borrower.BorrowerList;
 using Chente.Desktop.Core;
-using Chente.Desktop.Extensions.ModelExtensions;
 using Chente.Desktop.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -27,7 +26,7 @@ internal partial class BorrowersViewModel : ViewModelBase
     public BorrowerListViewModel BorrowerListViewModel => borrowerListViewModel;
     public BorrowerDetailsViewModel BorrowerDetailsViewModel => borrowerDetailsViewModel;
     public BorrowerFormViewModel BorrowerFormViewModel => borrowerFormViewModel;
-    public IEnumerable<BorrowerViewModel> Borrowers => borrowerStoreService.Borrowers.Select(b => b.MapToBorrowerViewModel(mapper));
+    public IEnumerable<BorrowerViewModel> Borrowers => mapper.Map<IEnumerable<BorrowerViewModel>>(borrowerStoreService.Borrowers);
 
     public string? SearchPhrase
     {
@@ -36,8 +35,8 @@ internal partial class BorrowersViewModel : ViewModelBase
     }
     public BorrowerViewModel? SelectedBorrower
     {
-        get => borrowerStoreService.SelectedBorrower?.MapToBorrowerViewModel(mapper)!;
-        set => borrowerStoreService.SelectedBorrower = value?.MapToDomainBorrower(mapper);
+        get => mapper.Map<BorrowerViewModel>(borrowerStoreService.SelectedBorrower);
+        set => borrowerStoreService.SelectedBorrower = mapper.Map<Domain.Models.Borrower>(value);
     }
 
     public BorrowersViewModel(IMapper mapper, BorrowerStoreService borrowerStoreService, BorrowerListViewModel borrowerListViewModel, BorrowerDetailsViewModel borrowerDetailsViewModel, BorrowerFormViewModel borrowerFormViewModel)
@@ -102,6 +101,8 @@ internal partial class BorrowersViewModel : ViewModelBase
     {
         SearchPhrase = string.Empty;
         OnPropertyChanged(nameof(SearchPhrase));
+        OnPropertyChanged(nameof(SelectedBorrower));
+        OnPropertyChanged(nameof(Borrowers));
         SelectedBorrower = null;
         BorrowerFormViewModel.ShowBorrowerForm = false;
     }

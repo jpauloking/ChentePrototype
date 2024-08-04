@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace Chente.Desktop.ModelMappers;
+namespace Chente.Desktop.Profiles;
 
 class InstallmentProfile :Profile
 {
@@ -8,7 +8,7 @@ class InstallmentProfile :Profile
     {
         CreateMap<Domain.Models.Installment, DataAccess.Models.Installment>();
         CreateMap<DataAccess.Models.Installment, Domain.Models.Installment>();
-        CreateMap<Domain.Models.Installment, ViewModels.InstallmentViewModel>().ForMember(i => i.LoanNumber, i => i.MapFrom(i => i.Loan.LoanNumber));
+        CreateMap<Domain.Models.Installment, ViewModels.InstallmentViewModel>().ForMember(dest => dest.LoanNumber, opt => opt.MapFrom(src => src.Loan.LoanNumber));
         CreateMap<ViewModels.InstallmentViewModel, Domain.Models.Installment>();
     }
 }

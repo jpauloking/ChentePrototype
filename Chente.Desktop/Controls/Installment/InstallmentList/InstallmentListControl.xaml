@@ -19,6 +19,7 @@
                 <ListView.View>
                     <GridView>
                         <GridView.Columns>
+                            <GridViewColumn Header="Loan number" DisplayMemberBinding="{Binding LoanNumber}"/>
                             <GridViewColumn Header="Installment number" DisplayMemberBinding="{Binding InstallmentNumber}"/>
                             <GridViewColumn Header="Date due" DisplayMemberBinding="{Binding DateDue, StringFormat='MM/dd/yyyy'}"/>
                             <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding Amount, StringFormat='C'}"/>
@@ -26,8 +27,9 @@
                             <GridViewColumn Header="End Bal" DisplayMemberBinding="{Binding EndingBalance, StringFormat='C'}"/>
                             <GridViewColumn Header="Amount due" DisplayMemberBinding="{Binding AmountDue, StringFormat='C'}"/>
                             <GridViewColumn Header="Amount paid" DisplayMemberBinding="{Binding AmountPaid, StringFormat='C'}"/>
-                            <!--<GridViewColumn Header="Date paid" DisplayMemberBinding="{Binding DatePaid, StringFormat='MM/dd/yyyy'}"/>
-                        <GridViewColumn Header="Loan Number" DisplayMemberBinding="{Binding LoanNumber}"/>-->
+                            <GridViewColumn Header="Is Paid" DisplayMemberBinding="{Binding IsPaid}"/>
+                            <GridViewColumn Header="Is overdue" DisplayMemberBinding="{Binding IsOverDue}"/>
+                            <GridViewColumn Header="Overdue by" DisplayMemberBinding="{Binding DaysIsOverDueBy}"/>
                         </GridView.Columns>
                     </GridView>
                 </ListView.View>

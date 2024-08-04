@@ -14,6 +14,7 @@ internal partial class InstallmentsViewModel : ViewModelBase
     private readonly InstallmentListViewModel installmentListViewModel;
     private readonly InstallmentDetailsViewModel installmentDetailsViewModel;
     private readonly InstallmentFormViewModel installmentFormViewModel;
+    private readonly BorrowerStoreService borrowerStoreService;
     private readonly LoanStoreService loanStoreService;
     private readonly InstallmentStoreService installmentStoreService;
     private readonly IMapper mapper;
@@ -29,12 +30,19 @@ internal partial class InstallmentsViewModel : ViewModelBase
     public InstallmentListViewModel InstallmentListViewModel => installmentListViewModel;
     public InstallmentDetailsViewModel InstallmentDetailsViewModel => installmentDetailsViewModel;
     public InstallmentFormViewModel InstallmentFormViewModel => installmentFormViewModel;
+    public IEnumerable<BorrowerViewModel> Borrowers => mapper.Map<IEnumerable<BorrowerViewModel>>(borrowerStoreService.Borrowers);
     public IEnumerable<LoanViewModel> Loans => mapper.Map<IEnumerable<LoanViewModel>>(loanStoreService.Loans);
 
     public string? SearchPhrase
     {
         get => installmentStoreService.SearchPhrase;
         set => installmentStoreService.SearchPhrase = value;
+    }
+
+    public BorrowerViewModel SelectedBorrower
+    {
+        get => mapper.Map<BorrowerViewModel>(borrowerStoreService.SelectedBorrower);
+        set => borrowerStoreService.SelectedBorrower = mapper.Map<Domain.Models.Borrower>(value);
     }
 
     public LoanViewModel SelectedLoan
@@ -67,16 +75,22 @@ internal partial class InstallmentsViewModel : ViewModelBase
         set => installmentStoreService.OnlyOverdue = value;
     }
 
-    public InstallmentsViewModel(InstallmentListViewModel installmentListViewModel, InstallmentDetailsViewModel installmentDetailsViewModel, IMapper mapper, LoanStoreService loanStoreService, InstallmentStoreService installmentStoreService, InstallmentFormViewModel installmentFormViewModel)
+    public InstallmentsViewModel(InstallmentListViewModel installmentListViewModel, InstallmentDetailsViewModel installmentDetailsViewModel, IMapper mapper, BorrowerStoreService borrowerStoreService, LoanStoreService loanStoreService, InstallmentStoreService installmentStoreService, InstallmentFormViewModel installmentFormViewModel)
     {
+        this.mapper = mapper;
         this.installmentListViewModel = installmentListViewModel;
         this.installmentDetailsViewModel = installmentDetailsViewModel;
+        this.borrowerStoreService = borrowerStoreService;
+        this.borrowerStoreService.SelectedBorrowerChanged += OnSelectedBorrowerChanged;
         this.loanStoreService = loanStoreService;
-        this.mapper = mapper;
         this.loanStoreService.SelectedLoanChanged += OnSelectedLoanChanged;
         this.installmentStoreService = installmentStoreService;
         this.installmentStoreService.SelectedInstallmentChanged += OnSelectedInstallmentChanged;
         this.installmentFormViewModel = installmentFormViewModel;
+    }
+
+    private void OnSelectedBorrowerChanged(object? sender, Domain.Models.Borrower e)
+    {
     }
 
     private void OnSelectedInstallmentChanged(object? sender, EventArgs e)
@@ -99,12 +113,16 @@ internal partial class InstallmentsViewModel : ViewModelBase
         IncludePaid = false;
         OnlyOverdue = false;
         SelectedLoan = null!;
+        SelectedBorrower = null!;
         OnPropertyChanged(nameof(SearchPhrase));
         OnPropertyChanged(nameof(StartDate));
         OnPropertyChanged(nameof(EndDate));
         OnPropertyChanged(nameof(IncludePaid));
         OnPropertyChanged(nameof(OnlyOverdue));
+        OnPropertyChanged(nameof(SelectedBorrower));
         OnPropertyChanged(nameof(SelectedLoan));
+        OnPropertyChanged(nameof(Loans));
+        OnPropertyChanged(nameof(Borrowers));
         installmentFormViewModel.ShowInstallmentForm = false;
     }
 

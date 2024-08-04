@@ -11,6 +11,7 @@ internal class InstallmentStoreService
     private readonly IMapper mapper;
     private readonly ObservableCollection<Domain.Models.Installment> installments = [];
     private readonly InstallmentRepository installmentRepository;
+    private readonly BorrowerStoreService borrowerStoreService;
     private readonly LoanStoreService loanStoreService;
     private Domain.Models.Installment? selectedInstallment;
     private string? searchPhrase = null!;
@@ -78,10 +79,11 @@ internal class InstallmentStoreService
     public event EventHandler SelectedInstallmentChanged = default!;
     public event EventHandler InstallmentsCollectionChanged = default!;
 
-    public InstallmentStoreService(InstallmentRepository installmentRepository, IMapper mapper, LoanStoreService loanStoreService)
+    public InstallmentStoreService(InstallmentRepository installmentRepository, IMapper mapper, LoanStoreService loanStoreService, BorrowerStoreService borrowerStoreService)
     {
         this.mapper = mapper;
         this.installmentRepository = installmentRepository;
+        this.borrowerStoreService = borrowerStoreService;
         this.loanStoreService = loanStoreService;
         this.loanStoreService.SelectedLoanChanged += OnSelectedLoanChanged;
         GetAsync().GetAwaiter();
@@ -96,16 +98,26 @@ internal class InstallmentStoreService
     {
         IEnumerable<DataAccess.Models.Installment> installmentsFromDatabase = [];
         IEnumerable<DataAccess.Models.Loan> loansFromDatabase = [];
-        if (loanStoreService.SelectedLoan is not null)
+        if (borrowerStoreService.SelectedBorrower is not null)
         {
-            DataAccess.Models.Loan selectedLoan = mapper.Map<DataAccess.Models.Loan>(loanStoreService.SelectedLoan);
-            selectedLoan.Id = DataAccess.Services.DatabaseKeyManager.GetPrimaryKeyFrom(loanStoreService.SelectedLoan.LoanNumber);
-            installmentsFromDatabase = await installmentRepository.GetAsync(selectedLoan);
+            DataAccess.Models.Borrower selectedBorrower = mapper.Map<DataAccess.Models.Borrower>(borrowerStoreService.SelectedBorrower);
+            selectedBorrower.Id = DataAccess.Services.DatabaseKeyManager.GetPrimaryKeyFrom(borrowerStoreService.SelectedBorrower.BorrowerNumber);
+            installmentsFromDatabase = await installmentRepository.GetAsync(selectedBorrower);
         }
         else
         {
-            installmentsFromDatabase = await installmentRepository.GetAsync();
+            if (loanStoreService.SelectedLoan is not null)
+            {
+                DataAccess.Models.Loan selectedLoan = mapper.Map<DataAccess.Models.Loan>(loanStoreService.SelectedLoan);
+                selectedLoan.Id = DataAccess.Services.DatabaseKeyManager.GetPrimaryKeyFrom(loanStoreService.SelectedLoan.LoanNumber);
+                installmentsFromDatabase = await installmentRepository.GetAsync(selectedLoan);
+            }
+            else
+            {
+                installmentsFromDatabase = await installmentRepository.GetAsync();
+            }
         }
+
         IEnumerable<Domain.Models.Installment> installments = mapper.Map<IEnumerable<Domain.Models.Installment>>(installmentsFromDatabase);
         if (!string.IsNullOrEmpty(SearchPhrase))
         {
@@ -135,9 +147,8 @@ internal class InstallmentStoreService
         {
             this.installments.Add(installment);
         }
-        InstallmentsCollectionChanged?.Invoke(this, EventArgs.Empty);
         SelectedInstallment = null!;
-        SelectedInstallmentChanged?.Invoke(this, EventArgs.Empty);
+        InstallmentsCollectionChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public async Task PayInstallmentAsync(Domain.Models.Installment installment, decimal amountOfPayment, DateTime dateOfPayment)

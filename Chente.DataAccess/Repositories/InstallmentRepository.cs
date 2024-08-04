@@ -15,22 +15,30 @@ public class InstallmentRepository
     public async Task<IEnumerable<Installment>> GetAsync()
     {
         using ApplicationDbContext context = contextFactory.CreateDbContext();
-        List<Installment> installments = await context.Installments.ToListAsync();
+        List<Installment> installments = await context.Installments.Include(i => i.Loan).ToListAsync();
         return installments;
     }
 
     public async Task<IEnumerable<Installment>> GetAsync(Loan loan)
     {
         using ApplicationDbContext context = contextFactory.CreateDbContext();
-        List<Installment> installments = await context.Installments
+        List<Installment> installments = await context.Installments.Include(i => i.Loan)
             .Where(i => i.Loan.Id == loan.Id).ToListAsync();
+        return installments;
+    }
+
+    public async Task<IEnumerable<Installment>> GetAsync(Borrower borrower)
+    {
+        using ApplicationDbContext context = contextFactory.CreateDbContext();
+        List<Installment> installments = await context.Installments.Include(i => i.Loan)
+            .Where(i => i.Loan.Borrower.Id == borrower.Id).ToListAsync();
         return installments;
     }
 
     public async Task<Installment?> GetAsync(int id)
     {
         using ApplicationDbContext context = contextFactory.CreateDbContext();
-        Installment? installment = await context.Installments.FirstOrDefaultAsync(l => l.Id == id);
+        Installment? installment = await context.Installments.Include(i => i.Loan).FirstOrDefaultAsync(i => i.Id == id);
         return installment;
     }
 

@@ -6,6 +6,7 @@ namespace Chente.Desktop.Services;
 
 internal class LoanStoreService
 {
+    private readonly BorrowerRepository borrowerRepository;
     private readonly LoanRepository loanRepository;
     private readonly BorrowerStoreService borrowerStoreService;
     private readonly ObservableCollection<Domain.Models.Loan> loans = [];
@@ -14,7 +15,7 @@ internal class LoanStoreService
     private string? searchPhrase = null!;
     private DateTime? startDate = null;
     private DateTime? endDate = null;
-    private bool includePaid = false; // Todo - Change to false when loading related data bug is fixed
+    private bool includePaid = false;
     private bool onlyOverdue = false;
 
     public IEnumerable<Domain.Models.Loan> Loans => loans;
@@ -76,8 +77,9 @@ internal class LoanStoreService
     public event EventHandler<Domain.Models.Loan> SelectedLoanChanged = default!;
     public event EventHandler LoansCollectionChanged = default!;
 
-    public LoanStoreService(LoanRepository loanRepository, BorrowerStoreService borrowerStoreService, IMapper mapper)
+    public LoanStoreService(BorrowerRepository borrowerRepository, LoanRepository loanRepository, BorrowerStoreService borrowerStoreService, IMapper mapper)
     {
+        this.borrowerRepository = borrowerRepository;
         this.loanRepository = loanRepository;
         this.borrowerStoreService = borrowerStoreService;
         this.mapper = mapper;
@@ -129,11 +131,10 @@ internal class LoanStoreService
         {
             loans = loans.Where(l => l.DateOpened <= EndDate);
         }
-        // Todo - Uncomment this when load related data bug is fixed
-        //if (!IncludePaid)
-        //{
-        // loans = loans.Where(l => !l.IsPaid);
-        //}
+        if (!IncludePaid)
+        {
+            loans = loans.Where(l => !l.IsPaid);
+        }
         if (OnlyOverdue)
         {
             loans = loans.Where(l => l.IsOverDue);
@@ -151,9 +152,53 @@ internal class LoanStoreService
         SelectedLoanChanged?.Invoke(this, null!);
     }
 
+    public async Task AddLoan(Domain.Models.Loan loan)
+    {
+        try
+        {
+            Domain.Models.Borrower borrower = await CreateSelectedBorrowerWithLoansFromDatabase();
+            borrower.AddLoan(loan);
+            loan.Borrower = null!; // loan.Borrower is null - To prevent new record from being created for Borrower in database.
+            DataAccess.Models.Loan loanToSaveInDatabase = mapper.Map<DataAccess.Models.Loan>(loan);
+            int selectedBorrowerId = DataAccess.Services.DatabaseKeyManager.GetPrimaryKeyFrom(borrower.BorrowerNumber);
+            loanToSaveInDatabase.BorrowerId = selectedBorrowerId;
+
+            await loanRepository.CreateAsync(loanToSaveInDatabase);
+
+            borrowerStoreService.SelectedBorrower = borrower;
+        }
+        catch (Domain.Exceptions.HasOutstandingLoanException)
+        {
+            throw;
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+
     public async Task DeleteAsync(int id)
     {
         await loanRepository.DeleteAsync(id);
         await GetAsync();
+    }
+
+    private async Task<Domain.Models.Borrower> CreateSelectedBorrowerWithLoansFromDatabase()
+    {
+        int selectedBorrowerId = DataAccess.Services.DatabaseKeyManager.GetPrimaryKeyFrom(borrowerStoreService.SelectedBorrower!.BorrowerNumber);
+
+        DataAccess.Models.Borrower? borrowerFromDatabase = await borrowerRepository.GetAsync(selectedBorrowerId);
+        if (borrowerFromDatabase is not null)
+        {
+            IEnumerable<DataAccess.Models.Loan> borrowersLoansFromDatabase = await loanRepository.GetAsync(borrowerFromDatabase);
+
+            Domain.Models.Borrower borrower = mapper.Map<Domain.Models.Borrower>(borrowerFromDatabase);
+
+            IEnumerable<Domain.Models.Loan> borrowerLoans = mapper.Map<IEnumerable<Domain.Models.Loan>>(borrowersLoansFromDatabase);
+
+            borrower = new Domain.Models.Borrower(borrower.BorrowerNumber, borrower.FirstName, borrower.LastName, borrower.EmailAddress, borrower.PhoneNumber, borrowerLoans.ToList());
+            return borrower;
+        }
+        throw new InvalidOperationException("No borrower has been selected or selected borrower could not be found in the database.");
     }
 }

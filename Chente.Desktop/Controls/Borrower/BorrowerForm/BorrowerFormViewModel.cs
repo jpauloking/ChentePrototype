@@ -59,7 +59,7 @@ internal partial class BorrowerFormViewModel : ViewModelBase
                 await borrowerStoreService.CreateAsync(borrower);
             }
 
-            ShowBorrowerForm = !ShowBorrowerForm;
+            ShowBorrowerForm = false;
         }
     }
 

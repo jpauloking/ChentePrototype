@@ -1,6 +1,7 @@
 ﻿using Chente.Desktop.Controls.Borrower.BorrowerList;
 using Chente.Desktop.Controls.Installment.InstallmentList;
 using Chente.Desktop.Controls.Loan.LoanList;
+using Chente.Desktop.Core;
 using Chente.Desktop.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -25,6 +26,12 @@ public static class ConfigureViewModels
         services.AddTransient<InstallmentFormViewModel>();
         services.AddSingleton<InstallmentListViewModel>();
         services.AddSingleton<InstallmentDetailsViewModel>();
+        services.AddSingleton(sp => ViewModelCreator(sp));
         return services;
+    }
+
+    private static Func<Type, ViewModelBase> ViewModelCreator(IServiceProvider sp)
+    {
+        return viewModelType => (ViewModelBase)sp.GetRequiredService(viewModelType);
     }
 }

@@ -22,7 +22,7 @@ public class LoanRepository
     public async Task DeleteAsync(int id)
     {
         using ApplicationDbContext context = contextFactory.CreateDbContext();
-        Loan? loanFromDatabase = await context.Loans.FirstOrDefaultAsync(b => b.Id == id);
+        Loan? loanFromDatabase = await context.Loans.FirstOrDefaultAsync(l => l.Id == id);
         if (loanFromDatabase is not null)
         {
             context.Loans.Remove(loanFromDatabase);
@@ -33,21 +33,21 @@ public class LoanRepository
     public async Task<IEnumerable<Loan>> GetAsync()
     {
         using ApplicationDbContext context = contextFactory.CreateDbContext();
-        List<Loan> loans = await context.Loans.ToListAsync();
+        List<Loan> loans = await context.Loans.Include(l => l.Borrower).Include(l => l.Installments).AsNoTracking().ToListAsync();
         return loans;
     }
 
     public async Task<Loan?> GetAsync(int id)
     {
         using ApplicationDbContext context = contextFactory.CreateDbContext();
-        Loan? loans = await context.Loans.Include(l => l.Installments).FirstOrDefaultAsync(l => l.Id == id);
+        Loan? loans = await context.Loans.Include(l => l.Borrower).Include(l => l.Installments).AsNoTracking().FirstOrDefaultAsync(l => l.Id == id);
         return loans;
     }
 
     public async Task<IEnumerable<Loan>> GetAsync(Borrower borrower)
     {
         using ApplicationDbContext context = contextFactory.CreateDbContext();
-        List<Loan> loans = await context.Loans.Include(l => l.Installments).Where(l => l.Borrower.Id == borrower.Id).ToListAsync();
+        List<Loan> loans = await context.Loans.Include(l => l.Borrower).Include(l => l.Installments).Where(l => l.Borrower.Id == borrower.Id).AsNoTracking().ToListAsync();
         return loans;
     }
 

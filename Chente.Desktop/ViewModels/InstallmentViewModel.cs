@@ -6,8 +6,6 @@ namespace Chente.Desktop.ViewModels;
 public partial class InstallmentViewModel : ViewModelBase
 {
     [ObservableProperty]
-    private int id ;
-    [ObservableProperty]
     private string installmentNumber = null!;
     [ObservableProperty]
     private DateTime dateDue;
@@ -25,4 +23,10 @@ public partial class InstallmentViewModel : ViewModelBase
     private decimal amountDue;
     [ObservableProperty]
     private string loanNumber = null!;
+    [ObservableProperty]
+    public bool isPaid = false;
+    [ObservableProperty]
+    public bool isOverDue = false;
+    [ObservableProperty]
+    public int daysIsOverDueBy = 0;
 }

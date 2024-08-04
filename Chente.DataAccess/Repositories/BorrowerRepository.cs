@@ -33,17 +33,14 @@ public class BorrowerRepository
     public async Task<IEnumerable<Borrower>> GetAsync()
     {
         using ApplicationDbContext context = contextFactory.CreateDbContext();
-        List<Borrower> borrowers = await context.Borrowers.ToListAsync();
+        List<Borrower> borrowers = await context.Borrowers.AsNoTracking().ToListAsync();
         return borrowers;
     }
 
     public async Task<Borrower?> GetAsync(int id)
     {
         using ApplicationDbContext context = contextFactory.CreateDbContext();
-        Borrower? borrower = await context.Borrowers
-            .Include(b => b.Loans)
-            .ThenInclude(l => l.Installments)
-            .FirstOrDefaultAsync(b => b.Id == id);
+        Borrower? borrower = await context.Borrowers.AsNoTracking().FirstOrDefaultAsync(b => b.Id == id);
         return borrower;
     }
 
