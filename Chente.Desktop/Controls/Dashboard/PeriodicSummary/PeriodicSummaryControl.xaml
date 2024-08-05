@@ -1,0 +1,73 @@
+﻿<UserControl x:Class="Chente.Desktop.Controls.PeriodicSummaryControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Chente.Desktop.Controls"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:controls="clr-namespace:Chente.Desktop.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <!--Row definitions-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!-- ./Row definitions-->
+        <!--Column defintions-->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <!-- ./Column defintions-->
+        <!--Title section-->
+        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,32,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" Text="Upcoming installments" Style="{StaticResource MaterialDesignTitleLargeTextBlock}" VerticalAlignment="Center"/>
+            <!--Filter-->
+            <ComboBox Grid.Column="1" MinWidth="200" IsSynchronizedWithCurrentItem="True" ItemsSource="{Binding InstallmentsDueWithinPeriodDaysAheadCounts}" SelectedItem="{Binding SelectedInstallmentsDueWithinPeriodDaysAheadCount}" IsEditable="True" Style="{StaticResource MaterialDesignFilledComboBox}" VerticalContentAlignment="Center" materialDesign:HintAssist.Hint="Days ahead" materialDesign:ComboBoxAssist.ShowSelectedItem="True"/>
+            <!-- ./Filter-->
+        </Grid>
+        <!-- ./Title section-->
+        <!--Separator-->
+        <Separator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"  Style="{StaticResource MaterialDesignDarkSeparator}" Margin="0,16"/>
+        <!-- ./Separator-->
+        <!--Installments Table-->
+        <materialDesign:Card Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,8,0">
+            <ListView ItemsSource="{Binding InstallmentsDueWithinPeriod}" Style="{StaticResource MaterialDesignListView}">
+                <ListView.View>
+                    <GridView>
+                        <GridView.Columns>
+                            <GridViewColumn Header="Loan" DisplayMemberBinding="{Binding LoanNumber}"/>
+                            <GridViewColumn Header="Installment" DisplayMemberBinding="{Binding InstallmentNumber}"/>
+                            <GridViewColumn Header="Date" DisplayMemberBinding="{Binding DateDue, StringFormat='dd MMM, yyyy'}"/>
+                            <GridViewColumn Header="Amount" DisplayMemberBinding="{Binding Amount, StringFormat='C'}"/>
+                            <GridViewColumn Header="Amount due" DisplayMemberBinding="{Binding AmountDue, StringFormat='C'}"/>
+                            <GridViewColumn Header="Overdue by" DisplayMemberBinding="{Binding DaysIsOverDueBy}"/>
+                        </GridView.Columns>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </materialDesign:Card>
+        <!-- ./Installments Table-->
+        <!--Installments summary-->
+        <materialDesign:Card Grid.Row="2" Grid.Column="2" Margin="8,0,0,0" Padding="16">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                    <materialDesign:ColorZone Mode="PrimaryLight" Padding="8" CornerRadius="8" Margin="0,0,16,0" VerticalAlignment="Center">
+                        <materialDesign:PackIcon Kind="PaymentSchedule" Width="32" Height="32"/>
+                    </materialDesign:ColorZone>
+                    <TextBlock Text="Summary" VerticalAlignment="Center" Style="{StaticResource MaterialDesignTitleLargeTextBlock}"/>
+                </StackPanel>
+                <ItemsControl ItemTemplate="{StaticResource CategorySummaryTemplate}" ItemsSource="{Binding PeriodCategorySummary}"/>
+            </StackPanel>
+        </materialDesign:Card>
+        <!-- ./Installments summary-->
+    </Grid>
+</UserControl>

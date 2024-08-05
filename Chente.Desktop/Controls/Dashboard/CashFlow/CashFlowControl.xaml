@@ -1,0 +1,114 @@
+﻿<UserControl x:Class="Chente.Desktop.Controls.CashFlowControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModels="clr-namespace:Chente.Desktop.ViewModels"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:controls="clr-namespace:Chente.Desktop.Controls"
+             xmlns:local="clr-namespace:Chente.Desktop.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <!--Row definitions-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <!-- ./Row definitions-->
+        <!--Column defintions-->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <!-- ./Column defintions-->
+        <!--Title section-->
+        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Margin="0,32,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0"  Text="Cashflow" Style="{StaticResource MaterialDesignTitleLargeTextBlock}" VerticalAlignment="Center"/>
+        </Grid>
+        <!-- ./Title section-->
+        <!--Separator-->
+        <Separator Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5"  Style="{StaticResource MaterialDesignDarkSeparator}" Margin="0,16"/>
+        <!-- ./Separator-->
+        <!--Cash flow cards-->
+        <!--Loans given out card-->
+        <materialDesign:Card Grid.Row="2" Grid.Column="0" Padding="16" Margin="0,0,8,0">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <materialDesign:ColorZone Mode="SecondaryLight" Padding="8" CornerRadius="8" Margin="0,0,16,0" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="Output" Width="32" Height="32"/>
+                </materialDesign:ColorZone>
+                <StackPanel>
+                    <TextBlock Text="Given out" VerticalAlignment="Center" Style="{StaticResource MaterialDesignTitleMediumTextBlock}"/>
+                    <Separator Style="{StaticResource MaterialDesignDarkSeparator}"/>
+                    <TextBlock Text="{Binding LoansGivenOut, StringFormat='C'}" VerticalAlignment="Center" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                </StackPanel>
+            </StackPanel>
+        </materialDesign:Card>
+        <!-- ./Loans given out card-->
+        <!--Loans recovered card-->
+        <materialDesign:Card Grid.Row="2" Grid.Column="1" Padding="16" Margin="8,0">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <materialDesign:ColorZone Mode="SecondaryDark" Padding="8" CornerRadius="8" Margin="0,0,16,0" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="Input" Width="32" Height="32"/>
+                </materialDesign:ColorZone>
+                <StackPanel>
+                    <TextBlock Text="Recovered" VerticalAlignment="Center" Style="{StaticResource MaterialDesignTitleMediumTextBlock}"/>
+                    <Separator Style="{StaticResource MaterialDesignDarkSeparator}"/>
+                    <TextBlock Text="{Binding InstallmentsRecovered, StringFormat='C'}" VerticalAlignment="Center" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                </StackPanel>
+            </StackPanel>
+        </materialDesign:Card>
+        <!-- ./Loans recovered card-->
+        <!--Interest earned card-->
+        <materialDesign:Card Grid.Row="2" Grid.Column="2" Padding="16" Margin="8,0">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <materialDesign:ColorZone Mode="PrimaryLight" Padding="8" CornerRadius="8" Margin="0,0,16,0" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="GraphLine" Width="32" Height="32"/>
+                </materialDesign:ColorZone>
+                <StackPanel>
+                    <TextBlock Text="Earned" VerticalAlignment="Center" Style="{StaticResource MaterialDesignTitleMediumTextBlock}"/>
+                    <Separator Style="{StaticResource MaterialDesignDarkSeparator}"/>
+                    <TextBlock Text="{Binding InterestEarned, StringFormat='C'}" VerticalAlignment="Center" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                </StackPanel>
+            </StackPanel>
+        </materialDesign:Card>
+        <!-- ./Interest earned card-->
+        <!--Interest received card-->
+        <materialDesign:Card Grid.Row="2" Grid.Column="3" Padding="16" Margin="8,0">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <materialDesign:ColorZone Mode="SecondaryMid" Padding="8" CornerRadius="8" Margin="0,0,16,0" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="Money" Width="32" Height="32"/>
+                </materialDesign:ColorZone>
+                <StackPanel>
+                    <TextBlock Text="Received" VerticalAlignment="Center" Style="{StaticResource MaterialDesignTitleMediumTextBlock}"/>
+                    <Separator Style="{StaticResource MaterialDesignDarkSeparator}"/>
+                    <TextBlock Text="{Binding InterestRecovered,StringFormat='C'}" VerticalAlignment="Center" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                </StackPanel>
+            </StackPanel>
+        </materialDesign:Card>
+        <!-- ./Interest received card-->
+        <!--Interest pending card-->
+        <materialDesign:Card Grid.Row="2" Grid.Column="4" Padding="16" Margin="8,0,0,0">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <materialDesign:ColorZone Mode="SecondaryLight" Padding="8" CornerRadius="8" Margin="0,0,16,0" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="PaymentSchedule" Width="32" Height="32"/>
+                </materialDesign:ColorZone>
+                <StackPanel>
+                    <TextBlock Text="Pending" VerticalAlignment="Center" Style="{StaticResource MaterialDesignTitleMediumTextBlock}"/>
+                    <Separator Style="{StaticResource MaterialDesignDarkSeparator}"/>
+                    <TextBlock Text="{Binding InterestPending, StringFormat='C'}" VerticalAlignment="Center" Style="{StaticResource MaterialDesignHeadline6TextBlock}"/>
+                </StackPanel>
+            </StackPanel>
+        </materialDesign:Card>
+        <!-- ./Interest pending card-->
+        <!-- ./Cash flow cards-->
+    </Grid>
+</UserControl>

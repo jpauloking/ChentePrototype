@@ -11,6 +11,22 @@
                 <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="DeepPurple" SecondaryColor="Lime" />
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign3.Defaults.xaml" />
             </ResourceDictionary.MergedDictionaries>
+            <DataTemplate x:Key="CategorySummaryTemplate" DataType="{x:Type viewModels:CategorySummaryItem}">
+                <StackPanel>
+                    <Separator Style="{StaticResource MaterialDesignSeparator}"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <StackPanel Grid.Column="0">
+                            <TextBlock Text="{Binding Category}" Style="{StaticResource MaterialDesignTitleSmallTextBlock}"/>
+                            <TextBlock Text="{Binding Number}" Style="{StaticResource MaterialDesignBodySmallTextBlock}" HorizontalAlignment="Left"/>
+                        </StackPanel>
+                        <TextBlock Grid.Column="1" Text="{Binding Amount, StringFormat='C'}" Style="{StaticResource MaterialDesignTitleMediumTextBlock}" HorizontalAlignment="Right"/>
+                    </Grid>
+                </StackPanel>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type viewModels:LoginViewModel}">
                 <views:LoginView/>
             </DataTemplate>

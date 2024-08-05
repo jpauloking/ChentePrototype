@@ -4,90 +4,21 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:controls="clr-namespace:Chente.Desktop.Controls"
              xmlns:local="clr-namespace:Chente.Desktop.Views" 
              mc:Ignorable="d" 
              d:DesignHeight="450" 
              d:DesignWidth="800">
+    <ScrollViewer Style="{StaticResource MaterialDesignScrollViewer}" Padding="16" Margin="-16">
+        <StackPanel>
 
-    <StackPanel>
+            <controls:CashFlowControl DataContext="{Binding CashFlowViewModel}"/>
 
-        <Grid Margin="0,0,0,16">
+            <controls:PeriodicSummaryControl DataContext="{Binding PeriodicSummaryViewModel}"/>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+            <controls:DatabaseSummaryControl DataContext="{Binding DatabaseSummaryViewModel}"/>
 
-            <!--Dashboard Filter-->
-            <StackPanel Grid.Column="0" Orientation="Horizontal">
-                <TextBox MinWidth="200" Margin="0,0,4,0" Style="{StaticResource MaterialDesignFilledTextBox}" materialDesign:HintAssist.Hint="Search phrase"/>
-                <ComboBox MinWidth="200" Margin="4,0" Style="{StaticResource MaterialDesignFilledComboBox}" materialDesign:HintAssist.Hint="Select an item"/>
-                <Button Margin="4,0" Content="Clear selection" ToolTip="Clear current selection" Style="{StaticResource MaterialDesignFlatButton}"/>
-            </StackPanel>
-            <!-- ./Dashboard Filter-->
-
-        </Grid>
-
-        <Grid>
-
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <materialDesign:Card Grid.Row="0" Grid.Column="0" Padding="16" Margin="0,0,8,0">
-                <StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:ColorZone Mode="PrimaryLight" Padding="8" CornerRadius="8" Margin="0,0,16,0" VerticalAlignment="Center">
-                            <materialDesign:PackIcon Kind="AccountGroupOutline" Width="32" Height="32"/>
-                        </materialDesign:ColorZone>
-                        <TextBlock Text="Borrowers" VerticalAlignment="Center" Style="{StaticResource MaterialDesignTitleLargeTextBlock}"/>
-                    </StackPanel>
-                    <Separator Style="{StaticResource MaterialDesignSeparator}" Margin="0,16"/>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Number of borrowers" Style="{StaticResource MaterialDesignTitleSmallTextBlock}"/>
-                    </StackPanel>
-                </StackPanel>
-            </materialDesign:Card>
-
-            <materialDesign:Card Grid.Row="0" Grid.Column="1" Padding="16" Margin="8,0">
-                <StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:ColorZone Mode="SecondaryLight" Padding="8" CornerRadius="8" Margin="0,0,16,0" VerticalAlignment="Center">
-                            <materialDesign:PackIcon Kind="BankOutline" Width="32" Height="32"/>
-                        </materialDesign:ColorZone>
-                        <TextBlock Text="Loans" VerticalAlignment="Center" Style="{StaticResource MaterialDesignTitleLargeTextBlock}"/>
-                    </StackPanel>
-                    <Separator Style="{StaticResource MaterialDesignSeparator}" Margin="0,16"/>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Number of loans" Style="{StaticResource MaterialDesignTitleSmallTextBlock}"/>
-                    </StackPanel>
-                </StackPanel>
-            </materialDesign:Card>
-
-            <materialDesign:Card Grid.Row="0" Grid.Column="2" Padding="16" Margin="8,0,0,0">
-                <StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <materialDesign:ColorZone Mode="SecondaryMid" Padding="8" CornerRadius="8" Margin="0,0,16,0" VerticalAlignment="Center">
-                            <materialDesign:PackIcon Kind="Payment" Width="32" Height="32"/>
-                        </materialDesign:ColorZone>
-                        <TextBlock Text="Installments" VerticalAlignment="Center" Style="{StaticResource MaterialDesignTitleLargeTextBlock}"/>
-                    </StackPanel>
-                    <Separator Style="{StaticResource MaterialDesignSeparator}" Margin="0,16"/>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Number of installments" Style="{StaticResource MaterialDesignTitleSmallTextBlock}"/>
-                    </StackPanel>
-                </StackPanel>
-            </materialDesign:Card>
-
-        </Grid>
-
-    </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
 
 </UserControl>

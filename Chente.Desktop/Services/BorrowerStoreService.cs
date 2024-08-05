@@ -61,9 +61,9 @@ internal partial class BorrowerStoreService
         {
             this.borrowers.Add(borrower);
         }
-        BorrowersCollectionChanged?.Invoke(this, EventArgs.Empty);
         SelectedBorrower = null;
-        SelectedBorrowerChanged?.Invoke(this, null!);
+        BorrowersCollectionChanged?.Invoke(this, EventArgs.Empty);
+        //SelectedBorrowerChanged?.Invoke(this, null!);
     }
 
     public async Task CreateAsync(Domain.Models.Borrower borrower)
