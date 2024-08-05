@@ -11,6 +11,7 @@ internal static class ConfigureAppServices
         services.AddSingleton<BorrowerStoreService>();
         services.AddSingleton<LoanStoreService>();
         services.AddSingleton<InstallmentStoreService>();
+        services.AddSingleton<DataSummarizationService>();
         return services;
     }
 }

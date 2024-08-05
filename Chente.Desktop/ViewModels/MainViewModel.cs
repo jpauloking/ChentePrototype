@@ -9,6 +9,7 @@ namespace Chente.Desktop.ViewModels;
 internal partial class MainViewModel : ViewModelBase
 {
     private readonly NavigationService navigationService;
+    private readonly DataSummarizationService dataSummarizationService;
     [ObservableProperty]
     private string username = ChenteIdentityProvider.Username;
     [ObservableProperty]
@@ -19,9 +20,10 @@ internal partial class MainViewModel : ViewModelBase
 
     public NavigationService NavigationService => navigationService;
 
-    public MainViewModel(NavigationService navigationService)
+    public MainViewModel(NavigationService navigationService, DataSummarizationService dataSummarizationService)
     {
         this.navigationService = navigationService;
+        this.dataSummarizationService = dataSummarizationService;
         this.navigationService.CurrentViewModelChanged += OnCurrentViewModelChanged;
         NavigateToInitialView();
     }
@@ -47,6 +49,7 @@ internal partial class MainViewModel : ViewModelBase
     [RelayCommand]
     private void NavigateToDashboard()
     {
+        dataSummarizationService.Refresh(); // On navigating to dashboard Refresh the data summarizations.
         navigationService.NavigateTo<DashboardViewModel>();
     }
 

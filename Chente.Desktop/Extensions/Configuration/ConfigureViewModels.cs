@@ -1,4 +1,5 @@
 ﻿using Chente.Desktop.Controls.Borrower.BorrowerList;
+using Chente.Desktop.Controls.Dashboard.PeriodicSummary;
 using Chente.Desktop.Controls.Installment.InstallmentList;
 using Chente.Desktop.Controls.Loan.LoanList;
 using Chente.Desktop.Core;
@@ -14,6 +15,9 @@ public static class ConfigureViewModels
         services.AddSingleton<MainViewModel>();
         services.AddSingleton<LoginViewModel>();
         services.AddSingleton<DashboardViewModel>();
+        services.AddSingleton<CashFlowViewModel>();
+        services.AddSingleton<PeriodicSummaryViewModel>();
+        services.AddSingleton<DatabaseSummaryViewModel>();
         services.AddSingleton<BorrowersViewModel>();
         services.AddTransient<BorrowerFormViewModel>();
         services.AddSingleton<BorrowerListViewModel>();

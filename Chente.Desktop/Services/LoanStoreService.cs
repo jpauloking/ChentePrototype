@@ -147,9 +147,9 @@ internal class LoanStoreService
         {
             this.loans.Add(loan);
         }
-        LoansCollectionChanged?.Invoke(this, EventArgs.Empty);
         SelectedLoan = null!;
-        SelectedLoanChanged?.Invoke(this, null!);
+        LoansCollectionChanged?.Invoke(this, EventArgs.Empty);
+        //SelectedLoanChanged?.Invoke(this, null!);
     }
 
     public async Task AddLoan(Domain.Models.Loan loan)
