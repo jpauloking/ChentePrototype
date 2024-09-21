@@ -2,7 +2,10 @@
 using Chente.Desktop.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-//using Windows.Security.Credentials;
+using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
+using System.Security.Principal;
+using System.Windows;
 
 namespace Chente.Desktop.ViewModels;
 
@@ -10,56 +13,46 @@ internal partial class LoginViewModel : ViewModelBase
 {
     private readonly NavigationService navigationService;
     [ObservableProperty]
-    private string username = ChenteIdentityProvider.Username;
+    [Required]
+    [EmailAddress]
+    private string username = null!;
+    [Required]
     [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(ContinueCommand))]
-    private bool isAuthenticated = ChenteIdentityProvider.IsLoggedIn;
-    [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(ContinueCommand))]
-    private bool isGuest = ChenteIdentityProvider.IsGuest;
-    [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(ContinueCommand))]
-    private bool isAnonymous = ChenteIdentityProvider.IsNotLoggedIn;
+    private string password = null!;
 
     public LoginViewModel(NavigationService navigationService)
     {
         this.navigationService = navigationService;
     }
 
-    [RelayCommand(CanExecute = nameof(CanExecuteContinue))]
-    private async Task Continue()
+    [RelayCommand]
+    private void LogIn()
     {
-        //if (await IsValidPassword())
-        //{
-            navigationService.NavigateTo<DashboardViewModel>();
-        //}
-    }
-
-    private async Task<bool> IsValidPassword()
-    {
-        bool isValidFingerprint = false;
-        //var supported = await KeyCredentialManager.IsSupportedAsync();
-
-        //if (!supported)
-        //{
-        //    return isValidFingerprint;
-        //}
-
-        //var result = await KeyCredentialManager.RequestCreateAsync("login", KeyCredentialCreationOption.ReplaceExisting);
-
-        //if (result.Status == KeyCredentialStatus.Success)
-        //{
-        //    isValidFingerprint = true;
-        //}
-
-        return isValidFingerprint;
+        ValidateAllProperties();
+        if (!HasErrors)
+        {
+            ChenteIdentityProvider.AddClaim(ClaimTypes.Name, Username);
+            ChenteIdentityProvider.AddClaim(ClaimTypes.Role, "TELLER");
+            var principal = (GenericPrincipal?)Thread.CurrentPrincipal;
+            if (principal is null)
+            {
+                MessageBox.Show("Log in failed", "System says", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            var identity = (GenericIdentity?)principal!.Identity;
+            if (identity is null)
+            {
+                MessageBox.Show("Log in failed", "System says", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            if (identity!.IsAuthenticated)
+            {
+                navigationService.NavigateTo<DashboardViewModel>();
+            }
+        }
     }
 
     [RelayCommand]
-    private void ChangeAccount()
+    private void ShutDown()
     {
         App.Current.Shutdown();
     }
-
-    private bool CanExecuteContinue => IsAuthenticated && !IsAnonymous && !IsGuest;
 }

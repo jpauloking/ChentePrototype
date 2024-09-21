@@ -2,6 +2,7 @@
 using Chente.Desktop.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using System.Security.Claims;
 using System.Windows;
 
 namespace Chente.Desktop.ViewModels;
@@ -11,7 +12,7 @@ internal partial class MainViewModel : ViewModelBase
     private readonly NavigationService navigationService;
     private readonly DataSummarizationService dataSummarizationService;
     [ObservableProperty]
-    private string username = ChenteIdentityProvider.Username;
+    private string? username = Thread.CurrentPrincipal?.Identity?.Name;
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(NotShowNavigationBar))]
     private bool showNavigationBar;
@@ -25,7 +26,14 @@ internal partial class MainViewModel : ViewModelBase
         this.navigationService = navigationService;
         this.dataSummarizationService = dataSummarizationService;
         this.navigationService.CurrentViewModelChanged += OnCurrentViewModelChanged;
+        ChenteIdentityProvider.IdentityChanged += OnIdentityChanged;
         NavigateToInitialView();
+    }
+
+    private void OnIdentityChanged(object? sender, EventArgs e)
+    {
+        Username = (((System.Security.Principal.GenericIdentity?)Thread.CurrentPrincipal?.Identity)?.FindFirst(claim => claim.Type == ClaimTypes.Name && claim.Issuer == "Chente"))?.Value;
+        OnPropertyChanged(nameof(Username));
     }
 
     [RelayCommand]

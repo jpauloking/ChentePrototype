@@ -18,6 +18,7 @@ public partial class App : Application
 
     public App()
     {
+        AppDomain.CurrentDomain.SetPrincipalPolicy(System.Security.Principal.PrincipalPolicy.UnauthenticatedPrincipal);
         services.AddAppServices();
         services.AddDataAccess();
         services.AddViewModels();
