@@ -72,7 +72,7 @@ internal partial class LoanFormViewModel : ViewModelBase
             {
                 MessageBox.Show($"Task failed. Please clear outstanding loans of borrower Number: {SelectedBorrower.BorrowerNumber} Name: {SelectedBorrower.DisplayName} before giving another loan.", "System says", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 MessageBox.Show($"Task failed. Something went wrong while CHENTE LOAN PAYMENTS was trying to save loan.", "System says", MessageBoxButton.OK, MessageBoxImage.Error);
             }

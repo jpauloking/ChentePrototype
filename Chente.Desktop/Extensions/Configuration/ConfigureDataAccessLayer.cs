@@ -12,6 +12,7 @@ internal static class ConfigureDataAccessLayer
         services.AddSingleton<BorrowerRepository>();
         services.AddSingleton<LoanRepository>();
         services.AddSingleton<InstallmentRepository>();
+        services.AddSingleton<UserRepository>();
         return services;
     }
 }

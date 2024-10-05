@@ -63,7 +63,6 @@ internal partial class BorrowerStoreService
         }
         SelectedBorrower = null;
         BorrowersCollectionChanged?.Invoke(this, EventArgs.Empty);
-        //SelectedBorrowerChanged?.Invoke(this, null!);
     }
 
     public async Task CreateAsync(Domain.Models.Borrower borrower)

@@ -28,28 +28,64 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <Menu Grid.Column="0" VerticalAlignment="Center">
-                        <Menu.Items>
-                            <MenuItem Header="Dashboard" Icon="{materialDesign:PackIcon Kind=ViewDashboardOutline}" Command="{Binding NavigateToDashboardCommand}" Style="{StaticResource MaterialDesignMenuItem}" MinWidth="150"/>
-                            <MenuItem Header="Installments" Icon="{materialDesign:PackIcon Kind=Payment}" Command="{Binding NavigateToInstallmentsCommand}" Style="{StaticResource MaterialDesignMenuItem}" MinWidth="150"/>
-                            <MenuItem Header="Loans" Icon="{materialDesign:PackIcon Kind=BankOutline}" Command="{Binding NavigateToLoansCommand}" Style="{StaticResource MaterialDesignMenuItem}" MinWidth="150"/>
-                            <MenuItem Header="Borrowers" Icon="{materialDesign:PackIcon Kind=AccountGroupOutline}" Command="{Binding NavigateToBorrowersCommand}" Style="{StaticResource MaterialDesignMenuItem}" MinWidth="150"/>
-                        </Menu.Items>
-                    </Menu>
-                    <materialDesign:ColorZone Grid.Column="1" MinWidth="150" Mode="Light" VerticalAlignment="Center" Margin="16,0" Padding="16,8" CornerRadius="4" materialDesign:ElevationAssist.Elevation="Dp1">
-                        <StackPanel Orientation="Horizontal">
-                            <materialDesign:PackIcon Kind="AccountOutline" Width="24" Height="24" VerticalAlignment="Center"/>
-                            <TextBlock Text="{Binding Username}" Style="{StaticResource MaterialDesignButtonTextBlock}" VerticalAlignment="Center" Margin="8,0"/>
-                        </StackPanel>
-                    </materialDesign:ColorZone>
-                    <Menu Grid.Column="2" VerticalAlignment="Center">
-                        <Menu.Items>
-                            <MenuItem Header="Shutdown" Icon="{materialDesign:PackIcon Kind=Power}" Command="{Binding ShutdownCommand}" Style="{StaticResource MaterialDesignMenuItem}" MinWidth="150"/>
-                        </Menu.Items>
-                    </Menu>
+
+                    <WrapPanel Grid.Column="0">
+                        <Button Command="{Binding NavigateToDashboardCommand}" Grid.Column="0" MinWidth="150" Style="{StaticResource MaterialDesignFlatButton}">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="ViewDashboardOutline" Width="24" Height="24" VerticalAlignment="Center"/>
+                                <TextBlock Text="Dashboard" Style="{StaticResource MaterialDesignButtonTextBlock}" VerticalAlignment="Center" Margin="8,0"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Command="{Binding NavigateToInstallmentsCommand}" Grid.Column="1" MinWidth="150" Style="{StaticResource MaterialDesignFlatButton}">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Payment" Width="24" Height="24" VerticalAlignment="Center"/>
+                                <TextBlock Text="Installments" Style="{StaticResource MaterialDesignButtonTextBlock}" VerticalAlignment="Center" Margin="8,0"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Command="{Binding NavigateToLoansCommand}" Grid.Column="2" MinWidth="150" Style="{StaticResource MaterialDesignFlatButton}">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="BankOutline" Width="24" Height="24" VerticalAlignment="Center"/>
+                                <TextBlock Text="Loans" Style="{StaticResource MaterialDesignButtonTextBlock}" VerticalAlignment="Center" Margin="8,0"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Command="{Binding NavigateToBorrowersCommand}" Grid.Column="3" MinWidth="150" Style="{StaticResource MaterialDesignFlatButton}">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="AccountGroupOutline" Width="24" Height="24" VerticalAlignment="Center"/>
+                                <TextBlock Text="Borrowers" Style="{StaticResource MaterialDesignButtonTextBlock}" VerticalAlignment="Center" Margin="8,0"/>
+                            </StackPanel>
+                        </Button>
+                    </WrapPanel>
+
+                    <Grid Grid.Column="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button Grid.Column="0" MinWidth="150" Style="{StaticResource MaterialDesignFlatButton}">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="AccountOutline" Width="24" Height="24" VerticalAlignment="Center"/>
+                                <TextBlock Text="{Binding Username}" Style="{StaticResource MaterialDesignButtonTextBlock}" VerticalAlignment="Center" Margin="8,0"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Command="{Binding LogOutCommand}" Grid.Column="1" MinWidth="150" Style="{StaticResource MaterialDesignFlatButton}">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Logout" Width="24" Height="24" VerticalAlignment="Center"/>
+                                <TextBlock Text="Logout" Style="{StaticResource MaterialDesignButtonTextBlock}" VerticalAlignment="Center" Margin="8,0"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Command="{Binding ShutdownCommand}" Grid.Column="2" MinWidth="150" Style="{StaticResource MaterialDesignFlatButton}">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Shutdown" Width="24" Height="24" VerticalAlignment="Center"/>
+                                <TextBlock Text="Shutdown" Style="{StaticResource MaterialDesignButtonTextBlock}" VerticalAlignment="Center" Margin="8,0"/>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
+
                 </Grid>
+
             </materialDesign:Card>
             <!-- ./Navigation Bar-->
             <!--Content-->

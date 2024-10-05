@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="Chente.Desktop.Controls.UserFormControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:Chente.Desktop.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <materialDesign:Card Margin="16,0,0,0" Visibility="{Binding ShowUserForm,Converter={StaticResource BooleanToVisibilityConverter}}">
+        <ScrollViewer Style="{StaticResource MaterialDesignScrollViewer}" Padding="16">
+            <Grid>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <ComboBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,8" MinWidth="400" Text="{Binding Role, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="Role" SelectedIndex="1">
+                    <ComboBoxItem Content="TELLER"/>
+                    <!--<ComboBoxItem Content="OWNER"/>-->
+                    <ComboBoxItem Content="ADMIN"/>
+                </ComboBox>
+
+                <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,8" MinWidth="400" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Username"/>
+
+                <TextBox Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,8" MinWidth="400" Text="{Binding EmailAddress, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Email address"/>
+
+                <TextBox Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,8" MinWidth="400" Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Phone number"/>
+
+                <TextBox Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,8" MinWidth="400" Text="{Binding Password, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Password"/>
+
+                <TextBox Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,8" MinWidth="400" Text="{Binding ConfirmPassword, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignOutlinedTextBox}" materialDesign:HintAssist.Hint="Confirm Password"/>
+
+                <Button Grid.Row="6" Grid.Column="0" Content="Save" Margin="0,8,8,8" Command="{Binding SaveCommand}" Style="{StaticResource MaterialDesignRaisedButton}"/>
+
+                <Button Grid.Row="6" Grid.Column="1" Content="Cancel" Margin="8,8,0,8" Command="{Binding CancelCommand}" Style="{StaticResource MaterialDesignFlatButton}"/>
+
+            </Grid>
+        </ScrollViewer>
+    </materialDesign:Card>
+</UserControl>

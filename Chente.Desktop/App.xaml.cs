@@ -23,7 +23,7 @@ public partial class App : Application
         services.AddDataAccess();
         services.AddViewModels();
         services.AddViews();
-        services.AddAutoMapper(typeof(BorrowerProfile), typeof(LoanProfile), typeof(InstallmentProfile));
+        services.AddAutoMapper(typeof(BorrowerProfile), typeof(LoanProfile), typeof(InstallmentProfile), typeof(UserProfile));
         serviceProvider = services.BuildServiceProvider();
     }
 

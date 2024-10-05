@@ -13,7 +13,9 @@ public static class ConfigureViewModels
     public static IServiceCollection AddViewModels(this IServiceCollection services)
     {
         services.AddSingleton<MainViewModel>();
+        services.AddSingleton<ConfirmOwnerViewModel>();
         services.AddSingleton<LoginViewModel>();
+        services.AddSingleton<RegisterViewModel>();
         services.AddSingleton<DashboardViewModel>();
         services.AddSingleton<CashFlowViewModel>();
         services.AddSingleton<PeriodicSummaryViewModel>();
@@ -30,6 +32,10 @@ public static class ConfigureViewModels
         services.AddTransient<InstallmentFormViewModel>();
         services.AddSingleton<InstallmentListViewModel>();
         services.AddSingleton<InstallmentDetailsViewModel>();
+        services.AddSingleton<UsersViewModel>();
+        services.AddSingleton<UserFormViewModel>();
+        services.AddSingleton<UserListViewModel>();
+        services.AddSingleton<UserDetailsViewModel>();
         services.AddSingleton(sp => ViewModelCreator(sp));
         return services;
     }

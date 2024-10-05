@@ -5,53 +5,55 @@ namespace Chente.Desktop.Services;
 
 internal class ChenteIdentityProvider
 {
-    public static event EventHandler? IdentityChanged;
+    public static IPrincipal? Principal { get; private set; }
 
     public static void AddClaim(string claimName, string claimValue)
     {
-        GenericPrincipal? principal = (GenericPrincipal?)Thread.CurrentPrincipal;
-        if (principal?.Identity.AuthenticationType != "Chente")
+        Principal = (GenericPrincipal?)Thread.CurrentPrincipal;
+        if (Principal?.Identity?.AuthenticationType != "Chente")
         {
             var identity = new GenericIdentity("Chente", "Chente");
-            principal = new(identity, []);
+            Principal = new GenericPrincipal(identity, []);
             Claim newClaim = new(claimName, claimValue, null, "Chente");
-            ((GenericIdentity)principal.Identity).AddClaim(newClaim);
-            Thread.CurrentPrincipal = principal;
+            ((GenericIdentity)Principal.Identity).AddClaim(newClaim);
         }
         else
         {
             Claim newClaim = new(claimName, claimValue, null, "Chente");
-            if (principal.Identity is null)
+            if (Principal.Identity is null)
             {
                 var identity = new GenericIdentity("Chente", "Chente");
                 identity.AddClaim(newClaim);
-                principal.AddIdentity(identity);
+                ((GenericPrincipal)Principal).AddIdentity(identity);
             }
             else
             {
-                var identity = (GenericIdentity)principal.Identity;
+                var identity = (GenericIdentity)Principal.Identity;
                 identity.AddClaim(newClaim);
             }
         }
-        IdentityChanged?.Invoke(null, EventArgs.Empty);
+        Thread.CurrentPrincipal = Principal;
     }
 
     public static bool HasClaim(string claimName)
     {
-        GenericPrincipal? principal = (GenericPrincipal?)Thread.CurrentPrincipal;
-        if (principal is null)
+        if (Principal is null)
         {
             return false;
         }
-        if (!principal.Identity.IsAuthenticated)
+        if (Principal.Identity is null)
         {
             return false;
         }
-        if (principal.Identity.Name != "Chente")
+        if (!Principal.Identity.IsAuthenticated)
         {
             return false;
         }
-        return principal.IsInRole(claimName);
+        if (Principal.Identity.Name != "Chente")
+        {
+            return false;
+        }
+        return Principal.IsInRole(claimName);
     }
 
 }

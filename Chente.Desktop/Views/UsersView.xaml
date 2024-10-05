@@ -1,0 +1,64 @@
+﻿<UserControl x:Class="Chente.Desktop.Views.UsersView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:controls="clr-namespace:Chente.Desktop.Controls"
+             xmlns:local="clr-namespace:Chente.Desktop.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <!--Row Defintions-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!-- ./Row Defintions-->
+        <!--Page Title Row-->
+        <Grid Grid.Row="0">
+            <!--Column Definitions-->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <!-- ./Column Definitions-->
+            <!--Borrowers Filter-->
+            <WrapPanel Grid.Column="0" Orientation="Horizontal">
+                <TextBox MinWidth="200" Margin="0,0,4,0" Text="{Binding SearchPhrase, UpdateSourceTrigger=PropertyChanged}" Style="{StaticResource MaterialDesignFilledTextBox}" materialDesign:HintAssist.Hint="Search phrase"/>
+                <!--<ComboBox MinWidth="200" Margin="4,0" IsSynchronizedWithCurrentItem="True" ItemsSource="{Binding Borrowers}" SelectedItem="{Binding SelectedBorrower}" DisplayMemberPath="DisplayName" Style="{StaticResource MaterialDesignFilledComboBox}" materialDesign:HintAssist.Hint="Borrower" IsEditable="True" materialDesign:ComboBoxAssist.ShowSelectedItem="True"/>-->
+                <Button Margin="4,0" Content="Clear selection" ToolTip="Clear current selection" Command="{Binding ClearFilterCommand}" Style="{StaticResource MaterialDesignFlatButton}"/>
+            </WrapPanel>
+            <!-- ./Borrowers Filter-->
+            <!--Add Button-->
+            <StackPanel Orientation="Horizontal" Grid.Column="1">
+                <Button Margin="8,0" Content="{materialDesign:PackIcon Kind=AccountAddOutline,Size=24}" ToolTip="Add new user" Command="{Binding AddUserCommand}" Style="{StaticResource MaterialDesignRaisedButton}"/>
+                <Button Margin="8,0" Content="{materialDesign:PackIcon Kind=AccountEditOutline,Size=24}" ToolTip="Edit selected user" Command="{Binding EditUserCommand}" Style="{StaticResource MaterialDesignRaisedButton}"/>
+                <Button Margin="8,0,0,0" Content="{materialDesign:PackIcon Kind=AccountMinusOutline,Size=24}" ToolTip="Delete selected user" Command="{Binding DeleteUserCommand}" Style="{StaticResource MaterialDesignRaisedButton}"/>
+            </StackPanel>
+            <!-- ./Add Button-->
+        </Grid>
+        <!-- ./Page Title Row-->
+        <!--Page Content Row-->
+        <Grid Grid.Row="1" Margin="0,16,0,0">
+            <!--Columns Defintions-->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <!-- ./Columns Defintions-->
+            <!--Borrower List-->
+            <controls:UserListControl Grid.Column="0" DataContext="{Binding UserListViewModel}"/>
+            <!-- ./Borrower List-->
+            <Grid Grid.Column="1">
+                <!--Borrower Details-->
+                <controls:UserDetailsControl DataContext="{Binding UserDetailsViewModel}"/>
+                <!-- ./Borrower Details-->
+                <!--Borrower Form-->
+                <controls:UserFormControl DataContext="{Binding UserFormViewModel}"/>
+                <!-- ./Borrower Form-->
+            </Grid>
+        </Grid>
+        <!-- ./Page Content Row-->
+    </Grid>
+</UserControl>

@@ -27,6 +27,12 @@
                     </Grid>
                 </StackPanel>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:ConfirmOwnerViewModel}">
+                <views:ConfirmOwnerView/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:RegisterViewModel}">
+                <views:RegisterView/>
+            </DataTemplate>
             <DataTemplate DataType="{x:Type viewModels:LoginViewModel}">
                 <views:LoginView/>
             </DataTemplate>
@@ -42,6 +48,9 @@
             <DataTemplate DataType="{x:Type viewModels:InstallmentsViewModel}">
                 <views:InstallmentsView/>
             </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:UsersViewModel}">
+                <views:UsersView />
+            </DataTemplate>
             <DataTemplate DataType="{x:Type viewModels:BorrowerFormViewModel}">
                 <controls:BorrowerFormControl/>
             </DataTemplate>
@@ -50,6 +59,9 @@
             </DataTemplate>
             <DataTemplate DataType="{x:Type viewModels:InstallmentFormViewModel}">
                 <controls:InstallmentFormControl/>
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type viewModels:UserFormViewModel}">
+                <controls:UserFormControl/>
             </DataTemplate>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
         </ResourceDictionary>
